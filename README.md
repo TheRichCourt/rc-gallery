@@ -1,6 +1,6 @@
 # RC Justified Gallery
 
-An extremely easy to use gallery plugin for Joomla, built around a beautiful and modern responsive design.
+An extremely easy to use gallery plugin for Joomla, built around a beautiful and modern responsive design. Full documentation and latest release available from http://therichcourt.com/joomla/gallery
 
 # Justified Fixed-Width Layout...
 
