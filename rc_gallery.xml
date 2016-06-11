@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<extension version="3.1" type="plugin" group="content" method="upgrade">
+	<name>RC Justified Gallery</name>
+	<author>Rich Court</author>
+	<creationDate>23/04/2016</creationDate>
+	<copyright>Copyright (C) 2016 Rich Court. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>therichcourt@gmail.com</authorEmail>
+	<authorUrl>www.therichcourt.com</authorUrl>
+	<version>2.0.0</version>
+	<description>Thanks for installing RC Justified Gallery, an easy to use, fixed-width gallery plugin for Joomla. Instructions for use: 1. Enable the plugin. 2. Add {gallery}myfolder{/gallery} in any article, where 'myfolder' is the folder containing the images you'd like to include. That's it!</description>
+
+	<files>
+		<filename plugin="rc_gallery">rc_gallery.php</filename>
+		<filename plugin="rc_gallery">rc_resize.php</filename>
+		<filename plugin="rc_gallery">views/rc_gallery_view.php</filename>
+		<filename plugin="rc_gallery">models/rc_labels_model.php</filename>
+		<filename plugin="rc_gallery">assets/css/rc_gallery.css</filename>
+		<filename plugin="rc_gallery">assets/js/rc_gallery.js</filename>
+		<filename plugin="rc_gallery">assets/img/image_icon.png</filename>
+		<filename plugin="rc_gallery">shadowbox/shadowbox.js</filename>
+		<filename plugin="rc_gallery">shadowbox/shadowbox.css</filename>
+		<filename plugin="rc_gallery">shadowbox/loading.gif</filename>
+		<filename plugin="rc_gallery">shadowbox/shadowbox-icons.png</filename>
+		<filename>index.html</filename>
+	</files>
+
+	<!--<languages>
+		<language tag="en-GB">en-GB.plg_rc_gallery.ini</language>
+		<language tag="en-GB">en-GB.plg_rc_gallery.sys.ini</language>
+	</languages>-->
+	
+	<config>
+		<fields name="params">
+			<fieldset name="basic"> 
+				<field name="gallerydescription" type="note" label="Gallery"
+					description="" />
+				<field name="galleryfolder" type="text"
+					default="images"
+					label="Root image folder"
+					description="Choose the parent folder that contains the folders you'd like to use for your galleries."
+				/>
+				<field name="minrowheight" type="text"
+					default="100"
+					description="Row height varies depending on the shape of the images included, but will aim to be close to the number entered here."
+					label="Target row height"
+				/>
+				<field name="thumbquality" type="range" min="0" max="100" step="10" size="3"
+					default="80"
+					description="Image quality for thumbnails. 100 gives the maximum possible quality, but a higher file size. Lower this value to reduce thumbnail file sizes. Note that you can have thumbnails recreated, by deleting them using your FTP client, or the Joomla Media Manager. See the RC Justified Gallery user guide, available from therichcourt.com for more information."
+					label="Thumbnail Quality (0 - 100)"
+				/>
+				<field name="imagemargin" type="number"
+					default="2"
+					description="Size of image margins, in px."
+					label="Image margin size"
+				/>
+				<field name="imageTitle" type="radio" 
+					   default="0"
+					   description="Shows the image's filename over the image. Note that the file extension is not shown, any underscores are replaced with spaces, and the first letter is forced to uppercase."
+					   label="Image title">
+					<option value="0">Don't show image titles</option>
+					<option value="1">Show image titles only when cursor hovers over the image</option>
+					<option value="2">Show image titles all the time</option>
+				</field>
+				<field name="uselabelsfile" type="radio" class="btn-group btn-group-yesno"
+					   default="0"
+					   description="Advanced feature - see user guide at www.TheRichCourt.com"
+					   label="Get titles from labels file">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
+				<field name="shadowboxdescription" type="note" label="Shadowbox"
+					description="Choose which type of shadowbox to use. If you have your own that you already like, then you can just use that by selecting 'Use another shadowbox'. This will add rel='shadowbox[rc_gallery]' links to the images, but won't include the shadowbox part of this plugin, meaning your own shadowbox should take over. This option is useful for avoiding conflict with your existing shadowbox plugin."
+				/>
+				<field name="shadowboxoption" type="radio"
+					default="0"
+					description="'"
+					label="Shadowbox">
+						<option value="0">Use included shadowbox</option>
+						<option value="1">Use another shadowbox</option>
+						<option value="2">No shadowbox</option>
+				</field>
+			</fieldset>
+			<fieldset name="about" label="About">
+				<field type="note" label="RC Justified Gallery"
+					   />
+				<field type="note" label="User Guide"
+					description="A free and extensive user guide is available for this plugin, at http://www.therichcourt.com/joomla/gallery"
+				/>
+				<field type="note"  label="Support"
+					description="If you can't find what you need there, please contact me for support, at http://www.therichcourt.com/support"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
