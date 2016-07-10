@@ -22,7 +22,7 @@ class plgContentRC_gallery extends JPlugin {
 	}
 	
 	function onContentPrepare($context, &$article, &$params, $page = 0) {
-		if (strpos($article->text, '{gallery}') === false) return; //bail out if not needed
+		if (strpos($article->text, '{gallery') === false) return; //bail out if not needed
 		$this->showGalleries($article, $params);
 	}
 	
@@ -145,6 +145,7 @@ class plgContentRC_gallery extends JPlugin {
 		//css and js files
 		$galleryView->includeCSSandJS($doc);
 		if ($shadowboxOption == 0) $galleryView->includeShadowbox($doc); //i.e. we want to use the included shadowbox
+		if ($shadowboxOption == 3) $galleryView->includeRCShadowbox($doc); //i.e. we want to use the shiny new shadowbox!
 		
 		//get all image files from the directory
 		$directoryPath =  $rootFolder . '/' . $tagContent . '/';				

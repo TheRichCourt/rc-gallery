@@ -62,7 +62,13 @@ Class RCGalleryView {
 	
 	public function includeShadowbox($doc) {
 		$doc->addScript(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.js');
-		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.css');
+		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/shadowbox/shadowbox.css'));
+	}
+	
+	public function includeRCShadowbox($doc) {
+		$doc->addScriptDeclaration('var rc_sb_imgFolder = "'.JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/";');
+		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js');
+		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css'));
 	}
 	
     public function errorReport($errorReason, $tagcontent, $rootFolder) {
