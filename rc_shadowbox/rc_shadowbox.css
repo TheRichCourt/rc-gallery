@@ -41,7 +41,6 @@
 /* controls */
 .rc_sb_button {
     background-color:#151515;
-    position:absolute;
     background-repeat: no-repeat;
     background-position:center;
     z-index:99998;
@@ -64,6 +63,7 @@
     margin-top:-25px;
     width:40px;
     height:50px;
+    position:absolute;
 }
 #rc_sb_prev {
     left:0;
@@ -74,4 +74,22 @@
     right:0;
     background-image:url("img/next.png");
     border-radius:5px 0 0 5px;
+}
+#rc_sb_toolbar {
+    top:10px;
+    right:10px;
+    position:absolute;
+    z-index:99998;
+}
+
+#rc_sb_toolbar .rc_sb_button {
+    float:right;
+    display:inline-block;
+    margin-left:10px;
+}
+.rc_sb_addonbutton {
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    background-image:url("img/close.png");
 }

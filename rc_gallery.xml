@@ -3,35 +3,44 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>RC Justified Gallery</name>
 	<author>Rich Court</author>
-	<creationDate>10/07/2016</creationDate>
-	<copyright>Copyright (C) 2016 Rich Court. All rights reserved.</copyright>
+	<creationDate>31/01/2018</creationDate>
+	<copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>therichcourt@gmail.com</authorEmail>
 	<authorUrl>www.therichcourt.com</authorUrl>
-	<version>3.0.0</version>
+	<version>3.3.0</version>
 	<description>Thanks for installing RC Justified Gallery, an easy to use, fixed-width gallery plugin for Joomla.</description>
 
 	<files>
 		<filename plugin="rc_gallery">rc_gallery.php</filename>
 		<filename plugin="rc_gallery">rc_resize.php</filename>
 		<filename plugin="rc_gallery">views/rc_gallery_view.php</filename>
+		<filename plugin="rc_gallery">views/index.html</filename>
 		<filename plugin="rc_gallery">models/rc_labels_model.php</filename>
+		<filename plugin="rc_gallery">models/index.html</filename>
 		<filename plugin="rc_gallery">assets/css/rc_gallery.css</filename>
 		<filename plugin="rc_gallery">assets/js/rc_gallery.js</filename>
 		<filename plugin="rc_gallery">assets/js/rc_gallery_UNCOMPRESSED.js</filename>
 		<filename plugin="rc_gallery">assets/img/image_icon.png</filename>
+		<filename plugin="rc_gallery">assets/index.html</filename>
+		<filename plugin="rc_gallery">assets/js/index.html</filename>
+		<filename plugin="rc_gallery">assets/css/index.html</filename>
+		<filename plugin="rc_gallery">assets/img/index.html</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox.js</filename>
-		<filename plugin="rc_gallery">shadowbox/shadowbox_UNCOMPRESSED.js</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox.css</filename>
 		<filename plugin="rc_gallery">shadowbox/loading.gif</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox-icons.png</filename>
+		<filename plugin="rc_gallery">shadowbox/index.html</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox_UNCOMPRESSED.js</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/jquery.mobile.custom.min.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.css</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/loading.gif</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/prev.png</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/next.png</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/close.png</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/index.html</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/img/index.html</filename>
 		<filename>sql/install.sql</filename>
 		<filename>index.html</filename>
 	</files>
@@ -41,6 +50,10 @@
 			<file driver="mysqli" charset="utf8">sql/install.sql</file>
 		</sql>
 	</install>
+	
+	<updateservers>
+		<server type="extension" priority="1" name="RC Justified Gallery">http://therichcourt.com/downloads/updates/rc_gallery_updates.xml</server>
+	 </updateservers>
 	
 	<!--<languages>
 		<language tag="en-GB">en-GB.plg_rc_gallery.ini</language>
@@ -80,6 +93,13 @@
 					<option value="1">Show image titles only when cursor hovers over the image</option>
 					<option value="2">Show image titles all the time</option>
 				</field>
+				<field name="usetitleasalt" type="radio" class="btn-group btn-group-yesno"
+					   default="1"
+					   description="Use the image title as the 'alt' tag for the image thumbnail. Note that this is useful if you have descriptive titles for your images, but if they're just something like 'DSC00023.JPG', then it's less useful and you may want to turn this off. You can override your image titles if your filenames aren't descriptive. See the guide for details. Overall this feature is good for SEO and accessibility, but only if you have good image titles."
+					   label="Use image title as 'alt' tag">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 				<field name="uselabelsfile" type="radio" class="btn-group btn-group-yesno"
 					   default="0"
 					   description="Advanced feature - see user guide at www.TheRichCourt.com"
@@ -102,7 +122,7 @@
 			</fieldset>
 			<fieldset name="about" label="About">
 				<field type="note" label="RC Justified Gallery"
-					   />
+				/>
 				<field type="note" label="User Guide"
 					description="A free and extensive user guide is available for this plugin, at http://www.therichcourt.com/joomla/gallery"
 				/>

@@ -7,6 +7,10 @@
 	line-height:1px;
 	font-size:1px;
 }
+.rc_gallery * {
+	/* mitigate interference from templates */
+	margin:0; padding:0; border:0; width:auto; height:auto; display:initial; position:initial; box-shadow:none; border-radius:0;
+}
 .rc_gallery a {
 	margin: 0;
 	padding: 0;

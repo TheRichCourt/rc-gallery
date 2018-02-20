@@ -2,8 +2,8 @@
 
 /********************************************************************
 Product		: RC Justified Gallery
-Date		: 19/01/2016
-Copyright	: Rich Court 2016
+Date		: 31/01/2018
+Copyright	: Rich Court 2018
 Contact		: http://www.therichcourt.com
 Licence		: GNU General Public License
 *********************************************************************/
@@ -16,8 +16,9 @@ jimport('joomla.plugin.plugin');
 class plgContentRC_gallery extends JPlugin { 
 	
 	var $plg_tag = "gallery"; //the bit to look for in curly braces, e.g. {gallery}photos{gallery}
-	   
-	function plgContentRC_gallery(&$subject, $params) {
+	private $galleryNumber = 1;
+	
+	function __construct(&$subject, $params) {
 		parent::__construct( $subject, $params );
 	}
 	
@@ -61,6 +62,7 @@ class plgContentRC_gallery extends JPlugin {
 				$overrideTitleOption = -1;
 				$overrideLabelsFile = -1;
 				$overrideUseShadowbox = -1;
+				$overrideUseTitleAsAlt = -1;
 				
 				// as long as there were some inline params...
 				if ($inlineParams != '{gallery') {
@@ -86,6 +88,9 @@ class plgContentRC_gallery extends JPlugin {
 								case 'use-shadowbox':
 									$overrideUseShadowbox = $tagParamValue;
 									break;
+								case 'use-title-as-alt':
+									$overrideUseTitleAsAlt = $tagParamValue;
+									break;
 								default:
 									//do nothing
 							}
@@ -99,7 +104,7 @@ class plgContentRC_gallery extends JPlugin {
 
 				// put the gallery together
 				$galleryContent = $this->buildGallery($tagContent, $plg_params, $doc, $overrideRootImageFolder, $overrideStartHeight, $overrideMarginSize,
-														$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox);
+														$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideUseTitleAsAlt);
 				//do the replace
 				$article->text = preg_replace("#{".$this->plg_tag.".*?}".$tagContent."{/".$this->plg_tag."}#s", $galleryContent, $article->text);
 			}
@@ -118,7 +123,7 @@ class plgContentRC_gallery extends JPlugin {
 	}
 	
 	function buildGallery($tagContent, $plg_params, $doc, $overrideRootImageFolder, $overrideStartHeight, $overrideMarginSize,
-														$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox) {		
+														$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideUseTitleAsAlt) {		
 		// Get params. For overrides (inline settings) -1 means they aren't to be used
 		if ($overrideRootImageFolder == -1) {$rootFolder = $plg_params->get('galleryfolder','images');} else {$rootFolder = $overrideRootImageFolder;}
 		if ($overrideStartHeight == -1) {$startHeight = $plg_params->get('minrowheight', 100);} else {$startHeight = $overrideStartHeight;}
@@ -126,6 +131,7 @@ class plgContentRC_gallery extends JPlugin {
 		if ($overrideTitleOption == -1) {$imgTitleOption = $plg_params->get('imageTitle', 0);} else {$imgTitleOption = $overrideTitleOption;}
 		if ($overrideLabelsFile == -1) {$useLabelsFile = ($plg_params->get('uselabelsfile', 0) == 1);} else {$useLabelsFile = ($overrideLabelsFile == 1);}
 		if ($overrideUseShadowbox == -1) {$shadowboxOption = $plg_params->get('shadowboxoption', 0);} else {$shadowboxOption = $overrideUseShadowbox;}
+		if ($overrideUseTitleAsAlt == -1) {$useTitleAsAlt = $plg_params->get('usetitleasalt', 1);} else {$useTitleAsAlt = $overrideUseTitleAsAlt;}
 		// overriding thumb quality not allowed - avoids confucion if multiple galleries for the same folder are created with different options
 		$thumbQuality = $plg_params->get('thumbquality', 100); 
 		
@@ -140,7 +146,7 @@ class plgContentRC_gallery extends JPlugin {
 		
 		// Get the view class
 		include_once(JPATH_SITE.'/plugins/content/rc_gallery/views/rc_gallery_view.php');
-		$galleryView = new RCGalleryView($startHeight, $imgMargin);	
+		$galleryView = new RCGalleryView($this->galleryNumber, $startHeight, $imgMargin);	
 
 		//css and js files
 		$galleryView->includeCSSandJS($doc);
@@ -211,9 +217,11 @@ class plgContentRC_gallery extends JPlugin {
 			}
 			//add the image to the view
 			if ($shadowboxOption != 2) { $withLink = true; } else { $withLink = false; };
-			$galleryView->addImage($fullFileURL, $thumbFileURL, $height, $width, $withLink, $imgMargin, $imgTitleOption, $imgTitle);
+			$galleryView->addImage($fullFileURL, $thumbFileURL, $height, $width, $withLink, $imgMargin, $imgTitleOption, $imgTitle, $useTitleAsAlt);
 
 		}
+		
+		$this->galleryNumber++;
 		
 		// close HTML in the view, and return it
 		return $galleryView->getHTML();

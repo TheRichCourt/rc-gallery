@@ -2,8 +2,8 @@
 
 /********************************************************************
 Product		: RC Justified Gallery
-Date		: 19/01/2016
-Copyright	: Rich Court 2016
+Date		: 31/01/2018
+Copyright	: Rich Court 2018
 Contact		: http://www.therichcourt.com
 Licence		: GNU General Public License
 *********************************************************************/
@@ -14,24 +14,33 @@ defined( '_JEXEC' ) or die;
 Class RCGalleryView {
     
     private $html;
-	private $jsVars;
 	private $galleryParams;
+	private $imageNumber = 1;
+	private $galleryNumber;
     
-    function __construct($startHeightParam, $marginSizeParam) {
+    function __construct($galleryNo, $startHeightParam, $marginSizeParam) {
 		//pass in params, and open the main containing div for the gallery
+		$this->galleryNumber = $galleryNo;
 		$this->galleryParams = ' data-start-height="' . $startHeightParam . '" data-margin-size="' . $marginSizeParam . '"';
 		$this->html = '<div class="rc_gallery" '. $this->galleryParams .'>';
 	}
 	
-    public function addImage($fullFileURL, $thumbFileURL, $height, $width, $withLink, $imgMargin, $imgTitleOption, $imgTitle) {
+    public function addImage($fullFileURL, $thumbFileURL, $height, $width, $withLink, $imgMargin, $imgTitleOption, $imgTitle, $useTitleAsAlt) {
         
 		//add a link if we're including the shadowbox
-		if ($withLink) $this->html .= '<a href="' . $fullFileURL . '" rel="shadowbox[rc_gallery]">';
+		if ($withLink) $this->html .= '<a href="' . $fullFileURL . '" rel="shadowbox[rc_gallery]" data-image-title="'.$imgTitle.'">';
 		
 		//construct the image's containing div, and the image to go inside it
-		$this->html .= '<div class="rc_galleryimg_container">';
-		$this->html .= '<img class="rc_galleryimg" class="rc_galleryimg" src="';
-		$this->html .= $thumbFileURL . '" style="margin:' . $imgMargin . 'px;"';
+		$this->html .= '<div class="rc_galleryimg_container" ';
+		$this->html .= 'id="rc_'. $imgTitle .'_'. $this->galleryNumber .'_'. $this->imageNumber .'"';
+		$this->html .= '>';
+		$this->html .= '<img class="rc_galleryimg"';
+		
+		$this->html .= ' src="'.$thumbFileURL.'"';
+		if ($useTitleAsAlt == 1) {
+			$this->html .= ' alt="'.$imgTitle;
+		}
+		$this->html .= '" style="margin:'.$imgMargin.'px;"';
 		$this->html .= ' data-width="'.$width.'"';
 		$this->html .= ' data-height="'.$height.'"';
 		$this->html .= '/>';
@@ -51,7 +60,8 @@ Class RCGalleryView {
 		
 		$this->html .= '</div>'; //close the image container <div>
         
-        if ($withLink) $this->html .= '</a>'; //close the shadowbox link, if it was used	
+        if ($withLink) $this->html .= '</a>'; //close the shadowbox link, if it was used
+		$this->imageNumber++;
     }
     
 	public function includeCSSandJS($doc) {
@@ -67,7 +77,8 @@ Class RCGalleryView {
 	
 	public function includeRCShadowbox($doc) {
 		$doc->addScriptDeclaration('var rc_sb_imgFolder = "'.JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/";');
-		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js');
+		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js'));
+		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js'));
 		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css'));
 	}
 	
@@ -81,8 +92,7 @@ Class RCGalleryView {
 	
 	public function getHTML() {
 		//close off the open html tags, and return the lot
-		$this->jsVars .= '</script>';
 		$this->html .= '</div>';
-		return $this->jsVars . ' ' . $this->html;
+		return $this->html;
 	}
 }
