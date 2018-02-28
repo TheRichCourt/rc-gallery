@@ -157,7 +157,7 @@ function rc_sb_putSlideInStartingPosition(slideID, delay) {
 }
 
 function rc_sb_giveFocus(slideID, delay) {
-    rc_sb_expandSlideToFullSize(slideID, 280, delay); // now make it full size
+    rc_sb_expandSlideToRequiredSize(slideID, 280, delay); // now make it full size
 }
 
 function rc_sb_loseFocus(slideID, direction) {
@@ -195,7 +195,7 @@ function rc_sb_prev() {
 
 jQuery(window).resize(function() {
     // if it's already open, then resize image to fill the given space...
-    rc_sb_expandSlideToFullSize(rc_sb_currentSlideID, 0, 0);
+    rc_sb_expandSlideToRequiredSize(rc_sb_currentSlideID, 0, 0);
 });
 
 jQuery(window).scroll(function() {
@@ -204,16 +204,15 @@ jQuery(window).scroll(function() {
    }
 });
 
-// ************ Animations *************************************************
-function rc_sb_expandSlideToFullSize(slideID, duration, delay) {
+function rc_sb_expandSlideToRequiredSize(slideID, duration, delay) {
     
     rc_sb_currentPosition = "FULL_SCREEN"
     // takes slide from wherever it is to fill the screen
     var slideRatio = rc_sb_getRatio(jQuery(rc_sb_slideRootElements[slideID]).children().first());
     var windowRatio = rc_sb_getRatio(jQuery('#rc_sb_container'));
     
-    var targetWidth = jQuery('#rc_sb_container').width();
-    var targetHeight = jQuery('#rc_sb_container').height();
+    var targetWidth = jQuery('#rc_sb_container').width() * rc_sb_expandSize;
+    var targetHeight = jQuery('#rc_sb_container').height() * rc_sb_expandSize;
     
     if (slideRatio >= windowRatio) {
         targetHeight = targetWidth / slideRatio;

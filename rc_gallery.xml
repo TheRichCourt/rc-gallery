@@ -3,14 +3,13 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>RC Justified Gallery</name>
 	<author>Rich Court</author>
-	<creationDate>31/01/2018</creationDate>
+	<creationDate>28/02/2018</creationDate>
 	<copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>therichcourt@gmail.com</authorEmail>
 	<authorUrl>www.therichcourt.com</authorUrl>
-	<version>3.3.0</version>
-	<description>Thanks for installing RC Justified Gallery, an easy to use, fixed-width gallery plugin for Joomla.</description>
-
+	<version>3.4.0</version>
+	<description>Thanks for installing RC Justified Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
 	<files>
 		<filename plugin="rc_gallery">rc_gallery.php</filename>
 		<filename plugin="rc_gallery">rc_resize.php</filename>
@@ -63,8 +62,21 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic"> 
+				<field name="quickstart" type="note" label = "Quick Start Instructions"/>
+				<field name="witheditorbutton" type="note" label = "With editor button add-on:"
+					description = "1. Click the “RC Justified Gallery” button in the article editor.   2. Select your options.   3. Click “insert”. That’s it!"
+				/>
+				<field name="withouteditorbutton" type="note" label="Manual method:"
+					description="If you prefer not to use the editor button, you can add galleries to your articles by just including the text “{gallery}myfolder{/gallery}”, without the quotes, anywhere in your article. By default this would include images from the folder “yourjoomlasite.com/images/myfolder”."
+				/>
+				<field name="moreinstructions" type="note" label="More Information"
+					description="Of course you have far more control over the plugin if you want it. The full manual is available at http://www.therichcourt.com/joomla/gallery/download"
+				/>
+			</fieldset>
+			<fieldset name="gallery" label="Gallery"> 
 				<field name="gallerydescription" type="note" label="Gallery"
 					description="" />
+				
 				<field name="galleryfolder" type="text"
 					default="images"
 					label="Root image folder"
@@ -84,6 +96,11 @@
 					default="2"
 					description="Size of image margins, in px."
 					label="Image margin size"
+				/>
+				<field name="imageborderradius" type="number"
+					default="0"
+					description="Radius of image border, in px."
+					label="Image border radius"
 				/>
 				<field name="imageTitle" type="radio" 
 					   default="0"
@@ -107,6 +124,8 @@
 					<option value="0">No</option>
 					<option value="1">Yes</option>
 				</field>
+			</fieldset>
+			<fieldset name="shadowbox" label="Shadowbox"> 
 				<field name="shadowboxdescription" type="note" label="Shadowbox"
 					description="Choose which type of shadowbox to use. If you have your own that you already like, then you can just use that by selecting 'Use another shadowbox'. This will add rel='shadowbox[rc_gallery]' links to the images, but won't include the shadowbox part of this plugin, meaning your own shadowbox should take over. This option is useful for avoiding conflict with your existing shadowbox plugin."
 				/>
@@ -114,17 +133,27 @@
 					default="3"
 					description="'"
 					label="Shadowbox">
-						<option value="3">Use the built-in shadowbox</option>
+						<option value="3">Use the built-in shadowbox (Recommended)</option>
 						<option value="0">Use the legacy shadowbox</option>
 						<option value="1">Use another shadowbox</option>
 						<option value="2">No shadowbox</option>
 				</field>
+				<field name="shadowboxsize" type="range" min="0" max="100" step="5" size="3"
+					default="100"
+					description="Size of image when opened, as a percentage of screen size. Note that this setting only aplies with the built-in shadowbox."
+					label="Image size in shadowbox (0 - 100%)"
+				/>
+			</fieldset>
+			<fieldset name="addons" label="Add-ons">
+				<field name="addonslink" type="note" label="Add-ons"
+					description="Add-ons are a great way to extend the functionality of the main gallery plugin. Take a look at what's currently available... http://therichcourt.com/joomla/gallery#add-ons"
+				/>
 			</fieldset>
 			<fieldset name="about" label="About">
 				<field type="note" label="RC Justified Gallery"
 				/>
 				<field type="note" label="User Guide"
-					description="A free and extensive user guide is available for this plugin, at http://www.therichcourt.com/joomla/gallery"
+					description="A free and extensive user guide is available for this plugin, at http://www.therichcourt.com/joomla/gallery/download"
 				/>
 				<field type="note"  label="Support"
 					description="If you can't find what you need there, please contact me for support, at http://www.therichcourt.com/support"

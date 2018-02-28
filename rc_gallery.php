@@ -2,7 +2,7 @@
 
 /********************************************************************
 Product		: RC Justified Gallery
-Date		: 31/01/2018
+Date		: 28/02/2018
 Copyright	: Rich Court 2018
 Contact		: http://www.therichcourt.com
 Licence		: GNU General Public License
@@ -59,9 +59,11 @@ class plgContentRC_gallery extends JPlugin {
 				$overrideRootImageFolder = -1;
 				$overrideStartHeight = -1;
 				$overrideMarginSize = -1;
+				$overrideImageBorderRadius = -1;
 				$overrideTitleOption = -1;
 				$overrideLabelsFile = -1;
 				$overrideUseShadowbox = -1;
+				$overrideShadowboxSize = -1;
 				$overrideUseTitleAsAlt = -1;
 				
 				// as long as there were some inline params...
@@ -79,6 +81,9 @@ class plgContentRC_gallery extends JPlugin {
 								case 'image-margin-size':
 									$overrideMarginSize = $tagParamValue;
 									break;
+								case 'image-border-radius':
+									$overrideImageBorderRadius = $tagParamValue;
+									break;
 								case 'image-title-option':
 									$overrideTitleOption = $tagParamValue;
 									break;
@@ -87,6 +92,9 @@ class plgContentRC_gallery extends JPlugin {
 									break;
 								case 'use-shadowbox':
 									$overrideUseShadowbox = $tagParamValue;
+									break;
+								case 'shadowbox-size':
+									$overrideShadowboxSize = $tagParamValue;
 									break;
 								case 'use-title-as-alt':
 									$overrideUseTitleAsAlt = $tagParamValue;
@@ -104,7 +112,7 @@ class plgContentRC_gallery extends JPlugin {
 
 				// put the gallery together
 				$galleryContent = $this->buildGallery($tagContent, $plg_params, $doc, $overrideRootImageFolder, $overrideStartHeight, $overrideMarginSize,
-														$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideUseTitleAsAlt);
+									$overrideImageBorderRadius, $overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideShadowboxSize, $overrideUseTitleAsAlt);
 				//do the replace
 				$article->text = preg_replace("#{".$this->plg_tag.".*?}".$tagContent."{/".$this->plg_tag."}#s", $galleryContent, $article->text);
 			}
@@ -123,14 +131,16 @@ class plgContentRC_gallery extends JPlugin {
 	}
 	
 	function buildGallery($tagContent, $plg_params, $doc, $overrideRootImageFolder, $overrideStartHeight, $overrideMarginSize,
-														$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideUseTitleAsAlt) {		
+							$overrideImageBorderRadius,	$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideShadowboxSize, $overrideUseTitleAsAlt) {		
 		// Get params. For overrides (inline settings) -1 means they aren't to be used
 		if ($overrideRootImageFolder == -1) {$rootFolder = $plg_params->get('galleryfolder','images');} else {$rootFolder = $overrideRootImageFolder;}
 		if ($overrideStartHeight == -1) {$startHeight = $plg_params->get('minrowheight', 100);} else {$startHeight = $overrideStartHeight;}
 		if ($overrideMarginSize == -1) {$imgMargin = $plg_params->get('imagemargin', 2);} else {$imgMargin = $overrideMarginSize;}
+		if ($overrideImageBorderRadius == -1) {$imageBorderRadius = $plg_params->get('imageborderradius', 0);} else {$imageBorderRadius = $overrideImageBorderRadius;}
 		if ($overrideTitleOption == -1) {$imgTitleOption = $plg_params->get('imageTitle', 0);} else {$imgTitleOption = $overrideTitleOption;}
 		if ($overrideLabelsFile == -1) {$useLabelsFile = ($plg_params->get('uselabelsfile', 0) == 1);} else {$useLabelsFile = ($overrideLabelsFile == 1);}
 		if ($overrideUseShadowbox == -1) {$shadowboxOption = $plg_params->get('shadowboxoption', 0);} else {$shadowboxOption = $overrideUseShadowbox;}
+		if ($overrideShadowboxSize == -1) {$shadowboxSize = $plg_params->get('shadowboxsize', 100);} else {$shadowboxSize = $overrideShadowboxSize;}
 		if ($overrideUseTitleAsAlt == -1) {$useTitleAsAlt = $plg_params->get('usetitleasalt', 1);} else {$useTitleAsAlt = $overrideUseTitleAsAlt;}
 		// overriding thumb quality not allowed - avoids confucion if multiple galleries for the same folder are created with different options
 		$thumbQuality = $plg_params->get('thumbquality', 100); 
@@ -140,18 +150,21 @@ class plgContentRC_gallery extends JPlugin {
 		//	'<p>Root image folder: ' . $rootFolder . '</br>' .
 		//	'Target row height: ' . $startHeight . '</br>' .
 		//	'Image margin size: ' . $imgMargin . '</br>' .
+		//	'Image border radius: ' . $imageBorderRadius . '</br>' .
 		//	'Image title option: ' . $imgTitleOption . '</br>' .
 		//	'Labels file option: ' . $useLabelsFile . '</br>' .
-		//	'Shadowbox option: ' . $shadowboxOption . '</p></div>';
+		//	'Shadowbox option: ' . $shadowboxOption . '</br>' .
+		//	'Shadowbox size: ' . $shadowboxSize . '</br>' .
+		//	'</p></div>';
 		
 		// Get the view class
 		include_once(JPATH_SITE.'/plugins/content/rc_gallery/views/rc_gallery_view.php');
 		$galleryView = new RCGalleryView($this->galleryNumber, $startHeight, $imgMargin);	
 
 		//css and js files
-		$galleryView->includeCSSandJS($doc);
+		$galleryView->includeCSSandJS($doc, $imageBorderRadius);
 		if ($shadowboxOption == 0) $galleryView->includeShadowbox($doc); //i.e. we want to use the included shadowbox
-		if ($shadowboxOption == 3) $galleryView->includeRCShadowbox($doc); //i.e. we want to use the shiny new shadowbox!
+		if ($shadowboxOption == 3) $galleryView->includeRCShadowbox($doc, $shadowboxSize); //i.e. we want to use the shiny new shadowbox!
 		
 		//get all image files from the directory
 		$directoryPath =  $rootFolder . '/' . $tagContent . '/';				

@@ -2,7 +2,7 @@
 
 /********************************************************************
 Product		: RC Justified Gallery
-Date		: 31/01/2018
+Date		: 28/02/2018
 Copyright	: Rich Court 2018
 Contact		: http://www.therichcourt.com
 Licence		: GNU General Public License
@@ -64,10 +64,17 @@ Class RCGalleryView {
 		$this->imageNumber++;
     }
     
-	public function includeCSSandJS($doc) {
+	public function includeCSSandJS($doc, $imageBorderRadius) {
 		$doc->addScript(JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.js');
 		$css_path = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery.css');
 		$doc->addStyleSheet($css_path);
+
+		if ($imageBorderRadius > 0) {
+			$style = 	'img.rc_galleryimg {
+							border-radius:' . $imageBorderRadius . 'px;
+						}';
+			$doc->addStyleDeclaration( $style );
+		}
 	}
 	
 	public function includeShadowbox($doc) {
@@ -75,8 +82,9 @@ Class RCGalleryView {
 		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/shadowbox/shadowbox.css'));
 	}
 	
-	public function includeRCShadowbox($doc) {
-		$doc->addScriptDeclaration('var rc_sb_imgFolder = "'.JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/";');
+	public function includeRCShadowbox($doc, $shadowboxSize) {
+		$doc->addScriptDeclaration('var rc_sb_imgFolder = "'.JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/";
+									var rc_sb_expandSize = "'. $shadowboxSize / 100 .'";');
 		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js'));
 		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js'));
 		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css'));
