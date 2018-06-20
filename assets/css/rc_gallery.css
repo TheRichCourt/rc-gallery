@@ -32,20 +32,15 @@
 }
 .rc_gallery div.rc_galleryimg_container span {
 	height:auto;
-	font-size:14px;
-	line-height:20px;
-	overflow:hidden;
+	/*overflow:hidden;*/
 	padding:2px 5px;
-	margin:0;
+	margin:0 auto;
+	width: 100%;
 	position:absolute;
 	left:0;
 	bottom:0;
-	background:#000;
-	white-space:nowrap;
-	color:#fff;
 	background:transparent;
 	opacity:0;
-	font-weight:bold;
 	text-shadow:0 0 10px #000;
 	transition:opacity 0.3s ease;
 	box-sizing:border-box;
@@ -60,7 +55,9 @@
 	display:inline-block;
 	line-height:1px;
 	font-size:1px;
-	background:#f2f2f2 url("../img/image_icon.png") center no-repeat;
+	background-image: url("../img/image_icon.png");
+	background-position: center;
+	background-repeat: no-repeat;
 }
 div.rc_gallery_error {
 	width:auto;

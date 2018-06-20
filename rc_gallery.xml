@@ -76,12 +76,25 @@
 			<fieldset name="gallery" label="Gallery"> 
 				<field name="gallerydescription" type="note" label="Gallery"
 					description="" />
-				
 				<field name="galleryfolder" type="text"
 					default="images"
 					label="Root image folder"
 					description="Choose the parent folder that contains the folders you'd like to use for your galleries."
 				/>
+				<field name="sorttype" type="radio" 
+					   default="0"
+					   description="Sort images by file name or date. Note that date requires that the image has a date in the file's EXIF data."
+					   label="Sort images by">
+					<option value="0">File Name</option>
+					<option value="1">Date</option>
+				</field>
+				<field name="sortdesc" type="radio" 
+					   default="0"
+					   description="Sort images in ascending, or descending order."
+					   label="Sort direction">
+					<option value="0">Ascending</option>
+					<option value="1">Descending</option>
+				</field>
 				<field name="minrowheight" type="text"
 					default="100"
 					description="Row height varies depending on the shape of the images included, but will aim to be close to the number entered here."
@@ -143,6 +156,60 @@
 					description="Size of image when opened, as a percentage of screen size. Note that this setting only aplies with the built-in shadowbox."
 					label="Image size in shadowbox (0 - 100%)"
 				/>
+			</fieldset>
+			<fieldset name="appearance" label="Appearance">
+				<field type="note" label="Gallery Thumbnails"
+					description="Change some things to suit your site." />
+				<field name="thumbbgcolour" label="Thumbnail background colour" type="color" default="#f2f2f2"
+					description="The colour of the image thumbnails, while the images are being loaded." />
+				<field name="titletextcolour" label="Image title colour" type="color" default="#fff"
+					description="The colour of the image titles (note that image titles need to be turned on in the gallery settings for this to apply)." />
+				<field name="titletextsize" label="Title text size (px)" type="number" default="14"
+					description="Set the size of the title text over the thumbnails. 14px by default." />
+				<field name="titletextweight" type="radio"
+					default="bold"
+					description="Weight of the title text inside the thumbnails."
+					label="Title text weight">
+						<option value="bold">Bold</option>
+						<option value="normal">Normal</option>
+				</field>
+				<field name="titletextalign" type="radio"
+					default="left"
+					description="Align the title text within the image thumbnail. Note that if you have overflow set to hidden and this setting set to centre, 
+						the text will appear to be left-aligned if it's wider than the thumbnail."
+					label="Align title text">
+						<option value="left">Left</option>
+						<option value="center">Centre</option>
+						<option value="right">Right</option>
+				</field>
+				<field name="titletextoverflow" type="radio"
+					default="hidden"
+					description="What to do if the title text is wider than the thumbnail."
+					label="Title text overlow">
+						<option value="hidden">Hidden</option>
+						<option value="auto">Auto</option>
+				</field>
+
+				<field name="thumbnailradius" label="Thumbnail corner radius (px)" type="number" default="0"
+					description="Round off the corners of the thumbnails. 3px works really well for a clean, modern look.
+						Or go nuts with a massive radius, for bubble-like thumbnails. Enter 0 for normal square corners." />
+				<field name="thumbnailfilter" type="radio"
+					default="0"
+					description="Apply a filter to the thumbnails in your gallery. This filter is removed with a smooth transition when the mouse is hovered
+						over the thumbnail, revealing the true colours. Note that the Thumbnail filter will only work for users of modern browsers
+						(So not Internet Explorer). IE users will see the images in full colour."
+					label="Thumbnail filter">
+						<option value="0">No filter</option>
+						<option value="1">Sepia</option>
+						<option value="2">Greyscale (Black and White)</option>
+				</field>
+				<field type="note" label="Shadowbox"
+					description="The below settings only apply if you use the built in shadowbox (which is enabled by default)." />
+				<field name="overlaycolour" label="Overlay colour" type="color" default="#000"
+					description="The colour used to cover the rest of the site when the shadowbox is opened. Note that this colour will be affected by
+						the opacity setting." />
+				<field name="overlayopacity" label="Overlay opacity" type="range" default="0.85" min="0" max="1" step="0.05" size="3"
+					description="The opacity of the colour used to cover the rest of the site when the shadowbox is opened." />
 			</fieldset>
 			<fieldset name="addons" label="Add-ons">
 				<field name="addonslink" type="note" label="Add-ons"

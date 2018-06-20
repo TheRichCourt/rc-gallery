@@ -76,6 +76,68 @@ Class RCGalleryView {
 			$doc->addStyleDeclaration( $style );
 		}
 	}
+
+	public function includeCustomStyling($params, $doc) {
+		$filterOption = $params->get('thumbnailfilter', 0);
+
+		if ($params->get('titletextoverflow', 'hidden') == 'hidden') {
+			$whiteSpace = 'white-space: nowrap;';
+		} else {
+			$whitespace = '';
+		}
+		
+		$css = '
+			.rc_gallery img.rc_galleryimg {
+				background-color: '. $params->get('thumbbgcolour', '#f2f2f2') .';
+				border-radius: ' . $params->get('thumbnailradius', '0') . 'px;
+			}
+
+			.rc_gallery div.rc_galleryimg_container span {
+				color: ' . $params->get('titletextcolour', '#fff') . ';
+				font-size: ' . $params->get('titletextsize', 14) . 'px;
+				line-height: ' . ($params->get('titletextsize', 14) + 6) . 'px;
+				text-align: ' . $params->get('titletextalign', 'left') . ';
+				overflow: ' . $params->get('titletextoverflow', 'hidden') . ';
+				'. $whiteSpace .'
+				font-weight: ' . $params->get('titletextweight', 'bold') . ';
+			}
+
+			#rc_sb_overlay {
+				background-color: ' . $params->get('overlaycolour', '#000') . ';
+				opacity: ' . $params->get('overlayopacity', '0.85') . ';
+			}
+		';
+		
+		if ($filterOption == 1) { // sepia
+			$css .= '
+				.rc_gallery img.rc_galleryimg {
+					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
+					filter: sepia(80%);
+					-webkit-filter: sepia(80%);
+				}
+
+				.rc_gallery img.rc_galleryimg:hover {
+					filter: sepia(0%);
+				}
+			';
+		}
+
+		if ($filterOption == 2) { // black and white
+			$css .= '
+				.rc_gallery img.rc_galleryimg {
+					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
+					filter: grayscale(100%);
+					-webkit-filter: grayscale(100%);
+				}
+
+				.rc_gallery img.rc_galleryimg:hover {
+					filter: grayscale(0%);
+					-webkit-filter: grayscale(0%);
+				}
+			';
+		}
+		$doc->addStyleDeclaration($css);
+	}
 	
 	public function includeShadowbox($doc) {
 		$doc->addScript(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.js');

@@ -65,6 +65,8 @@ class plgContentRC_gallery extends JPlugin {
 				$overrideUseShadowbox = -1;
 				$overrideShadowboxSize = -1;
 				$overrideUseTitleAsAlt = -1;
+				$overrideSortType = -1;
+				$overrideSortDesc = -1;
 				
 				// as long as there were some inline params...
 				if ($inlineParams != '{gallery') {
@@ -99,6 +101,12 @@ class plgContentRC_gallery extends JPlugin {
 								case 'use-title-as-alt':
 									$overrideUseTitleAsAlt = $tagParamValue;
 									break;
+								case 'sort-type':
+									$overrideSortType = $tagParamValue;
+									break;
+								case 'sort-desc':
+									$overrideSortDesc = $tagParamValue;
+									break;
 								default:
 									//do nothing
 							}
@@ -112,7 +120,7 @@ class plgContentRC_gallery extends JPlugin {
 
 				// put the gallery together
 				$galleryContent = $this->buildGallery($tagContent, $plg_params, $doc, $overrideRootImageFolder, $overrideStartHeight, $overrideMarginSize,
-									$overrideImageBorderRadius, $overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideShadowboxSize, $overrideUseTitleAsAlt);
+									$overrideImageBorderRadius, $overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideShadowboxSize, $overrideUseTitleAsAlt, $overrideSortType, $overrideSortDesc);
 				//do the replace
 				$article->text = preg_replace("#{".$this->plg_tag.".*?}".$tagContent."{/".$this->plg_tag."}#s", $galleryContent, $article->text);
 			}
@@ -131,7 +139,7 @@ class plgContentRC_gallery extends JPlugin {
 	}
 	
 	function buildGallery($tagContent, $plg_params, $doc, $overrideRootImageFolder, $overrideStartHeight, $overrideMarginSize,
-							$overrideImageBorderRadius,	$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideShadowboxSize, $overrideUseTitleAsAlt) {		
+							$overrideImageBorderRadius,	$overrideTitleOption, $overrideLabelsFile, $overrideUseShadowbox, $overrideShadowboxSize, $overrideUseTitleAsAlt, $overrideSortType, $overrideSortDesc) {		
 		// Get params. For overrides (inline settings) -1 means they aren't to be used
 		if ($overrideRootImageFolder == -1) {$rootFolder = $plg_params->get('galleryfolder','images');} else {$rootFolder = $overrideRootImageFolder;}
 		if ($overrideStartHeight == -1) {$startHeight = $plg_params->get('minrowheight', 100);} else {$startHeight = $overrideStartHeight;}
@@ -142,6 +150,8 @@ class plgContentRC_gallery extends JPlugin {
 		if ($overrideUseShadowbox == -1) {$shadowboxOption = $plg_params->get('shadowboxoption', 0);} else {$shadowboxOption = $overrideUseShadowbox;}
 		if ($overrideShadowboxSize == -1) {$shadowboxSize = $plg_params->get('shadowboxsize', 100);} else {$shadowboxSize = $overrideShadowboxSize;}
 		if ($overrideUseTitleAsAlt == -1) {$useTitleAsAlt = $plg_params->get('usetitleasalt', 1);} else {$useTitleAsAlt = $overrideUseTitleAsAlt;}
+		if ($overrideSortType == -1) {$sortType = $plg_params->get('sorttype', 0);} else {$sortType = $overrideSortType;}
+		if ($overrideSortDesc == -1) {$sortDesc = $plg_params->get('sortdesc', false);} else {$sortDesc = $overrideSortDesc;}
 		// overriding thumb quality not allowed - avoids confucion if multiple galleries for the same folder are created with different options
 		$thumbQuality = $plg_params->get('thumbquality', 100); 
 		
@@ -163,6 +173,7 @@ class plgContentRC_gallery extends JPlugin {
 
 		//css and js files
 		$galleryView->includeCSSandJS($doc, $imageBorderRadius);
+		$galleryView->includeCustomStyling($plg_params, $doc);
 		if ($shadowboxOption == 0) $galleryView->includeShadowbox($doc); //i.e. we want to use the included shadowbox
 		if ($shadowboxOption == 3) $galleryView->includeRCShadowbox($doc, $shadowboxSize); //i.e. we want to use the shiny new shadowbox!
 		
@@ -183,6 +194,15 @@ class plgContentRC_gallery extends JPlugin {
 		
 		$files = JFolder::files($directoryPath, $this->fileFilter());
 
+		switch($sortType) {
+			case 1: // by date
+				$this->resortImagesByDate($files, $fullFilePath = JPATH_ROOT . '/' . $directoryPath, $sortDesc);
+				break;
+			case 0: // by file name
+			default:
+				$this->resortImagesByFileName($files, $sortDesc);
+		}
+		
 		if (!$files) {
 			$galleryView->errorReport('No images found in specified folder.', $tagContent, $rootFolder);
 			return $galleryView->getHTML();
@@ -238,6 +258,57 @@ class plgContentRC_gallery extends JPlugin {
 		
 		// close HTML in the view, and return it
 		return $galleryView->getHTML();
+		
+	}
+
+	private function resortImagesByFileName(&$files, $desc = false) {
+		if ($desc) {
+			arsort($files);
+		}
+	}
+
+	private function resortImagesByDate(&$files, $folderPath, $desc = false) {
+		
+		// build a new array, adding in the create date from exif (where available)
+		$newFilesWithCreateDate = array();
+		foreach ($files as $file) {
+			$createDate = $this->getCreateDateFromExif($folderPath . $file);
+			$newFile = array(
+				"path" => $file,
+				"createdate" => $createDate,
+			);
+			array_push($newFilesWithCreateDate, $newFile);
+		}
+
+		// do the sorting
+		foreach ($newFilesWithCreateDate as $key => $row) {
+			$path[$key] = $row['path'];
+			$createdate[$key] = $row['createdate'];
+		}
+		if (!$desc) {
+			array_multisort($createdate, SORT_ASC, $path, SORT_ASC, $newFilesWithCreateDate);
+		} else {
+			array_multisort($createdate, SORT_DESC, $path, SORT_DESC, $newFilesWithCreateDate);
+		}
+		
+
+		// now remove the create date again, and go back to a simple array of files
+		$newFiles = array();
+		foreach ($newFilesWithCreateDate as $a) {
+			array_push($newFiles, $a['path']);
+		}
+		$files = $newFiles;
+	}
+
+	private function getCreateDateFromExif($path) {
+
+		$exif = exif_read_data($path);
+		if (array_key_exists('DateTimeOriginal', $exif)) {
+			$createDate = $exif['DateTimeOriginal'];
+			return $createDate;
+		} else {
+			return 0;
+		}
 		
 	}
 	

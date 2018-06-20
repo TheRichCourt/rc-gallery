@@ -6,8 +6,6 @@
     height:100%;
     width:100%;
     z-index:99994;
-    background-color:#000;
-    opacity:0.85;
     margin:0;
     padding:0;
 }
@@ -45,6 +43,7 @@
     background-position:center;
     z-index:99998;
     opacity:0.4;
+    transition: opacity 0.28s ease;
 }
 .rc_sb_button:hover {
     cursor:pointer;
