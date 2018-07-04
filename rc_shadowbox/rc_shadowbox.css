@@ -36,18 +36,29 @@
     box-shadow: 0 0 30px #000;
     border:0;
 }
+#rc_sb_title {
+    background-color:rgb(21, 21, 21, 0.4);
+    color:#fff;
+    position: absolute;
+    bottom:30px;
+    left:50%;
+    transform: translateX(-50%);
+    padding:15px;
+    border-radius:15px;
+    z-index:99998;
+    text-shadow: 0 0 10px #000;
+}
 /* controls */
 .rc_sb_button {
-    background-color:#151515;
+    background-color:rgb(21,21,21,0.4);
     background-repeat: no-repeat;
     background-position:center;
     z-index:99998;
-    opacity:0.4;
-    transition: opacity 0.28s ease;
+    transition: background-color 0.28s ease;
 }
 .rc_sb_button:hover {
     cursor:pointer;
-    opacity:0.75;
+    background-color:rgb(21,21,21,1);
 }
 #rc_sb_close {
     top:10px;

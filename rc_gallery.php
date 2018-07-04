@@ -127,11 +127,17 @@ class plgContentRC_gallery extends JPlugin
 		//css and js files
 		$galleryView->includeCSSandJS($doc, $this->getRCParams()->thumbnailradius);
 		$galleryView->includeCustomStyling($pluginParams, $doc);
-		if ($shadowboxOption == 0) $galleryView->includeShadowbox($doc); //i.e. we want to use the included shadowbox
-		if ($shadowboxOption == 3) $galleryView->includeRCShadowbox($doc, $shadowboxSize); //i.e. we want to use the shiny new shadowbox!
+
+		if ($this->getRCParams()->shadowboxoption == 0) {
+			$galleryView->includeShadowbox($doc); //i.e. we want to use the included shadowbox
+		}
+
+		if ($this->getRCParams()->shadowboxoption == 3) {
+			$galleryView->includeRCShadowbox($doc, $this->getRCParams()->shadowboxsize); //i.e. we want to use the shiny new shadowbox!
+		}
 
 		//get all image files from the directory
-		$directoryPath =  $this->getRCParams->galleryfolder . '/' . $tagContent . '/';
+		$directoryPath =  $this->getRCParams()->galleryfolder . '/' . $tagContent . '/';
 		$directoryPath = str_replace('//', '/', $directoryPath); //in case there were unnecessary leading or trailing slashes in the param
 
 		if (! file_exists($directoryPath)) {
@@ -169,7 +175,6 @@ class plgContentRC_gallery extends JPlugin
 		}
 
 		foreach ($files as $file) {
-
 			//Get full paths
 			$fullFilePath = JPATH_ROOT . '/' . $directoryPath . $file;
 			$thumbFilePath = JPATH_ROOT . '/' . $directoryPath . 'rc_thumbs/' . 'thumb_' . $file;
@@ -202,9 +207,19 @@ class plgContentRC_gallery extends JPlugin
 				$imgTitle = $this->getImageTitleFromFileName($file);
 			}
 
+			$withLink = ($this->getRCParams()->shadowboxoption != 2);
 			//add the image to the view
-			if ($this->getRCParams()->shadowboxoption != 2) { $withLink = true; } else { $withLink = false; };
-			$galleryView->addImage($fullFileURL, $thumbFileURL, $height, $width, $withLink, $this->getRCParams()->imagemargin, $this->getRCParams()->imageTitle, $imgTitle, $this->getRCParams()->usetitleasalt);
+			$galleryView->addImage(
+				$fullFileURL,
+				$thumbFileURL,
+				$height,
+				$width,
+				$withLink,
+				$this->getRCParams()->imagemargin,
+				$this->getRCParams()->imageTitle,
+				$imgTitle,
+				$this->getRCParams()->usetitleasalt
+			);
 		}
 
 		$this->galleryNumber++;

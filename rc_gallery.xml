@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>RC Justified Gallery</name>
 	<author>Rich Court</author>
@@ -43,25 +42,25 @@
 		<filename>sql/install.sql</filename>
 		<filename>index.html</filename>
 	</files>
-	
+
 	<install>
 		<sql>
 			<file driver="mysqli" charset="utf8">sql/install.sql</file>
 		</sql>
 	</install>
-	
+
 	<updateservers>
 		<server type="extension" priority="1" name="RC Justified Gallery">http://therichcourt.com/downloads/updates/rc_gallery_updates.xml</server>
 	 </updateservers>
-	
+
 	<!--<languages>
 		<language tag="en-GB">en-GB.plg_rc_gallery.ini</language>
 		<language tag="en-GB">en-GB.plg_rc_gallery.sys.ini</language>
 	</languages>-->
-	
+
 	<config>
 		<fields name="params">
-			<fieldset name="basic"> 
+			<fieldset name="basic">
 				<field name="quickstart" type="note" label = "Quick Start Instructions"/>
 				<field name="witheditorbutton" type="note" label = "With editor button add-on:"
 					description = "1. Click the “RC Justified Gallery” button in the article editor.   2. Select your options.   3. Click “insert”. That’s it!"
@@ -73,7 +72,7 @@
 					description="Of course you have far more control over the plugin if you want it. The full manual is available at http://www.therichcourt.com/joomla/gallery/download"
 				/>
 			</fieldset>
-			<fieldset name="gallery" label="Gallery"> 
+			<fieldset name="gallery" label="Gallery">
 				<field name="gallerydescription" type="note" label="Gallery"
 					description="" />
 				<field name="galleryfolder" type="text"
@@ -81,14 +80,14 @@
 					label="Root image folder"
 					description="Choose the parent folder that contains the folders you'd like to use for your galleries."
 				/>
-				<field name="sorttype" type="radio" 
+				<field name="sorttype" type="radio"
 					   default="0"
 					   description="Sort images by file name or date. Note that date requires that the image has a date in the file's EXIF data."
 					   label="Sort images by">
 					<option value="0">File Name</option>
 					<option value="1">Date</option>
 				</field>
-				<field name="sortdesc" type="radio" 
+				<field name="sortdesc" type="radio"
 					   default="0"
 					   description="Sort images in ascending, or descending order."
 					   label="Sort direction">
@@ -115,7 +114,7 @@
 					description="Radius of image border, in px."
 					label="Image border radius"
 				/>
-				<field name="imageTitle" type="radio" 
+				<field name="imageTitle" type="radio"
 					   default="0"
 					   description="Shows the image's filename over the image. Note that the file extension is not shown, any underscores are replaced with spaces, and the first letter is forced to uppercase."
 					   label="Image title">
@@ -138,7 +137,7 @@
 					<option value="1">Yes</option>
 				</field>
 			</fieldset>
-			<fieldset name="shadowbox" label="Shadowbox"> 
+			<fieldset name="shadowbox" label="Shadowbox">
 				<field name="shadowboxdescription" type="note" label="Shadowbox"
 					description="Choose which type of shadowbox to use. If you have your own that you already like, then you can just use that by selecting 'Use another shadowbox'. This will add rel='shadowbox[rc_gallery]' links to the images, but won't include the shadowbox part of this plugin, meaning your own shadowbox should take over. This option is useful for avoiding conflict with your existing shadowbox plugin."
 				/>
@@ -175,7 +174,7 @@
 				</field>
 				<field name="titletextalign" type="radio"
 					default="left"
-					description="Align the title text within the image thumbnail. Note that if you have overflow set to hidden and this setting set to centre, 
+					description="Align the title text within the image thumbnail. Note that if you have overflow set to hidden and this setting set to centre,
 						the text will appear to be left-aligned if it's wider than the thumbnail."
 					label="Align title text">
 						<option value="left">Left</option>
