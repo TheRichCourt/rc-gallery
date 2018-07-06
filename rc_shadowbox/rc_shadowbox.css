@@ -85,6 +85,23 @@
     background-image:url("img/next.png");
     border-radius:5px 0 0 5px;
 }
+/* #rc_sb_prev, #rc_sb_next {
+    top:50%;
+    margin-top:-25px;
+    width:70px;
+    height:70px;
+    position:absolute;
+}
+#rc_sb_prev {
+    left:15px;
+    background-image:url("img/prev.png");
+    border-radius:35px;
+}
+#rc_sb_next {
+    right:15px;
+    background-image:url("img/next.png");
+    border-radius:35px;
+} */
 #rc_sb_toolbar {
     top:10px;
     right:10px;
@@ -102,4 +119,16 @@
     height:40px;
     border-radius:5px;
     background-image:url("img/close.png");
+}
+.rc_sb_addonbutton.rc_tumblrshareaddon_button:hover {
+    background-color: rgba(55, 70, 93, 1);
+}
+.rc_sb_addonbutton.rc_gpshareaddon_button:hover {
+    background-color: rgba(220, 78, 65, 1);
+}
+.rc_sb_addonbutton.rc_twittershareaddon_button:hover {
+    background-color: rgba(29, 161, 242, 1);
+}
+.rc_sb_addonbutton.rc_fbshareaddon_button:hover {
+    background-color: rgba(59, 89, 152, 1);
 }
