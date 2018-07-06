@@ -203,10 +203,22 @@ Class RCGalleryView
 	 * @param int $shadowboxSize		0 - 100
 	 * @return void
 	 */
-	public function includeRCShadowbox($doc, $shadowboxSize)
+	public function includeRCShadowbox($doc, $shadowboxSize, $shadowboxTitleOption)
 	{
-		$doc->addScriptDeclaration('var rc_sb_imgFolder = "'.JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/";
-									var rc_sb_expandSize = "'. $shadowboxSize / 100 .'";');
+		$shadowboxParams = [
+			'image_folder' => JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/',
+			'expand_size' => $shadowboxSize / 100,
+			'title_option' => $shadowboxTitleOption
+		];
+
+		$doc->addScriptDeclaration(
+			'var rc_sb_params = ' . json_encode($shadowboxParams) . ';'
+		);
+
+		/* $doc->addScriptDeclaration(
+			'var rc_sb_imgFolder = "'.JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/";
+			var rc_sb_expandSize = "'. $shadowboxSize / 100 .'";'
+		); */
 		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js'));
 		$doc->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js'));
 		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css'));

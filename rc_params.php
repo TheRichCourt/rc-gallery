@@ -52,7 +52,8 @@ class RCParams
             'titletextoverflow' => 'title-text-overflow',
             'titletextweight' => 'title-text-weight',
             'overlaycolour' => 'overlay-colour',
-            'overlayopacity' => 'overlay-opacity'
+            'overlayopacity' => 'overlay-opacity',
+            'shadowboxtitle' => 'shadowbox-title-option'
         ]);
 
         $this->setDefaultValues([
@@ -78,7 +79,8 @@ class RCParams
             'titletextoverflow' => 'hidden',
             'titletextweight' => 'bold',
             'overlaycolour' => '#000',
-            'overlayopacity' => '0.85'
+            'overlayopacity' => '0.85',
+            'shadowboxtitle' => 0
         ]);
 
         $this->setOverrideParams($this->assessOverrideParams($galleryTagString));

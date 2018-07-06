@@ -20,10 +20,10 @@ jQuery(function() // document ready
     // find all the shadowbox links
     rc_sb_setupSlides();
     // preload all the UI images
-    rc_sb_preload(rc_sb_imgFolder + 'loading.gif', function() {});
-    rc_sb_preload(rc_sb_imgFolder + 'close.png', function() {});
-    rc_sb_preload(rc_sb_imgFolder + 'prev.png', function() {});
-    rc_sb_preload(rc_sb_imgFolder + 'next.png', function() {});
+    rc_sb_preload(rc_sb_params['image_folder'] + 'loading.gif', function() {});
+    rc_sb_preload(rc_sb_params['image_folder'] + 'close.png', function() {});
+    rc_sb_preload(rc_sb_params['image_folder'] + 'prev.png', function() {});
+    rc_sb_preload(rc_sb_params['image_folder'] + 'next.png', function() {});
 
     // if we're loading a page with an anchor link URL, open the slide
     rc_sb_openAnchorLinkedSlide();
@@ -113,14 +113,18 @@ function rc_sb_openSlide(slideID, after, delay)
             }
         }
     }
-    rc_sb_showTitle(slideID);
+
+    // if show or autohide
+    if (rc_sb_params['title_option'] === 0 || rc_sb_params['title_option'] === 2) {
+        rc_sb_showTitle(slideID);
+    }
 
     rc_sb_putSlideInStartingPosition(slideID, delay); //ready for the functions that come once the image has loaded :)
 }
 
 function rc_sb_showTitle(slideID)
 {
-    // TODO: create a div element with the image title in
+    // TODO: autohide
     jQuery("#rc_sb_title").remove();
     html = '<div id="rc_sb_title">' + rc_sb_slideTitles[slideID] + '</div>';
     jQuery('#rc_sb_container').append(html);
@@ -242,8 +246,8 @@ function rc_sb_expandSlideToRequiredSize(slideID, duration, delay)
     var slideRatio = rc_sb_getRatio(jQuery(rc_sb_slideRootElements[slideID]).children().first());
     var windowRatio = rc_sb_getRatio(jQuery('#rc_sb_container'));
 
-    var targetWidth = jQuery('#rc_sb_container').width() * rc_sb_expandSize;
-    var targetHeight = jQuery('#rc_sb_container').height() * rc_sb_expandSize;
+    var targetWidth = jQuery('#rc_sb_container').width() * rc_sb_params['expand_size'];
+    var targetHeight = jQuery('#rc_sb_container').height() * rc_sb_params['expand_size'];
 
     if (slideRatio >= windowRatio) {
         targetHeight = targetWidth / slideRatio;

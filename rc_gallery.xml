@@ -204,6 +204,14 @@
 				</field>
 				<field type="note" label="Shadowbox"
 					description="The below settings only apply if you use the built in shadowbox (which is enabled by default)." />
+				<field name="shadowboxtitle" type="radio"
+					default="0"
+					description="Show or hide image titles in the shadowbox. 'Autohide' makes the title appear when the mouse is moved, and the fade away if there's no activity."
+					label="Image titles">
+						<option value="0">Show</option>
+						<option value="1">Hide</option>
+						<option value="2">Autohide</option>
+				</field>
 				<field name="overlaycolour" label="Overlay colour" type="color" default="#000"
 					description="The colour used to cover the rest of the site when the shadowbox is opened. Note that this colour will be affected by
 						the opacity setting." />

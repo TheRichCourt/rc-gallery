@@ -133,7 +133,7 @@ class plgContentRC_gallery extends JPlugin
 		}
 
 		if ($this->getRCParams()->shadowboxoption == 3) {
-			$galleryView->includeRCShadowbox($doc, $this->getRCParams()->shadowboxsize); //i.e. we want to use the shiny new shadowbox!
+			$galleryView->includeRCShadowbox($doc, $this->getRCParams()->shadowboxsize, $this->getRCParams()->shadowboxtitle); //i.e. we want to use the shiny new shadowbox!
 		}
 
 		//get all image files from the directory
