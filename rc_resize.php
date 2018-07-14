@@ -2,8 +2,8 @@
 
 /********************************************************************
 Product		: RC Justified Gallery
-Date		: 19/01/2016
-Copyright	: Rich Court 2016
+Date		: 14/07/2018
+Copyright	: Rich Court 2018
 Contact		: http://www.therichcourt.com
 Licence		: GNU General Public License
 *********************************************************************/
@@ -13,7 +13,7 @@ defined( '_JEXEC' ) or die;
 
 Class RCResize
 {
-	/** @var image */
+	/** @var resource */
 	private $image;
 
 	/** @var int */
@@ -22,34 +22,27 @@ Class RCResize
 	/** @var int */
 	private $height;
 
-	/** @var image */
+	/** @var resource */
 	private $imageResized;
 
 	/**
-	 * Get set up
-	 *
 	 * @param string $fileName
 	 */
 	function __construct($fileName)
 	{
-		// Open up the file
-		$fileName = $fileName;
 		$this->setImage($this->openImage($fileName));
 
-		if ($this->image === false) {
+		if ($this->getImage() === false) {
 			return false;
 		}
 
-		// Get width and height
-		$this->setWidth(imagesx($this->image));
-		$this->setHeight(imagesy($this->image));
+		$this->setWidth(imagesx($this->getImage()));
+		$this->setHeight(imagesy($this->getImage()));
 	}
 
 	/**
-	 * Open the image file, and return it
-	 *
 	 * @param string $file
-	 * @return image|false
+	 * @return resource|false
 	 */
 	private function openImage($file)
 	{
@@ -67,10 +60,20 @@ Class RCResize
 			case '.png':
 				$img = @imagecreatefrompng($file);
 				break;
+			case '.webp':
+				$img = @imagecreatefromwebp($file);
+				break;
+			case '.bmp':
+				$img = @imagecreatefrombmp($file);
+				break;
+			case '.wbmp':
+				$img = @imagecreatefromwbmp($file);
+				break;
 			default:
 				return false;
 				break;
 		}
+
 		return $img;
 	}
 
@@ -84,75 +87,46 @@ Class RCResize
 	{
 		$newWidth = $this->calculateWidth($newHeight);
 
-		$this->imageResized = imagecreatetruecolor($newWidth, $newHeight);
-		//imagealphablending($this->imageResized, false);
-		//imagesavealpha($this->imageResized, true);
-		imagecopyresampled($this->imageResized, $this->image, 0, 0, 0, 0, $newWidth, $newHeight, $this->width, $this->height);
+		$this->setImageResized(imagecreatetruecolor($newWidth, $newHeight));
+
+		imagecopyresampled($this->getImageResized(), $this->getImage(), 0, 0, 0, 0, $newWidth, $newHeight, $this->getWidth(), $this->getHeight());
 	}
 
 	/**
-	 * Work out the new width of the image
-	 *
 	 * @param int $newHeight
 	 * @return void
 	 */
 	private function calculateWidth($newHeight)
 	{
-		$ratio = $this->width / $this->height;
+		$ratio = $this->getWidth() / $this->getHeight();
 		$newWidth = $newHeight * $ratio;
 		return $newWidth;
 	}
 
 	/**
-	 * Save image object as a file for future use
+	 * Save image object as a file for future use. Optionally save as WebP as well.
 	 *
 	 * @param string $savePath
 	 * @param string $imageQuality
 	 * @return void
 	 */
-	public function saveImage($savePath, $imageQuality="100")
+	public function saveImage($savePath, $imageQuality = 100)
 	{
 		// Get file extension
 		$extension = strrchr($savePath, '.');
 		$extension = strtolower($extension);
 
-		switch($extension) {
-			case '.jpg':
-			case '.jpeg':
-				if (imagetypes() & IMG_JPG) {
-					$success = imagejpeg($this->imageResized, $savePath, $imageQuality);
-				}
-				break;
+		$jpgSavePath = str_replace($extension, '.jpg', $savePath);
+		$webpSavePath = str_replace($extension, '.webp', $savePath);
 
-			case '.gif':
-				if (imagetypes() & IMG_GIF) {
-					$success = imagegif($this->imageResized, $savePath);
-				}
-				break;
-
-			case '.png':
-				// Scale quality from 0-100 to 0-9
-				$scaleQuality = round(($imageQuality/100) * 9);
-
-				// Invert quality setting as 0 is best, not 9
-				$invertScaleQuality = 9 - $scaleQuality;
-
-				if (imagetypes() & IMG_PNG) {
-					$success = imagepng($this->getImageResized(), $savePath, $invertScaleQuality);
-				}
-				break;
-				// etc
-
-			default:
-				// No extension - No save.
-				break;
-		}
+		$success = imagejpeg($this->getImageResized(), $jpgSavePath, $imageQuality);
+		$success = imagewebp($this->getImageResized(), $webpSavePath, $imageQuality);
 
 		imagedestroy($this->getImageResized());
 	}
 
 	/**
-	 * Get the value of image
+	 * @return resource
 	 */
 	public function getImage()
 	{
@@ -160,8 +134,7 @@ Class RCResize
 	}
 
 	/**
-	 * Set the value of image
-	 *
+	 * @param resource $image
 	 * @return  self
 	 */
 	public function setImage($image)
@@ -171,7 +144,7 @@ Class RCResize
 	}
 
 	/**
-	 * Get the value of width
+	 * @return int
 	 */
 	public function getWidth()
 	{
@@ -179,8 +152,7 @@ Class RCResize
 	}
 
 	/**
-	 * Set the value of width
-	 *
+	 * @param int $width
 	 * @return  self
 	 */
 	public function setWidth($width)
@@ -190,7 +162,7 @@ Class RCResize
 	}
 
 	/**
-	 * Get the value of height
+	 * @return int
 	 */
 	public function getHeight()
 	{
@@ -198,8 +170,7 @@ Class RCResize
 	}
 
 	/**
-	 * Set the value of height
-	 *
+	 * @param int $height
 	 * @return  self
 	 */
 	public function setHeight($height)
@@ -209,7 +180,7 @@ Class RCResize
 	}
 
 	/**
-	 * Get the value of imageResized
+	 * @return resource
 	 */
 	public function getImageResized()
 	{
@@ -217,13 +188,13 @@ Class RCResize
 	}
 
 	/**
-	 * Set the value of imageResized
-	 *
+	 * @param resource $imageResized
 	 * @return  self
 	 */
 	public function setImageResized($imageResized)
 	{
 		$this->imageResized = $imageResized;
+
 		return $this;
 	}
 }

@@ -132,7 +132,8 @@ function rc_sb_showTitle(slideID)
 
 function rc_sb_initialiseShadowboxMarkup()
 {
-    rc_sb_shadowboxHTML = '<div id="rc_sb_overlay"></div><div id="rc_sb_container"><div id="rc_sb_toolbar"><div id="rc_sb_close" class="rc_sb_button"></div></div>';
+    // TODO: Either add, or remove the download button
+    rc_sb_shadowboxHTML = '<div id="rc_sb_overlay"></div><div id="rc_sb_container"><div id="rc_sb_toolbar"><div id="rc_sb_close" class="rc_sb_button"></div><div id="rc_sb_download" class="rc_sb_button" href="http://localhost/2018JoomlaTransferTest/images/projects/rc_gallery/demo/Masts.jpg" onclick="javascript:window.location.href=\'http://localhost/2018JoomlaTransferTest/images/projects/rc_gallery/demo/Masts.jpg\'; return false;"></div></div>';
     rc_sb_shadowboxHTML += '<div id="rc_sb_prev" class="rc_sb_button"></div><div id="rc_sb_next" class="rc_sb_button"></div></div>';
 }
 
