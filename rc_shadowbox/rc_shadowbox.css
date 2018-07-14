@@ -68,6 +68,14 @@
     border-radius:5px;
     background-image:url("img/close.png");
 }
+#rc_sb_download {
+    top:10px;
+    right:10px;
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    background-image:url("img/close.png");
+}
 #rc_sb_prev, #rc_sb_next {
     top:50%;
     margin-top:-25px;
