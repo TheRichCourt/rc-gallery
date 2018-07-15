@@ -1,14 +1,5 @@
 <?php
 
-/********************************************************************
-Product		: RC Justified Gallery
-Date		: 14/07/2018
-Copyright	: Rich Court 2018
-Contact		: http://www.therichcourt.com
-Licence		: GNU General Public License
-*********************************************************************/
-
-// no direct access
 defined( '_JEXEC' ) or die;
 
 Class RCResize
@@ -83,8 +74,14 @@ Class RCResize
 	 * @param int $newHeight
 	 * @return void
 	 */
-	public function resizeImage($newHeight)
+	public function resizeImage($newHeight, $type)
 	{
+		if (strpos($type, 'hdpi') !== false) {
+			$newHeight *= 2.4;
+		} else {
+			$newHeight *= 1.2;
+		}
+
 		$newWidth = $this->calculateWidth($newHeight);
 
 		$this->setImageResized(imagecreatetruecolor($newWidth, $newHeight));
@@ -110,17 +107,19 @@ Class RCResize
 	 * @param string $imageQuality
 	 * @return void
 	 */
-	public function saveImage($savePath, $imageQuality = 100)
+	public function saveImage($savePath, $imageQuality, $type)
 	{
 		// Get file extension
 		$extension = strrchr($savePath, '.');
 		$extension = strtolower($extension);
 
-		$jpgSavePath = str_replace($extension, '.jpg', $savePath);
-		$webpSavePath = str_replace($extension, '.webp', $savePath);
-
-		$success = imagejpeg($this->getImageResized(), $jpgSavePath, $imageQuality);
-		$success = imagewebp($this->getImageResized(), $webpSavePath, $imageQuality);
+		if (strpos($type, 'webp') !== false) {
+			$webpSavePath = str_replace($extension, '.webp', $savePath);
+			$success = imagewebp($this->getImageResized(), $webpSavePath, $imageQuality);
+		} else {
+			$jpgSavePath = str_replace($extension, '.jpg', $savePath);
+			$success = imagejpeg($this->getImageResized(), $jpgSavePath, $imageQuality);
+		}
 
 		imagedestroy($this->getImageResized());
 	}

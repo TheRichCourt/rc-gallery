@@ -1,13 +1,5 @@
 <?php
 
-/********************************************************************
-Product		: RC Justified Gallery
-Date		: 28/02/2018
-Copyright	: Rich Court 2018
-Contact		: http://www.therichcourt.com
-Licence		: GNU General Public License
-*********************************************************************/
-
 defined( '_JEXEC' ) or die; // no direct access
 
 jimport('joomla.plugin.plugin');
@@ -23,6 +15,9 @@ class plgContentRC_gallery extends JPlugin
 	/** @var stdClass */
 	private $rcParams;
 
+	/** @var array */
+	private $thumbnailTypes;
+
 	/**
 	 * Fire off the parent constructor
 	 *
@@ -32,6 +27,33 @@ class plgContentRC_gallery extends JPlugin
 	function __construct(&$subject, $params)
 	{
 		parent::__construct( $subject, $params );
+
+		$lowDpiQuery =
+			'(-webkit-max-resolution: 143dpi), (max-resolution: 143dpi)'
+		;
+
+		$highDpiQuery =
+			'(-webkit-min-resolution: 144dpi), (min-resolution: 144dpi)'
+		;
+
+		$this->setThumbnailTypes([
+			'webp' => [
+				'type' => 'image/webp',
+				'media' => $lowDpiQuery
+			],
+			'jpg' => [
+				'type' => 'image/jpeg',
+				'media' => $lowDpiQuery
+			],
+			'webp-hdpi' => [
+				'type' => 'image/webp',
+				'media' => $highDpiQuery
+			],
+			'jpg-hdpi' => [
+				'type' => 'image/jpeg',
+				'media' => $highDpiQuery
+			]
+		]);
 	}
 
 	/**
@@ -121,8 +143,8 @@ class plgContentRC_gallery extends JPlugin
 	function buildGallery($tagContent, $pluginParams, $doc)
 	{
 		// Get the view class
-		include_once(JPATH_SITE.'/plugins/content/rc_gallery/views/rc_gallery_view.php');
-		$galleryView = new RCGalleryView($this->galleryNumber, $this->getRCParams()->minrowheight, $this->getRCParams()->imagemargin);
+		include_once(JPATH_SITE.'/plugins/content/rc_gallery/views/GalleryView.php');
+		$galleryView = new GalleryView($this->galleryNumber, $this->getRCParams()->minrowheight, $this->getRCParams()->imagemargin, $this->getRCParams());
 
 		//css and js files
 		$galleryView->includeCSSandJS($doc, $this->getRCParams()->thumbnailradius);
@@ -177,7 +199,7 @@ class plgContentRC_gallery extends JPlugin
 		foreach ($files as $file) {
 			//Get full paths
 			$fullFilePath = JPATH_ROOT . '/' . $directoryPath . $file;
-			$thumbFilePath = JPATH_ROOT . '/' . $directoryPath . 'rc_thumbs/' . 'thumb_' . $file;
+			$thumbFilePath = JPATH_ROOT . '/' . $directoryPath . 'rc_thumbs/jpg/' . 'thumb_' . $file;
 
 			//Get full URLs
 			$fullFileURL = JURI::root(true) . '/' . $directoryURL . rawurlencode($file);
@@ -208,17 +230,18 @@ class plgContentRC_gallery extends JPlugin
 			}
 
 			$withLink = ($this->getRCParams()->shadowboxoption != 2);
+
 			//add the image to the view
 			$galleryView->addImage(
 				$fullFileURL,
-				$thumbFileURL,
+				JURI::root(true) . '/' . $directoryPath,
+				rawurlencode($file),
 				$height,
 				$width,
 				$withLink,
-				$this->getRCParams()->imagemargin,
-				$this->getRCParams()->imageTitle,
 				$imgTitle,
-				$this->getRCParams()->usetitleasalt
+				$this->getRCParams()->usetitleasalt,
+				$this->getThumbnailTypes()
 			);
 		}
 
@@ -301,7 +324,6 @@ class plgContentRC_gallery extends JPlugin
 		} else {
 			return 0;
 		}
-
 	}
 
 	/**
@@ -335,39 +357,54 @@ class plgContentRC_gallery extends JPlugin
 		foreach ($files as $file) {
 
 			$fullFilePath = JPATH_ROOT . '/' . $directoryPath . $file;
-
-			$thumbPath = $directoryPath . 'rc_thumbs/' . 'thumb_' . $file;
 			$thumbFolder = $directoryPath . 'rc_thumbs';
 
 			if (!file_exists($thumbFolder)) {
 				mkdir($thumbFolder);
 			}
 
-			if (!file_exists($thumbPath)) {
-				$this->makeSingleThumbnail($fullFilePath, $startHeight, $thumbPath, $thumbQuality);
+			foreach ($this->getThumbnailTypes() as $thumbnailType => $thumbnailTypeProperties) {
+				$thumbSubFolder = $thumbFolder . '/' . $thumbnailType;
+
+				if (!file_exists($thumbSubFolder)) {
+					mkdir($thumbSubFolder);
+				}
+
+				$newExtension = (strpos($thumbnailType, 'webp') !== false)
+					? '.webp'
+					: '.jpg'
+				;
+
+				$extension = strrchr($file, '.');
+				$extension = strtolower($extension);
+
+				$thumbPath = $thumbSubFolder . '/' . 'thumb_' . str_replace($extension, $newExtension, $file);
+
+				if (!file_exists($thumbPath)) {
+					$this->makeSingleThumbnail($fullFilePath, $startHeight, $thumbPath, $thumbQuality, $thumbnailType);
+				}
 			}
 		}
 	}
 
 	/**
-	 * Create the individual thumbnail
-	 *
 	 * @param string $fullFilePath
 	 * @param int $startHeight
 	 * @param string $thumbPath
 	 * @param int $thumbQuality
+	 * @param string type
 	 * @return void
 	 */
-	private function makeSingleThumbnail($fullFilePath, $startHeight, $thumbPath, $thumbQuality)
+	private function makeSingleThumbnail($fullFilePath, $startHeight, $thumbPath, $thumbQuality, $type)
 	{
 		$resizeObj = new RCResize($fullFilePath);
 
 		if ($resizeObj != false) { //don't bother resizing if an image couldn't be opened e.g. because of a bad path
-			$resizeObj -> resizeImage($startHeight * 2);
+			$resizeObj -> resizeImage($startHeight, $type);
 
 			if ($thumbQuality > 100 || $thumbQuality < 0) $thumbQuality = 100;
 
-			$resizeObj -> saveImage($thumbPath, $thumbQuality);
+			$resizeObj->saveImage($thumbPath, $thumbQuality, $type);
 		}
 	}
 
@@ -386,6 +423,25 @@ class plgContentRC_gallery extends JPlugin
 	public function setRCParams(stdClass $rcParams)
 	{
 		$this->rcParams = $rcParams;
+		return $this;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getThumbnailTypes()
+	{
+		return $this->thumbnailTypes;
+	}
+
+	/**
+	 * @param array $thumbnailTypes
+	 * @return self
+	 */
+	public function setThumbnailTypes(array $thumbnailTypes)
+	{
+		$this->thumbnailTypes = $thumbnailTypes;
+
 		return $this;
 	}
 }
