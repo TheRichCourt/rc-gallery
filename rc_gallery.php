@@ -102,8 +102,8 @@ class plgContentRC_gallery extends JPlugin
 				// get our folder
 				$tagContent = $tagMatches[1][$tagKey];
 
-				include_once(JPATH_SITE.'/plugins/content/rc_gallery/rc_params.php');
-				$paramsObj = new RCParams($pluginParams, $tag);
+				require_once JPATH_SITE.'/plugins/content/rc_gallery/Params.php';
+				$paramsObj = new Params($pluginParams, $tag);
 				$this->setRCParams($paramsObj->getParams());
 
 				// put the gallery together
@@ -143,7 +143,7 @@ class plgContentRC_gallery extends JPlugin
 	function buildGallery($tagContent, $pluginParams, $doc)
 	{
 		// Get the view class
-		include_once(JPATH_SITE.'/plugins/content/rc_gallery/views/GalleryView.php');
+		require_once JPATH_SITE.'/plugins/content/rc_gallery/views/GalleryView.php';
 		$galleryView = new GalleryView($this->galleryNumber, $this->getRCParams()->minrowheight, $this->getRCParams()->imagemargin, $this->getRCParams());
 
 		//css and js files
@@ -191,7 +191,7 @@ class plgContentRC_gallery extends JPlugin
 
 		if ($this->getRCParams()->uselabelsfile) {
 			//get the custom image titles & descriptions ready for this folder from labels.txt
-			include_once(JPATH_SITE.'/plugins/content/rc_gallery/models/rc_labels_model.php');
+			require_once JPATH_SITE.'/plugins/content/rc_gallery/models/rc_labels_model.php';
 			$labelsModel = new RCLabels;
 			$labelsModel->getLabelsFromFile($directoryPath);
 		}
@@ -352,7 +352,7 @@ class plgContentRC_gallery extends JPlugin
 	{
 		$filter = $this->fileFilter();
 		$files = JFolder::files($directoryPath, $filter);
-		include_once(JPATH_SITE.'/plugins/content/rc_gallery/rc_resize.php');
+		require_once JPATH_SITE.'/plugins/content/rc_gallery/ThumbnailFactory.php';
 
 		foreach ($files as $file) {
 
@@ -397,7 +397,7 @@ class plgContentRC_gallery extends JPlugin
 	 */
 	private function makeSingleThumbnail($fullFilePath, $startHeight, $thumbPath, $thumbQuality, $type)
 	{
-		$resizeObj = new RCResize($fullFilePath);
+		$resizeObj = new ThumbnailFactory($fullFilePath);
 
 		if ($resizeObj != false) { //don't bother resizing if an image couldn't be opened e.g. because of a bad path
 			$resizeObj -> resizeImage($startHeight, $type);

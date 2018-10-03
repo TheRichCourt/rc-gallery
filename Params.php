@@ -1,10 +1,10 @@
 <?php
 
-defined( '_JEXEC' ) or die; // no direct access
+defined( '_JEXEC' ) or die;
 
 use Joomla\Registry\Registry;
 
-class RCParams
+class Params
 {
     /** @var Registry */
     private $pluginParams;
