@@ -58,7 +58,7 @@ class ThumbnailView
     }
 
     /**
-     * @return DOMElement|string
+     * @return string
      */
     public function build()
     {
@@ -77,7 +77,7 @@ class ThumbnailView
 
         $divElem->appendChild($pictureElem);
 
-        if ($this->getRcParams()->imageTitle === 1 || $this->getRcParams()->imageTitle === 2) {
+        if ($this->getRcParams()->imageTitle == 1 || $this->getRcParams()->imageTitle == 2) {
             $divElem->appendChild($this->buildTitle());
         }
 
@@ -121,7 +121,7 @@ class ThumbnailView
      * @param array $image
      * @return DOMElement
      */
-    private function buildSource($image)
+    private function buildSource(array $image)
     {
         $elem = $this->getDom()->createElement('source');
 
@@ -137,6 +137,7 @@ class ThumbnailView
     }
 
     /**
+     * @param string $src
      * @return DOMElement
      */
     private function buildImage($src)
@@ -159,7 +160,7 @@ class ThumbnailView
      */
     private function buildTitle()
     {
-        $elem = $this->getDom()->createElement('span');
+        $elem = $this->getDom()->createElement('span', $this->getTitle());
 
         $opacity = $this->getRcParams()->imageTitle === 2
             ? 'opacity:1 !important;'

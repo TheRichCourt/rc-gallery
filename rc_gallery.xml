@@ -86,6 +86,7 @@
 					   label="Sort images by">
 					<option value="0">File Name</option>
 					<option value="1">Date</option>
+					<option value="2">Random (different every time the page is loaded)</option>
 				</field>
 				<field name="sortdesc" type="radio"
 					   default="0"

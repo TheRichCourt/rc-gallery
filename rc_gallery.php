@@ -4,6 +4,9 @@ defined( '_JEXEC' ) or die; // no direct access
 
 jimport('joomla.plugin.plugin');
 
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\Registry\Registry;
+
 class plgContentRC_gallery extends JPlugin
 {
 	/** @var string */
@@ -77,12 +80,11 @@ class plgContentRC_gallery extends JPlugin
 	/**
 	 * Identify gallery tags, and replace them with an actual gallery
 	 *
-	 * @param array $article
-	 * @param array $params
+	 * @param stdClass $article
 	 * @return void
 	 */
-	function showGalleries(&$article)
-	{
+	function showGalleries(stdClass &$article)
+	{		
 		//use jQuery and joomla filesystem
 		JHtml::_('jquery.framework');
 		jimport('joomla.filesystem.folder');
@@ -114,7 +116,6 @@ class plgContentRC_gallery extends JPlugin
 		}
 	}
 
-
 	/**
 	 * Produce the filter to ensure only supported image files are used
 	 *
@@ -122,7 +123,7 @@ class plgContentRC_gallery extends JPlugin
 	 */
 	function fileFilter()
 	{
-		$allowedExtensions = array('jpg','png','gif');
+		$allowedExtensions = array('jpg','png','gif', 'webp');
 		// Also allow filetypes in uppercase
 		$allowedExtensions = array_merge($allowedExtensions, array_map('strtoupper', $allowedExtensions));
 		// Build the filter. Will return something like: "jpg|png|JPG|PNG|gif|GIF"
@@ -136,11 +137,11 @@ class plgContentRC_gallery extends JPlugin
 	 * Build a single gallery
 	 *
 	 * @param string $tagContent
-	 * @param array $pluginParams
-	 * @param [type] $doc
+	 * @param Registry $pluginParams
+	 * @param HtmlDocument $doc
 	 * @return void
 	 */
-	function buildGallery($tagContent, $pluginParams, $doc)
+	function buildGallery($tagContent, Registry $pluginParams, HtmlDocument $doc)
 	{
 		// Get the view class
 		require_once JPATH_SITE.'/plugins/content/rc_gallery/views/GalleryView.php';
@@ -176,6 +177,9 @@ class plgContentRC_gallery extends JPlugin
 		$files = JFolder::files($directoryPath, $this->fileFilter());
 
 		switch($this->getRCParams()->sorttype) {
+			case 2:
+				shuffle($files);
+				break;
 			case 1: // by date
 				$this->resortImagesByDate($files, $fullFilePath = JPATH_ROOT . '/' . $directoryPath, $this->getRCParams()->sortdesc);
 				break;
