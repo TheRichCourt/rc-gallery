@@ -43,11 +43,10 @@ Class GalleryView
 	 * @param int $width
 	 * @param bool $withLink
 	 * @param string $imgTitle
-	 * @param bool $useTitleAsAlt
 	 * @param array $thumbnailTypes
 	 * @return void
 	 */
-	public function addImage($fullFileURL, $directory, $fileName, $height, $width, $withLink, $imgTitle, $useTitleAsAlt, array $thumbnailTypes)
+	public function addImage($fullFileURL, $directory, $fileName, $height, $width, $withLink, $imgTitle, array $thumbnailTypes)
 	{
 		require_once JPATH_SITE.'/plugins/content/rc_gallery/views/ThumbnailView.php';
 

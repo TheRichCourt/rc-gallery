@@ -244,7 +244,6 @@ class plgContentRC_gallery extends JPlugin
 				$width,
 				$withLink,
 				$imgTitle,
-				$this->getRCParams()->usetitleasalt,
 				$this->getThumbnailTypes()
 			);
 		}

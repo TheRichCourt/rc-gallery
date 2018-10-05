@@ -149,6 +149,11 @@ class ThumbnailView
             'margin:%dpx;',
             $this->getRcParams()->imagemargin
         ));
+
+        if ($this->getRcParams()->usetitleasalt) {
+            $elem->setAttribute('alt', $this->getTitle());
+        }
+
         $elem->setAttribute('data-width', $this->getWidth());
         $elem->setAttribute('data-height', $this->getHeight());
 
@@ -175,17 +180,6 @@ class ThumbnailView
         ));
 
         return $elem;
-    }
-
-    /**
-     * @return string
-     */
-    private function buildAltTag()
-    {
-        return $this->getRcParams()->usetitleasalt
-            ? sprintf(' alt="%s"', $this->getTitle())
-            : ''
-        ;
     }
 
     /**

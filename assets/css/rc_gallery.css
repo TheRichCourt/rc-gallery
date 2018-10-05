@@ -21,6 +21,8 @@
 }
 .rc_gallery a:hover, .rc_gallery a:active {
 	background:transparent;
+	line-height:1px;
+	font-size:1px;
 }
 .rc_gallery div.rc_galleryimg_container {
 	width:auto;
@@ -32,7 +34,6 @@
 }
 .rc_gallery div.rc_galleryimg_container span {
 	height:auto;
-	/*overflow:hidden;*/
 	padding:2px 5px;
 	margin:0 auto;
 	width: 100%;
