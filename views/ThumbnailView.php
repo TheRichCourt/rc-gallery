@@ -130,6 +130,11 @@ class ThumbnailView
                 continue;
             }
 
+            if ($attributeName == 'srcset') {
+                $elem->setAttribute("data-{$attributeName}", $attributeValue);
+                continue;
+            }
+
             $elem->setAttribute($attributeName, $attributeValue);
         }
 
@@ -137,6 +142,8 @@ class ThumbnailView
     }
 
     /**
+     * using the 'data-___' attributes so the image can be lazy loaded
+     * 
      * @param string $src
      * @return DOMElement
      */
@@ -144,15 +151,17 @@ class ThumbnailView
     {
         $elem = $this->getDom()->createElement('img');
         $elem->setAttribute('class', 'rc_galleryimg');
-        $elem->setAttribute('src', $src);
+        $elem->setAttribute('data-src', $src);
         $elem->setAttribute('style', sprintf(
             'margin:%dpx;',
             $this->getRcParams()->imagemargin
         ));
 
         if ($this->getRcParams()->usetitleasalt) {
-            $elem->setAttribute('alt', $this->getTitle());
+            $elem->setAttribute('data-alt', $this->getTitle());
         }
+
+        $elem->setAttribute('alt', '');
 
         $elem->setAttribute('data-width', $this->getWidth());
         $elem->setAttribute('data-height', $this->getHeight());

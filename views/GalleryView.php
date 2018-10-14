@@ -92,12 +92,13 @@ Class GalleryView
 	 */
 	public function includeCSSandJS($doc, $imageBorderRadius)
 	{
-		$doc->addScript(JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.js');
-		$css_path = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery.css');
-		$doc->addStyleSheet($css_path);
+		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.js');
+		$doc->addScript($jsPath);
+		$cssPath = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery.css');
+		$doc->addStyleSheet($cssPath);
 
 		if ($imageBorderRadius > 0) {
-			$style = 	'img.rc_galleryimg {
+			$style = 	'.rc_galleryimg {
 							border-radius:' . $imageBorderRadius . 'px;
 						}';
 			$doc->addStyleDeclaration( $style );
@@ -122,7 +123,7 @@ Class GalleryView
 		}
 
 		$css = '
-			.rc_gallery img.rc_galleryimg {
+			.rc_gallery .rc_galleryimg {
 				background-color: '. $params->get('thumbbgcolour', '#f2f2f2') .';
 				border-radius: ' . $params->get('thumbnailradius', '0') . 'px;
 			}
@@ -145,13 +146,13 @@ Class GalleryView
 
 		if ($filterOption == 1) { // sepia
 			$css .= '
-				.rc_gallery img.rc_galleryimg {
+				.rc_gallery .rc_galleryimg {
 					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
 					filter: sepia(80%);
 					-webkit-filter: sepia(80%);
 				}
 
-				.rc_gallery img.rc_galleryimg:hover {
+				.rc_gallery .rc_galleryimg:hover {
 					filter: sepia(0%);
 				}
 			';
@@ -159,13 +160,13 @@ Class GalleryView
 
 		if ($filterOption == 2) { // black and white
 			$css .= '
-				.rc_gallery img.rc_galleryimg {
+				.rc_gallery .rc_galleryimg {
 					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
 					filter: grayscale(100%);
 					-webkit-filter: grayscale(100%);
 				}
 
-				.rc_gallery img.rc_galleryimg:hover {
+				.rc_gallery .rc_galleryimg:hover {
 					filter: grayscale(0%);
 					-webkit-filter: grayscale(0%);
 				}
@@ -183,7 +184,7 @@ Class GalleryView
 	 */
 	public function includeShadowbox($doc)
 	{
-		$doc->addScript(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.js');
+		$doc->addScript(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/shadowbox/shadowbox.js'));
 		$doc->addStyleSheet(JURI::root().'plugins/content/rc_gallery/shadowbox/shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/shadowbox/shadowbox.css'));
 	}
 

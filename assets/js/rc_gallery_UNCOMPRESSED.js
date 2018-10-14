@@ -1,10 +1,32 @@
 // Copyright Rich Court, August 2016
 jQuery(document).ready(function() {
     resizeGallery();
+    lazyLoadImages();
 });
 jQuery(window).resize(function() {
     resizeGallery();
 });
+
+function lazyLoadImages() {
+    jQuery(".rc_galleryimg_container").each(function () {
+        jQuery(this).find("picture").children().each(function () {
+            if (jQuery(this).prop("tagName") == "IMG") {
+                jQuery(this).attr("src", jQuery(this).attr("data-src"));
+                jQuery(this).attr("alt", jQuery(this).attr("data-alt"));
+            } else if (jQuery(this).prop("tagName") == "SOURCE") {
+                jQuery(this).attr("srcset", jQuery(this).attr("data-srcset"));
+            }
+        });
+    });
+}
+
+function imageLoaded() {
+
+}
+
+function imageFailed() {
+
+}
 
 function resizeGallery() {
     

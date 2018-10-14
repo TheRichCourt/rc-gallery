@@ -22,14 +22,12 @@ class plgContentRC_gallery extends JPlugin
 	private $thumbnailTypes;
 
 	/**
-	 * Fire off the parent constructor
-	 *
 	 * @param string $subject
 	 * @param array $params
 	 */
 	function __construct(&$subject, $params)
 	{
-		parent::__construct( $subject, $params );
+		parent::__construct($subject, $params);
 
 		$lowDpiQuery =
 			'(-webkit-max-resolution: 143dpi), (max-resolution: 143dpi)'
@@ -403,7 +401,7 @@ class plgContentRC_gallery extends JPlugin
 		$resizeObj = new ThumbnailFactory($fullFilePath);
 
 		if ($resizeObj != false) { //don't bother resizing if an image couldn't be opened e.g. because of a bad path
-			$resizeObj -> resizeImage($startHeight, $type);
+			$resizeObj->resizeImage($startHeight, $type);
 
 			if ($thumbQuality > 100 || $thumbQuality < 0) $thumbQuality = 100;
 
