@@ -31,6 +31,9 @@ class ThumbnailView
     /** @var DOMDocument */
     private $dom;
 
+    /** @var bool */
+    private $thumbsExist;
+
     /**
      * @param stdCLass $rcParams
      * @param string $title
@@ -40,8 +43,9 @@ class ThumbnailView
      * @param array $images
      * @param int $galleryNumber
      * @param int $imageNumber
+     * @param bool $thumbsExist
      */
-    public function __construct(stdClass $rcParams, $title, $targetUrl, $width, $height, array $images, $galleryNumber, $imageNumber)
+    public function __construct(stdClass $rcParams, $title, $targetUrl, $width, $height, array $images, $galleryNumber, $imageNumber, $thumbsExist)
     {
         $this
             ->setRcParams($rcParams)
@@ -52,9 +56,9 @@ class ThumbnailView
             ->setImages($images)
             ->setGalleryNumber($galleryNumber)
             ->setImageNumber($imageNumber)
+            ->setThumbsExist($thumbsExist)
+            ->setDom(new DOMDocument())
         ;
-
-        $this->setDom(new DOMDocument());
     }
 
     /**
@@ -66,6 +70,7 @@ class ThumbnailView
 
         $divElem = $this->getDom()->createElement('div');
         $divElem->setAttribute('class', 'rc_galleryimg_container');
+        $divElem->setAttribute('data-thumbs-exist', $this->getThumbsExist() ? 'true' : 'false');
         $divElem->setAttribute('id', sprintf(
             'rc_%s_%d_%d',
             $this->getTitle(),
@@ -143,7 +148,7 @@ class ThumbnailView
 
     /**
      * using the 'data-___' attributes so the image can be lazy loaded
-     * 
+     *
      * @param string $src
      * @return DOMElement
      */
@@ -358,6 +363,25 @@ class ThumbnailView
     public function setImageNumber($imageNumber)
     {
         $this->imageNumber = $imageNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getThumbsExist()
+    {
+        return $this->thumbsExist;
+    }
+
+    /**
+     * @param bool $thumbsExist
+     * @return self
+     */
+    public function setThumbsExist($thumbsExist)
+    {
+        $this->thumbsExist = $thumbsExist;
 
         return $this;
     }

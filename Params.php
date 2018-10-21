@@ -25,7 +25,7 @@ class Params
      * @param Registry $pluginParams
      * @param array $overridePluginParams
      */
-    public function __construct(Registry $pluginParams, $galleryTagString)
+    public function __construct(Registry $pluginParams, $galleryTagString = '')
     {
         $this->setPluginParams($pluginParams);
 
@@ -79,7 +79,10 @@ class Params
             'shadowboxtitle' => 0
         ]);
 
-        $this->setOverrideParams($this->assessOverrideParams($galleryTagString));
+        if ($galleryTagString !== '') {
+            $this->setOverrideParams($this->assessOverrideParams($galleryTagString));
+        }
+
         $this->setParams($this->combineParams());
     }
 

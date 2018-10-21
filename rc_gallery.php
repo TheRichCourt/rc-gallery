@@ -1,15 +1,14 @@
 <?php
 
-defined( '_JEXEC' ) or die; // no direct access
+defined( '_JEXEC' ) or die;
 
 jimport('joomla.plugin.plugin');
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\Registry\Registry;
 
-class plgContentRC_gallery extends JPlugin
+class PlgContentRC_gallery extends JPlugin
 {
-	/** @var string */
 	const GALLERY_TAG = "gallery"; //the bit to look for in curly braces, e.g. {gallery}photos{gallery}
 
 	/** @var int */
@@ -69,10 +68,28 @@ class plgContentRC_gallery extends JPlugin
 	function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		if (strpos($article->text, '{gallery') === false) {
-			return; //bail out if plugin's not needed
+			return;
 		}
 
 		$this->showGalleries($article);
+	}
+
+	/**
+	 * For building thumbnails asynchronously, to avoid page timeouts when there are a lot of them
+	 * ?option=com_ajax&group=content&plugin=rc_gallery&format=json&img=[image path]&start_height=[start height]
+	 *
+	 * @return array
+	 */
+	public function onAjaxRC_gallery()
+	{
+		$imgPath = JPATH_SITE . str_replace(JURI::root(true), '', $_GET['img']);
+		$imgPath = str_replace('/', '\\', $imgPath);
+
+		$this->gatherParams();
+
+		$this->makeThumbnailsForSingleImage($imgPath, (int) $_GET['start_height'], $this->getRcParams()->thumbquality);
+
+		return ["thumbnail_result" => "Success"];
 	}
 
 	/**
@@ -82,36 +99,50 @@ class plgContentRC_gallery extends JPlugin
 	 * @return void
 	 */
 	function showGalleries(stdClass &$article)
-	{		
-		//use jQuery and joomla filesystem
-		JHtml::_('jquery.framework');
-		jimport('joomla.filesystem.folder');
-
-		$doc = JFactory::getDocument();
-		$plugin = JPluginHelper::getPlugin('content', 'rc_gallery');
-		$pluginParams = new JRegistry($plugin->params);
-
+	{
 		// expression to search for
 		$regex = "#{".self::GALLERY_TAG.".*?}(.*?){/".self::GALLERY_TAG."}#is";
 
 		// Find all instances of the plugin and put them in $matches
 		if (preg_match_all($regex, $article->text, $tagMatches, PREG_PATTERN_ORDER) > 0) {
+			$doc = JFactory::getDocument();
+			$plugin = JPluginHelper::getPlugin('content', 'rc_gallery');
+			$pluginParams = new JRegistry($plugin->params);
 
 			// start the replace loop
 			foreach ($tagMatches[0] as $tagKey => $tag) {
 				// get our folder
 				$tagContent = $tagMatches[1][$tagKey];
 
-				require_once JPATH_SITE.'/plugins/content/rc_gallery/Params.php';
-				$paramsObj = new Params($pluginParams, $tag);
-				$this->setRCParams($paramsObj->getParams());
+				// These params include inline options from the gallery tag, so create for each gallery on the page
+				$this->gatherParams($tag, $pluginParams);
 
 				// put the gallery together
-				$galleryContent = $this->buildGallery($tagContent, $pluginParams, $doc);
+				$galleryContent = $this->buildGallery($tagContent, $doc);
+
 				//do the replace
 				$article->text = preg_replace("#{".self::GALLERY_TAG.".*?}".$tagContent."{/".self::GALLERY_TAG."}#s", $galleryContent, $article->text);
 			}
 		}
+	}
+
+	/**
+	 * Combine inline params with the original plugin params
+	 *
+	 * @param string $tag
+	 * @param Registry|null $pluginParams
+	 * @return void
+	 */
+	private function gatherParams($tag = '', $pluginParams = null)
+	{
+		if (!$pluginParams) {
+			$plugin = JPluginHelper::getPlugin('content', 'rc_gallery');
+			$pluginParams = new JRegistry($plugin->params);
+		}
+
+		require_once JPATH_SITE.'/plugins/content/rc_gallery/Params.php';
+		$paramsObj = new Params($pluginParams, $tag);
+		$this->setRCParams($paramsObj->getParams());
 	}
 
 	/**
@@ -135,26 +166,27 @@ class plgContentRC_gallery extends JPlugin
 	 * Build a single gallery
 	 *
 	 * @param string $tagContent
-	 * @param Registry $pluginParams
 	 * @param HtmlDocument $doc
 	 * @return void
 	 */
-	function buildGallery($tagContent, Registry $pluginParams, HtmlDocument $doc)
+	function buildGallery($tagContent, HtmlDocument $doc)
 	{
+		jimport('joomla.filesystem.folder');
+
 		// Get the view class
 		require_once JPATH_SITE.'/plugins/content/rc_gallery/views/GalleryView.php';
-		$galleryView = new GalleryView($this->galleryNumber, $this->getRCParams()->minrowheight, $this->getRCParams()->imagemargin, $this->getRCParams());
+		$galleryView = new GalleryView($this->galleryNumber, $this->getRCParams(), $doc);
 
 		//css and js files
-		$galleryView->includeCSSandJS($doc, $this->getRCParams()->thumbnailradius);
-		$galleryView->includeCustomStyling($pluginParams, $doc);
+		$galleryView->includeCSSandJS($this->getRCParams()->thumbnailradius);
+		$galleryView->includeCustomStyling();
 
 		if ($this->getRCParams()->shadowboxoption == 0) {
-			$galleryView->includeShadowbox($doc); //i.e. we want to use the included shadowbox
+			$galleryView->includeShadowbox(); //i.e. we want to use the included shadowbox
 		}
 
 		if ($this->getRCParams()->shadowboxoption == 3) {
-			$galleryView->includeRCShadowbox($doc, $this->getRCParams()->shadowboxsize, $this->getRCParams()->shadowboxtitle); //i.e. we want to use the shiny new shadowbox!
+			$galleryView->includeRCShadowbox(); //i.e. we want to use the shiny new shadowbox!
 		}
 
 		//get all image files from the directory
@@ -169,8 +201,6 @@ class plgContentRC_gallery extends JPlugin
 		//Get the directory URL, and sort out spaces etc
 		$directoryURL = $directoryPath;
 		implode('/', array_map('rawurlencode', explode('/', $directoryURL)));
-
-		$this->makeThumbnails($directoryPath, $this->getRCParams()->minrowheight, $this->getRCParams()->thumbquality);
 
 		$files = JFolder::files($directoryPath, $this->fileFilter());
 
@@ -208,7 +238,7 @@ class plgContentRC_gallery extends JPlugin
 			$thumbFileURL = JURI::root(true) . '/' .  $directoryURL . 'rc_thumbs/' . 'thumb_' .  rawurlencode($file);
 
 			//get the width and height of the image file
-			list($width, $height, $type, $attr) = getimagesize($thumbFilePath);
+			list($width, $height, $type, $attr) = getimagesize($fullFilePath);
 
 			if ($this->getRCParams()->minrowheight == 0) $imgWidth = 100; //Just in case
 
@@ -242,7 +272,8 @@ class plgContentRC_gallery extends JPlugin
 				$width,
 				$withLink,
 				$imgTitle,
-				$this->getThumbnailTypes()
+				$this->getThumbnailTypes(),
+				$this->thumbnailsExist($fullFilePath)
 			);
 		}
 
@@ -353,10 +384,8 @@ class plgContentRC_gallery extends JPlugin
 	{
 		$filter = $this->fileFilter();
 		$files = JFolder::files($directoryPath, $filter);
-		require_once JPATH_SITE.'/plugins/content/rc_gallery/ThumbnailFactory.php';
 
 		foreach ($files as $file) {
-
 			$fullFilePath = JPATH_ROOT . '/' . $directoryPath . $file;
 			$thumbFolder = $directoryPath . 'rc_thumbs';
 
@@ -364,49 +393,96 @@ class plgContentRC_gallery extends JPlugin
 				mkdir($thumbFolder);
 			}
 
-			foreach ($this->getThumbnailTypes() as $thumbnailType => $thumbnailTypeProperties) {
-				$thumbSubFolder = $thumbFolder . '/' . $thumbnailType;
-
-				if (!file_exists($thumbSubFolder)) {
-					mkdir($thumbSubFolder);
-				}
-
-				$newExtension = (strpos($thumbnailType, 'webp') !== false)
-					? '.webp'
-					: '.jpg'
-				;
-
-				$extension = strrchr($file, '.');
-				$extension = strtolower($extension);
-
-				$thumbPath = $thumbSubFolder . '/' . 'thumb_' . str_replace($extension, $newExtension, $file);
-
-				if (!file_exists($thumbPath)) {
-					$this->makeSingleThumbnail($fullFilePath, $startHeight, $thumbPath, $thumbQuality, $thumbnailType);
-				}
-			}
+			$this->makeThumbnailsForSingleImage($fullFilePath, $startHeight, $thumbQuality);
 		}
 	}
 
 	/**
 	 * @param string $fullFilePath
 	 * @param int $startHeight
-	 * @param string $thumbPath
 	 * @param int $thumbQuality
-	 * @param string type
 	 * @return void
 	 */
-	private function makeSingleThumbnail($fullFilePath, $startHeight, $thumbPath, $thumbQuality, $type)
+	private function makeThumbnailsForSingleImage($fullFilePath, $startHeight, $thumbQuality)
 	{
-		$resizeObj = new ThumbnailFactory($fullFilePath);
+		$thumbFolder = dirname($fullFilePath) . '/rc_thumbs';
+		$resizeObj = null;
 
-		if ($resizeObj != false) { //don't bother resizing if an image couldn't be opened e.g. because of a bad path
-			$resizeObj->resizeImage($startHeight, $type);
-
-			if ($thumbQuality > 100 || $thumbQuality < 0) $thumbQuality = 100;
-
-			$resizeObj->saveImage($thumbPath, $thumbQuality, $type);
+		if (!file_exists($thumbFolder)) {
+			mkdir($thumbFolder);
 		}
+
+		foreach ($this->getThumbnailTypes() as $thumbnailType => $thumbnailTypeProperties) {
+			$thumbSubFolder = $thumbFolder . '/' . $thumbnailType;
+
+			if (!file_exists($thumbSubFolder)) {
+				mkdir($thumbSubFolder);
+			}
+
+			$newExtension = (strpos($thumbnailType, 'webp') !== false)
+				? '.webp'
+				: '.jpg'
+			;
+
+			$extension = strrchr($fullFilePath, '.');
+			$extension = strtolower($extension);
+
+			$thumbPath = $thumbSubFolder . '/' . 'thumb_' . str_replace($extension, $newExtension, basename($fullFilePath));
+
+			if (!file_exists($thumbPath)) {
+
+				if ($resizeObj === null) {
+					require_once JPATH_SITE.'/plugins/content/rc_gallery/ThumbnailFactory.php';
+					$resizeObj = new ThumbnailFactory($fullFilePath);
+
+					if ($resizeObj == false) {
+						return;
+					}
+				}
+
+				$resizeObj->resizeImage($startHeight, $thumbnailType);
+
+				$thumbQuality = ($thumbQuality > 100 || $thumbQuality < 0)
+					? 100
+					: $thumbQuality
+				;
+
+				$resizeObj->saveImage($thumbPath, $thumbQuality, $thumbnailType);
+			}
+		}
+	}
+
+	/**
+	 * @todo: Haven't implemented this yet. Might need to move this to another class.
+	 *
+	 * @param string $fullFilePath
+	 * @return void
+	 */
+	private function thumbnailsExist($fullFilePath)
+	{
+		$thumbsExist = true;
+
+		$thumbFolder = dirname($fullFilePath) . '/rc_thumbs';
+
+		foreach ($this->getThumbnailTypes() as $thumbnailType => $thumbnailTypeProperties) {
+			$thumbSubFolder = $thumbFolder . '/' . $thumbnailType;
+
+			$newExtension = (strpos($thumbnailType, 'webp') !== false)
+				? '.webp'
+				: '.jpg'
+			;
+
+			$extension = strrchr($fullFilePath, '.');
+			$extension = strtolower($extension);
+
+			$thumbPath = $thumbSubFolder . '/' . 'thumb_' . str_replace($extension, $newExtension, basename($fullFilePath));
+
+			if (!file_exists($thumbPath)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	/**
