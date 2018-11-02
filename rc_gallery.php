@@ -292,7 +292,7 @@ class PlgContentRC_gallery extends JPlugin
 			//add the image to the view
 			$galleryView->addImage(
 				$fullFileURL,
-				JURI::root() . '/' . $directoryPath,
+				JURI::root() . $directoryPath,
 				rawurlencode($file),
 				$height,
 				$width,

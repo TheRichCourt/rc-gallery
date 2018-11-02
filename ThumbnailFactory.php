@@ -102,10 +102,9 @@ Class ThumbnailFactory
 	 */
 	public function resizeImage($newHeight, $type)
 	{
+		// double resolution for hdpi displays
 		if (strpos($type, 'hdpi') !== false) {
-			$newHeight *= 2.4;
-		} else {
-			$newHeight *= 1.2;
+			$newHeight *= 2;
 		}
 
 		$newWidth = $this->calculateWidth($newHeight);
