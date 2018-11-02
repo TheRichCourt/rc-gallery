@@ -1,4 +1,3 @@
-// Copyright Rich Court, January 2018
 var rc_sb_slideURLs = new Array;
 var rc_sb_slideIDs = new Array;
 var rc_sb_slideRootElements = new Array;

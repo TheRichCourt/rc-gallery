@@ -158,7 +158,7 @@ class ThumbnailView
         $elem->setAttribute('class', 'rc_galleryimg');
         $elem->setAttribute('data-src', $src);
         $elem->setAttribute('style', sprintf(
-            'margin:%dpx;',
+            "margin: %dpx;",
             $this->getRcParams()->imagemargin
         ));
 
@@ -187,9 +187,10 @@ class ThumbnailView
         ;
 
         $elem->setAttribute('style', sprintf(
-            'margin:%dpx; width:calc(100% - %dpx); %s',
+            "margin: %dpx; width: calc(100%s - %dpx); %s",
             $this->getRcParams()->imagemargin,
-            $this->getRcParams()->imagemargin,
+            "%",
+            $this->getRcParams()->imagemargin * 2,
             $opacity
         ));
 

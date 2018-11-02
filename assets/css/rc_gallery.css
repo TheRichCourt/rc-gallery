@@ -49,7 +49,7 @@
 .rc_gallery div.rc_galleryimg_container:hover span {
 	opacity:1;
 }
-.rc_gallery .rc_galleryimg {
+.rc_gallery img.rc_galleryimg {
 	margin: 0;
 	padding: 0;
 	border: 0;

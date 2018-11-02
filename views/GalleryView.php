@@ -37,7 +37,7 @@ Class GalleryView
 		$this->setRcParams($rcParams);
 		$this->setDoc($doc);
 		$this->galleryNumber = $galleryNo;
-		$this->galleryParams = ' data-start-height="' . $this->getRCParams()->minrowheight . '" data-margin-size="' . $this->getRCParams()->imagemargin . '"';
+		$this->galleryParams = ' data-root-url="' . JURI::root() . '" data-start-height="' . $this->getRCParams()->minrowheight . '" data-margin-size="' . $this->getRCParams()->imagemargin . '"';
 		$this->html = '<div class="rc_gallery" '. $this->galleryParams .'>';
 	}
 
@@ -159,7 +159,7 @@ Class GalleryView
 					-webkit-filter: sepia(80%);
 				}
 
-				.rc_gallery .rc_galleryimg:hover {
+				.rc_gallery div.rc_galleryimg_container:hover .rc_galleryimg {
 					filter: sepia(0%);
 				}
 			';

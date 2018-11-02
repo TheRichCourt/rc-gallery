@@ -27,8 +27,34 @@ Class ThumbnailFactory
 			return false;
 		}
 
+		$this->correctRotation($fileName);
 		$this->setWidth(imagesx($this->getImage()));
 		$this->setHeight(imagesy($this->getImage()));
+	}
+
+	private function correctRotation($fileName)
+	{
+		$exif = exif_read_data($fileName);
+
+		if (!$exif) {
+			return;
+		}
+
+		if (!isset($exif['Orientation'])) {
+			return;
+		}
+
+		switch ($exif['Orientation']) {
+			case 3:
+				$this->setImage(imagerotate($this->getImage(), 180, 0));
+				break;
+			case 6:
+				$this->setImage(imagerotate($this->getImage(), -90, 0));
+				break;
+			case 8:
+				$this->setImage(imagerotate($this->getImage(), 90, 0));
+				break;
+		}
 	}
 
 	/**

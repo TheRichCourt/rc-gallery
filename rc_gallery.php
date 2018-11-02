@@ -36,24 +36,31 @@ class PlgContentRC_gallery extends JPlugin
 			'(-webkit-min-resolution: 144dpi), (min-resolution: 144dpi)'
 		;
 
-		$this->setThumbnailTypes([
-			'webp' => [
-				'type' => 'image/webp',
-				'media' => $lowDpiQuery
-			],
+		$thumbnailTypes = [
 			'jpg' => [
 				'type' => 'image/jpeg',
-				'media' => $lowDpiQuery
-			],
-			'webp-hdpi' => [
-				'type' => 'image/webp',
-				'media' => $highDpiQuery
+				'media' => $lowDpiQuery,
 			],
 			'jpg-hdpi' => [
 				'type' => 'image/jpeg',
-				'media' => $highDpiQuery
-			]
-		]);
+				'media' => $highDpiQuery,
+			],
+		];
+
+		// Only do WebP if the server supports it (please contact your hosting provider if it doesn't)
+		if (gd_info()['WebP Support']) {
+			$thumbnailTypes['webp'] = [
+				'type' => 'image/webp',
+				'media' => $lowDpiQuery,
+			];
+
+			$thumbnailTypes['webp-hdpi'] = [
+				'type' => 'image/webp',
+				'media' => $highDpiQuery,
+			];
+		}
+
+		$this->setThumbnailTypes($thumbnailTypes);
 	}
 
 	/**
@@ -82,8 +89,9 @@ class PlgContentRC_gallery extends JPlugin
 	 */
 	public function onAjaxRC_gallery()
 	{
-		$imgPath = JPATH_SITE . str_replace(JURI::root(true), '', $_GET['img']);
-		$imgPath = str_replace('/', '\\', $imgPath);
+		jimport('joomla.filesystem.folder');
+
+		$imgPath = JPATH_SITE . str_replace(JURI::root(), '', $_GET['img']);
 
 		$this->gatherParams();
 
@@ -234,11 +242,29 @@ class PlgContentRC_gallery extends JPlugin
 			$thumbFilePath = JPATH_ROOT . '/' . $directoryPath . 'rc_thumbs/jpg/' . 'thumb_' . $file;
 
 			//Get full URLs
-			$fullFileURL = JURI::root(true) . '/' . $directoryURL . rawurlencode($file);
-			$thumbFileURL = JURI::root(true) . '/' .  $directoryURL . 'rc_thumbs/' . 'thumb_' .  rawurlencode($file);
+			$fullFileURL = JURI::root() . '/' . $directoryURL . rawurlencode($file);
+			$thumbFileURL = JURI::root() . '/' .  $directoryURL . 'rc_thumbs/' . 'thumb_' .  rawurlencode($file);
 
 			//get the width and height of the image file
-			list($width, $height, $type, $attr) = getimagesize($fullFilePath);
+			list($x, $y, $type, $attr) = getimagesize($fullFilePath);
+
+			// initially go with the obvious values
+			$width = $x;
+			$height = $y;
+
+			// no read the exif Orientation, and swap those dimensions if necessary
+			$exif = exif_read_data($fullFilePath);
+			if ($exif !== false) {
+				if (isset($exif['Orientation'])) {
+					switch ($exif['Orientation']) {
+						case 6:
+						case 8:
+							$width = $y;
+							$height = $x;
+							break;
+					}
+				}
+			}
 
 			if ($this->getRCParams()->minrowheight == 0) $imgWidth = 100; //Just in case
 
@@ -266,7 +292,7 @@ class PlgContentRC_gallery extends JPlugin
 			//add the image to the view
 			$galleryView->addImage(
 				$fullFileURL,
-				JURI::root(true) . '/' . $directoryPath,
+				JURI::root() . '/' . $directoryPath,
 				rawurlencode($file),
 				$height,
 				$width,
