@@ -16,8 +16,9 @@ function lazyLoadImages() {
 
         var imgUrl = jQuery(this).parent().attr('href');
         var xhttp = new XMLHttpRequest();
-        var startHeight = jQuery('.rc_gallery').attr("data-start-height");
-        var requestURl = 'http://localhost/2018JoomlaTransferTest/?option=com_ajax&group=content&plugin=rc_gallery&format=json&img=' + imgUrl + '&start_height=' + startHeight;
+        var startHeight = jQuery(this).parent().parent().attr("data-start-height");
+        var rootUrl = jQuery(this).parent().parent().attr("data-root-url");
+        var requestUrl = rootUrl + '?option=com_ajax&group=content&plugin=rc_gallery&format=json&img=' + imgUrl + '&start_height=' + startHeight;
         var $container = this;
 
         xhttp.onreadystatechange = function () {
@@ -27,7 +28,7 @@ function lazyLoadImages() {
             }
         };
 
-        xhttp.open("GET", requestURl, true);
+        xhttp.open("GET", requestUrl, true);
         xhttp.send();
     });
 }
@@ -48,7 +49,7 @@ function resizeGallery() {
         //get the params for this gallery
         var startHeight = jQuery(this).attr("data-start-height");
         var marginSize = jQuery(this).attr("data-margin-size");
-        var targetLineWidth = jQuery(this).width() - 1; //1px narrower to avoid raounding errors messing everything up
+        var targetLineWidth = jQuery(this).width() - 1; //1px narrower to avoid rounding errors messing everything up
         var currentLineWidth = 0;
         var imageWidthArray = new Array();
         var imageRatioArray = new Array();
