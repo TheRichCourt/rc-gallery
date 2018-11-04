@@ -252,18 +252,23 @@ class PlgContentRC_gallery extends JPlugin
 			$width = $x;
 			$height = $y;
 
-			// no read the exif Orientation, and swap those dimensions if necessary
-			$exif = exif_read_data($fullFilePath);
-			if ($exif !== false) {
-				if (isset($exif['Orientation'])) {
-					switch ($exif['Orientation']) {
-						case 6:
-						case 8:
-							$width = $y;
-							$height = $x;
-							break;
+			// now read the exif Orientation, and swap those dimensions if necessary
+			switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
+				case "jpeg":
+				case "jpg":
+					$exif = exif_read_data($fullFilePath);
+					if ($exif !== false) {
+						if (isset($exif['Orientation'])) {
+							switch ($exif['Orientation']) {
+								case 6:
+								case 8:
+									$width = $y;
+									$height = $x;
+									break;
+							}
+						}
 					}
-				}
+					break;
 			}
 
 			if ($this->getRCParams()->minrowheight == 0) $imgWidth = 100; //Just in case
@@ -375,12 +380,22 @@ class PlgContentRC_gallery extends JPlugin
 	 */
 	private function getCreateDateFromExif($path)
 	{
-		$exif = exif_read_data($path);
-		if (array_key_exists('DateTimeOriginal', $exif)) {
-			$createDate = $exif['DateTimeOriginal'];
-			return $createDate;
-		} else {
-			return 0;
+		switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
+			case "jpeg":
+			case "jpg":
+				$exif = exif_read_data($path);
+
+				if (array_key_exists('DateTimeOriginal', $exif)) {
+					$createDate = $exif['DateTimeOriginal'];
+
+					return $createDate;
+				} else {
+					return 0;
+				}
+
+				break;
+			default:
+				return 0;
 		}
 	}
 

@@ -34,25 +34,31 @@ Class ThumbnailFactory
 
 	private function correctRotation($fileName)
 	{
-		$exif = exif_read_data($fileName);
+		switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
+			case "jpeg":
+			case "jpg":
+				$exif = exif_read_data($fileName);
 
-		if (!$exif) {
-			return;
-		}
+				if (!$exif) {
+					return;
+				}
 
-		if (!isset($exif['Orientation'])) {
-			return;
-		}
+				if (!isset($exif['Orientation'])) {
+					return;
+				}
 
-		switch ($exif['Orientation']) {
-			case 3:
-				$this->setImage(imagerotate($this->getImage(), 180, 0));
-				break;
-			case 6:
-				$this->setImage(imagerotate($this->getImage(), -90, 0));
-				break;
-			case 8:
-				$this->setImage(imagerotate($this->getImage(), 90, 0));
+				switch ($exif['Orientation']) {
+					case 3:
+						$this->setImage(imagerotate($this->getImage(), 180, 0));
+						break;
+					case 6:
+						$this->setImage(imagerotate($this->getImage(), -90, 0));
+						break;
+					case 8:
+						$this->setImage(imagerotate($this->getImage(), 90, 0));
+						break;
+				}
+
 				break;
 		}
 	}
