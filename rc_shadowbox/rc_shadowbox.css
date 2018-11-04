@@ -6,8 +6,6 @@
     height:100%;
     width:100%;
     z-index:99994;
-    background-color:#000;
-    opacity:0.85;
     margin:0;
     padding:0;
 }
@@ -38,19 +36,39 @@
     box-shadow: 0 0 30px #000;
     border:0;
 }
+#rc_sb_title {
+    background-color:rgb(21, 21, 21, 0.4);
+    color:#fff;
+    position: absolute;
+    bottom:30px;
+    left:50%;
+    transform: translateX(-50%);
+    padding:15px;
+    border-radius:5px;
+    z-index:99998;
+    text-shadow: 0 0 10px #000;
+}
 /* controls */
 .rc_sb_button {
-    background-color:#151515;
+    background-color:rgb(21,21,21,0.4);
     background-repeat: no-repeat;
     background-position:center;
     z-index:99998;
-    opacity:0.4;
+    transition: background-color 0.28s ease;
 }
 .rc_sb_button:hover {
     cursor:pointer;
-    opacity:0.75;
+    background-color:rgb(21,21,21,1);
 }
 #rc_sb_close {
+    top:10px;
+    right:10px;
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    background-image:url("img/close.png");
+}
+#rc_sb_download {
     top:10px;
     right:10px;
     width:40px;
@@ -75,6 +93,23 @@
     background-image:url("img/next.png");
     border-radius:5px 0 0 5px;
 }
+/* #rc_sb_prev, #rc_sb_next {
+    top:50%;
+    margin-top:-25px;
+    width:70px;
+    height:70px;
+    position:absolute;
+}
+#rc_sb_prev {
+    left:15px;
+    background-image:url("img/prev.png");
+    border-radius:35px;
+}
+#rc_sb_next {
+    right:15px;
+    background-image:url("img/next.png");
+    border-radius:35px;
+} */
 #rc_sb_toolbar {
     top:10px;
     right:10px;
@@ -92,4 +127,16 @@
     height:40px;
     border-radius:5px;
     background-image:url("img/close.png");
+}
+.rc_sb_addonbutton.rc_tumblrshareaddon_button:hover {
+    background-color: rgba(55, 70, 93, 1);
+}
+.rc_sb_addonbutton.rc_gpshareaddon_button:hover {
+    background-color: rgba(220, 78, 65, 1);
+}
+.rc_sb_addonbutton.rc_twittershareaddon_button:hover {
+    background-color: rgba(29, 161, 242, 1);
+}
+.rc_sb_addonbutton.rc_fbshareaddon_button:hover {
+    background-color: rgba(59, 89, 152, 1);
 }
