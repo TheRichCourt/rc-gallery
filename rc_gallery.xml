@@ -83,6 +83,9 @@
 					label="Root image folder"
 					description="Choose the parent folder that contains the folders you'd like to use for your galleries."
 				/>
+				<field name="layout" type="folderlist" default="" label="Layout" directory="media/plg_rc_gallery_layouts" filter="" exclude="" stripext="" hide_none ="true"
+					description="You can get more layouts by downloading the layouts add-on"
+				/>
 				<field name="sorttype" type="radio"
 					   default="0"
 					   description="Sort images by file name or date. Note that date requires that the image has a date in the file's EXIF data."

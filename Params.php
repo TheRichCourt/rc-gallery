@@ -53,6 +53,7 @@ class Params
             'overlayopacity' => 'overlay-opacity',
             'shadowboxtitle' => 'shadowbox-title-option',
             'ajaximages' => 'ajaximages',
+            'layout' => 'layout',
         ]);
 
         $this->setDefaultValues([
@@ -79,6 +80,7 @@ class Params
             'overlayopacity' => '0.85',
             'shadowboxtitle' => 0,
             'ajaximages' => 0,
+            'layout' => null,
         ]);
 
         if ($galleryTagString !== '') {

@@ -70,7 +70,7 @@ class ThumbnailView
 
         $divElem = $this->getDom()->createElement('div');
         $divElem->setAttribute('class', 'rc_galleryimg_container');
-        $divElem->setAttribute('data-thumbs-exist', $this->getThumbsExist() ? 'true' : 'false');
+        $divElem->setAttribute('data-thumbsexist', $this->getThumbsExist() ? 'true' : 'false');
         $divElem->setAttribute('id', sprintf(
             'rc_%s_%d_%d',
             $this->getTitle(),
@@ -104,7 +104,7 @@ class ThumbnailView
         $elem = $this->getDom()->createElement('a');
         $elem->setAttribute('href', $this->getTargetUrl());
         $elem->setAttribute('rel', 'shadowbox[rc_gallery]');
-        $elem->setAttribute('data-image-title', $this->getTitle());
+        $elem->setAttribute('data-imageTitle', $this->getTitle());
 
         return $elem;
     }

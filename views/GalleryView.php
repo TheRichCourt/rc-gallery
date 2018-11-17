@@ -37,7 +37,7 @@ Class GalleryView
 		$this->setRcParams($rcParams);
 		$this->setDoc($doc);
 		$this->galleryNumber = $galleryNo;
-		$this->galleryParams = ' data-root-url="' . JURI::root() . '" data-start-height="' . $this->getRCParams()->minrowheight . '" data-margin-size="' . $this->getRCParams()->imagemargin . '"';
+		$this->galleryParams = ' data-rooturl="' . JURI::root() . '" data-startheight="' . $this->getRCParams()->minrowheight . '" data-marginsize="' . $this->getRCParams()->imagemargin . '"';
 		$this->html = '<div class="rc_gallery" '. $this->galleryParams .'>';
 	}
 
@@ -50,7 +50,6 @@ Class GalleryView
 	 * @param string $imgTitle
 	 * @param array $thumbnailTypes
 	 * @param bool $thumbsExist
-	 * @return void
 	 */
 	public function addImage($fullFileURL, $directory, $fileName, $height, $width, $withLink, $imgTitle, array $thumbnailTypes, $thumbsExist)
 	{
@@ -94,30 +93,29 @@ Class GalleryView
 	 * Add CSS and JS links to the document
 	 *
 	 * @param int $imageBorderRadius
-	 * @return void
 	 */
 	public function includeCSSandJS($imageBorderRadius)
 	{
 		JHtml::_('jquery.framework');
-		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.js');
-		$this->getDoc()->addScript($jsPath);
-		$cssPath = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery.css');
-		$this->getDoc()->addStyleSheet($cssPath);
 
-		if ($imageBorderRadius > 0) {
-			$style =
-				'.rc_galleryimg {
-					border-radius:' . $imageBorderRadius . 'px;
-				}'
-			;
-			$this->getDoc()->addStyleDeclaration( $style );
+		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.js');
+
+		// @todo: should check whether the files exist, in case the setting's changed and then layouts is uninstalled
+		if ($this->getRCParams()->layout === null) {
+			$jsLayoutPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery_layout.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery_layout.js');
+			$cssPath = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery_layout.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery_layout.css');
+		} else {
+			$jsLayoutPath = JURI::root().'media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.js?'.filemtime(JPATH_ROOT.'/media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.js');
+			$cssPath = JURI::root().'media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.css?'.filemtime(JPATH_ROOT.'/media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.css');
 		}
+
+		$this->getDoc()->addScript($jsPath);
+		$this->getDoc()->addScript($jsLayoutPath);
+		$this->getDoc()->addStyleSheet($cssPath);
 	}
 
 	/**
 	 * Add an additional style tag to the document head, with cusotm parameters
-	 *
-	 * @return void
 	 */
 	public function includeCustomStyling()
 	{
@@ -185,8 +183,6 @@ Class GalleryView
 
 	/**
 	 * Add JS and CSS files for the legacy shadowbox
-	 *
-	 * @return void
 	 */
 	public function includeShadowbox()
 	{
