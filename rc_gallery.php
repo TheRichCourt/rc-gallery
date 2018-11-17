@@ -48,16 +48,18 @@ class PlgContentRC_gallery extends JPlugin
 		];
 
 		// Only do WebP if the server supports it (please contact your hosting provider if it doesn't)
-		if (gd_info()['WebP Support']) {
-			$thumbnailTypes['webp'] = [
-				'type' => 'image/webp',
-				'media' => $lowDpiQuery,
-			];
+		if (isset(gd_info()['WebP Support'])) {
+			if (gd_info()['WebP Support']) {
+				$thumbnailTypes['webp'] = [
+					'type' => 'image/webp',
+					'media' => $lowDpiQuery,
+				];
 
-			$thumbnailTypes['webp-hdpi'] = [
-				'type' => 'image/webp',
-				'media' => $highDpiQuery,
-			];
+				$thumbnailTypes['webp-hdpi'] = [
+					'type' => 'image/webp',
+					'media' => $highDpiQuery,
+				];
+			}
 		}
 
 		$this->setThumbnailTypes($thumbnailTypes);
@@ -83,30 +85,39 @@ class PlgContentRC_gallery extends JPlugin
 
 	/**
 	 * For building thumbnails asynchronously, to avoid page timeouts when there are a lot of them
-	 * ?option=com_ajax&group=content&plugin=rc_gallery&format=json&img=[image path]&start_height=[start height]
+	 * ?option=com_ajax&group=content&plugin=MakeThumbs&format=json&img=[image path]&start_height=[start height]
 	 *
 	 * @return array
 	 */
-	public function onAjaxRC_gallery()
+	public function onAjaxMakeThumbs()
 	{
 		jimport('joomla.filesystem.folder');
 
-		$imgPath = JPATH_SITE . str_replace(JURI::root(), '', $_GET['img']);
+		$imgPath = JPATH_SITE . str_replace(JURI::root(), '', $_POST['img']);
 
 		$this->gatherParams();
 
-		$this->makeThumbnailsForSingleImage($imgPath, (int) $_GET['start_height'], $this->getRcParams()->thumbquality);
+		$this->makeThumbnailsForSingleImage($imgPath, (int) $_POST['start_height'], $this->getRcParams()->thumbquality);
 
-		return ["thumbnail_result" => "Success"];
+		// don't seem to be able to trust Joomla to reliably only return the JSON, so do this:
+		echo json_encode([
+			"success" => true,
+			"message" => null,
+			"messages" => null,
+			"data" => [
+				["thumbnail_result" => "Success"],
+			],
+		]);
+		exit;
 	}
 
 	/**
 	 * Identify gallery tags, and replace them with an actual gallery
 	 *
-	 * @param stdClass $article
+	 * @param $article
 	 * @return void
 	 */
-	function showGalleries(stdClass &$article)
+	function showGalleries(&$article)
 	{
 		// expression to search for
 		$regex = "#{".self::GALLERY_TAG.".*?}(.*?){/".self::GALLERY_TAG."}#is";
@@ -206,6 +217,10 @@ class PlgContentRC_gallery extends JPlugin
 			return $galleryView->getHTML();
 		}
 
+		if ($this->getRcParams()->ajaximages === 0) {
+			$this->makeThumbnails($directoryPath);
+		}
+
 		//Get the directory URL, and sort out spaces etc
 		$directoryURL = $directoryPath;
 		implode('/', array_map('rawurlencode', explode('/', $directoryURL)));
@@ -252,23 +267,25 @@ class PlgContentRC_gallery extends JPlugin
 			$width = $x;
 			$height = $y;
 
-			// now read the exif Orientation, and swap those dimensions if necessary
-			switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
-				case "jpeg":
-				case "jpg":
-					$exif = exif_read_data($fullFilePath);
-					if ($exif !== false) {
-						if (isset($exif['Orientation'])) {
-							switch ($exif['Orientation']) {
-								case 6:
-								case 8:
-									$width = $y;
-									$height = $x;
-									break;
+			if (function_exists('exif_read_data')) {
+				// now read the exif Orientation, and swap those dimensions if necessary
+				switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
+					case "jpeg":
+					case "jpg":
+						$exif = exif_read_data($fullFilePath);
+						if ($exif !== false) {
+							if (isset($exif['Orientation'])) {
+								switch ($exif['Orientation']) {
+									case 6:
+									case 8:
+										$width = $y;
+										$height = $x;
+										break;
+								}
 							}
 						}
-					}
-					break;
+						break;
+				}
 			}
 
 			if ($this->getRCParams()->minrowheight == 0) $imgWidth = 100; //Just in case
@@ -380,6 +397,10 @@ class PlgContentRC_gallery extends JPlugin
 	 */
 	private function getCreateDateFromExif($path)
 	{
+		if (!function_exists('exif_read_data')) {
+			return 0;
+		}
+
 		switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
 			case "jpeg":
 			case "jpg":
@@ -421,7 +442,7 @@ class PlgContentRC_gallery extends JPlugin
 	 * @param int $thumbQuality			0 - 100
 	 * @return void
 	 */
-	private function makeThumbnails($directoryPath, $startHeight, $thumbQuality)
+	private function makeThumbnails($directoryPath)
 	{
 		$filter = $this->fileFilter();
 		$files = JFolder::files($directoryPath, $filter);
@@ -430,11 +451,11 @@ class PlgContentRC_gallery extends JPlugin
 			$fullFilePath = JPATH_ROOT . '/' . $directoryPath . $file;
 			$thumbFolder = $directoryPath . 'rc_thumbs';
 
-			if (!file_exists($thumbFolder)) {
-				mkdir($thumbFolder);
-			}
+			// if (!file_exists($thumbFolder)) {
+			// 	mkdir($thumbFolder);
+			// }
 
-			$this->makeThumbnailsForSingleImage($fullFilePath, $startHeight, $thumbQuality);
+			$this->makeThumbnailsForSingleImage($fullFilePath, $this->getRCParams()->minrowheight, $this->getRCParams()->thumbquality);
 		}
 	}
 

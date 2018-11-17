@@ -34,7 +34,11 @@ Class ThumbnailFactory
 
 	private function correctRotation($fileName)
 	{
-		switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
+		if (!function_exists('exif_read_data')) {
+			return;
+		}
+
+		switch (strtolower(pathinfo($fileName, PATHINFO_EXTENSION))) {
 			case "jpeg":
 			case "jpg":
 				$exif = exif_read_data($fileName);

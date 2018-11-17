@@ -2,12 +2,12 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>RC Gallery</name>
 	<author>Rich Court</author>
-	<creationDate>02/11/2018</creationDate>
+	<creationDate>17/11/2018</creationDate>
 	<copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>therichcourt@gmail.com</authorEmail>
 	<authorUrl>www.therichcourt.com</authorUrl>
-	<version>4.0.1</version>
+	<version>4.1.0</version>
 	<description>Thanks for installing RC Justified Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
 	<files>
 		<filename plugin="rc_gallery">rc_gallery.php</filename>
@@ -230,6 +230,24 @@
 				<field type="note"  label="Support"
 					description="If you can't find what you need there, please contact me for support, at http://www.therichcourt.com/support"
 				/>
+			</fieldset>
+			<fieldset name="advanced" label="Advanced">
+				<field type="note" label="Advanced feature"
+					description="If you're using large galleries, it can take a very long time to produce all of the thumbnails. This only happens the first time a page is visited, however
+						it's still not ideal. In fact if you have enough images, then the http request will time out while your server's still making the thumbnails. The result is the visitor will see an error.
+						You can bypass this in two different ways."
+				/>
+				<field type="note" label="1"
+					description="1. Reload the page a few times - each time you do that it makes a little more progress, and after a few tries the page will always be fine."
+				/>
+				<field type="note" label="2"
+					description ="2. Enable  this setting. However, there isa  potential isue here too. This setting will send an AJAX request for each image, to produce the thumbnails asynchronously. However, some servers
+						will view this large number of similar requests as a possible attack, and block them. So, enable this option at your own risk! If it works on your server, it's definitely the better option"
+				/>
+				<field name="ajaximages" label="Enable AJAX images"	description="See note above" type="radio" default="0">
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

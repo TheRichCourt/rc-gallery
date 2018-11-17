@@ -51,7 +51,8 @@ class Params
             'titletextweight' => 'title-text-weight',
             'overlaycolour' => 'overlay-colour',
             'overlayopacity' => 'overlay-opacity',
-            'shadowboxtitle' => 'shadowbox-title-option'
+            'shadowboxtitle' => 'shadowbox-title-option',
+            'ajaximages' => 'ajaximages',
         ]);
 
         $this->setDefaultValues([
@@ -76,7 +77,8 @@ class Params
             'titletextweight' => 'bold',
             'overlaycolour' => '#000',
             'overlayopacity' => '0.85',
-            'shadowboxtitle' => 0
+            'shadowboxtitle' => 0,
+            'ajaximages' => 0,
         ]);
 
         if ($galleryTagString !== '') {

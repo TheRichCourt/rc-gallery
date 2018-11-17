@@ -8,28 +8,40 @@ jQuery(window).resize(function() {
 });
 
 function lazyLoadImages() {
+    var interval = 5000;
+    var currentDelay = 0;
+
     jQuery(".rc_galleryimg_container").each(function () {
-        if (jQuery(this).attr("data-thumbs-exist") == "true") {
-            populateThumbnail(this);
+        var $imgContainer = this;
+
+        if (jQuery($imgContainer).attr("data-thumbs-exist") == "true") {
+            populateThumbnail($imgContainer);
             return;
         }
 
-        var imgUrl = jQuery(this).parent().attr('href');
-        var xhttp = new XMLHttpRequest();
-        var startHeight = jQuery(this).parent().parent().attr("data-start-height");
-        var rootUrl = jQuery(this).parent().parent().attr("data-root-url");
-        var requestUrl = rootUrl + '?option=com_ajax&group=content&plugin=rc_gallery&format=json&img=' + imgUrl + '&start_height=' + startHeight;
-        var $container = this;
+        setTimeout(function () {
+            var imgUrl = jQuery($imgContainer).parent().attr('href');
+            var xhr = new XMLHttpRequest();
+            var startHeight = jQuery($imgContainer).parent().parent().attr("data-start-height");
+            var rootUrl = jQuery($imgContainer).parent().parent().attr("data-root-url");
+            var requestUrl = rootUrl + '?option=com_ajax';
+            var postData = 'group=content&plugin=MakeThumbs&format=json&tmpl=component&img=' + imgUrl + '&start_height=' + startHeight;
 
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var response = JSON.parse(this.responseText);
-                populateThumbnail($container);
-            }
-        };
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    // var response = JSON.parse(this.responseText);
+                    populateThumbnail($imgContainer);
+                }
+            };
 
-        xhttp.open("GET", requestUrl, true);
-        xhttp.send();
+            xhr.open("POST", requestUrl, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhr.send(postData);
+
+        }, currentDelay);
+
+        currentDelay += interval;
     });
 }
 
