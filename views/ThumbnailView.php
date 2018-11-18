@@ -67,16 +67,15 @@ class ThumbnailView
     public function build()
     {
         $linkElem = $this->buildLink();
-
         $divElem = $this->getDom()->createElement('div');
         $divElem->setAttribute('class', 'rc_galleryimg_container');
         $divElem->setAttribute('data-thumbsexist', $this->getThumbsExist() ? 'true' : 'false');
-        $divElem->setAttribute('id', sprintf(
+        $divElem->setAttribute('id', str_replace(' ', '_', sprintf(
             'rc_%s_%d_%d',
             $this->getTitle(),
             $this->getGalleryNumber(),
             $this->getImageNumber()
-        ));
+        )));
 
         $pictureElem = $this->buildPicture();
 
