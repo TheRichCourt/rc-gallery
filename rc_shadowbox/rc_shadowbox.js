@@ -7,15 +7,14 @@ jQuery(document).ready(function () {
     rcShadowbox.setup();
 });
 
-// @todo:
-// //maintain compatibility with old versions of the social addon:
+//maintain compatibility with old versions of the social addon:
 // function rc_sb_insertButton(buttonTitle, buttonClass, buttonFunction, buttonLinkURL) {
 //     console.log("Social!");
 //     rcShadowbox.insertButton(buttonTitle, buttonClass, buttonFunction, buttonLinkURL);
 // }
 
 // function rc_sb_getAnchorLinkForCurrentSlide() {
-//     return jQuery(rc_sb_slideRootElements[rc_sb_currentSlideID]).children().first().attr('id');
+//     return jQuery("#" + rcShadowbox.getCurrentSlide().id);
 // }
 
 var RCShadowbox = function () {
@@ -35,20 +34,31 @@ var RCShadowbox = function () {
         initialBodyOverflow,
         open = false,
         preventKeyboard = false,
-        showTitle = rc_sb_params["title_option"] == 0 || rc_sb_params["title_option"] == 2;
+        showTitle = rc_sb_params["title_option"] == 0 || rc_sb_params["title_option"] == 2,
+        socialAddon;
 
     return {
         setup: function () {
             this.createShadowbox();
             this.setupControls();
             this.setupSlides();
+            this.setupSocialAddon();
 
             var hashLink = window.location.hash;
 
-            if (hashLink.substring(0,4) == "#rc_") {
+            if (hashLink.substring(0, 4) === "#rc_") {
                 var hashLinkedAnchor = document.getElementById(hashLink.substr(1));
-
                 hashLinkedAnchor.click();
+            }
+        },
+
+        setupSocialAddon: function () {
+            // Confirm the existence of the social addon
+            if (typeof insertButton === "function") {
+                this.insertSocialButton(rc_gallery_social_addon_button1);
+                this.insertSocialButton(rc_gallery_social_addon_button2);
+                this.insertSocialButton(rc_gallery_social_addon_button3);
+                this.insertSocialButton(rc_gallery_social_addon_button4);
             }
         },
 
@@ -202,6 +212,92 @@ var RCShadowbox = function () {
             });
         },
 
+        insertSocialButton: function (number) {
+            var rcShadowbox = this,
+                socialNetworkName,
+                baseShareLink,
+                buttonClass;
+
+            switch (number) {
+            case 1:
+                socialNetworkName = "Facebook";
+                baseShareLink = rc_fb_shareURL;
+                buttonClass = "rc_fbshareaddon_button";
+                break;
+            case 2:
+                socialNetworkName = "Twitter";
+                baseShareLink = rc_twitter_shareURL;
+                buttonClass = "rc_twittershareaddon_button";
+                break;
+            case 3:
+                socialNetworkName = "Google+";
+                baseShareLink = rc_gp_shareURL;
+                buttonClass = "rc_gpshareaddon_button";
+                break;
+            case 4:
+                socialNetworkName = "Tumblr";
+                baseShareLink = rc_tumblr_shareURL;
+                buttonClass = "rc_tumblrshareaddon_button";
+                break;
+            }
+
+            this.insertButton(
+                "Share on " + socialNetworkName,
+                [buttonClass, "rc_sb_button", "rc_sb_addonbutton"],
+                function (event) {
+                    event.preventDefault();
+                    var top = (window.innerHeight - 600) / 2;
+                    var left = (window.innerWidth - 600) / 2;
+                    var newWindowSettings = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=" + top + ",left=" + left;
+                    var hashLinkToCurrentSlide = "#" + rcShadowbox.getCurrentSlide().shadowboxAnchor.id;
+                    var fullUrl = baseShareLink + rc_gallery_social_addon_pageURL + "%23" + hashLinkToCurrentSlide;
+
+                    window.open(
+                        fullUrl,
+                        "",
+                        newWindowSettings
+                    );
+                },
+                "" // baseShareLink + rc_gallery_social_addon_pageURL + "%23" + "#" + rcShadowbox.getCurrentSlide().shadowboxAnchor.id
+            );
+        },
+
+
+            // switch (number) {
+            // case 1: // facebook
+            //     this.insertButton('Share on Facebook', 'rc_fbshareaddon_button', function() {
+            //         window.open(
+            //             rc_fb_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href,
+            //             '',
+            //             'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
+
+            //         return false;
+            //     }, rc_fb_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
+            //     break;
+            // case 2: // Twitter
+            //     this.insertButton('Share on Twitter', 'rc_twittershareaddon_button', function() {
+            //         window.open(rc_twitter_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
+            //         return false;
+            //     }, rc_twitter_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
+            //     break;
+            // case 3: // Google+
+            //     this.insertButton('Share on Google+', 'rc_gpshareaddon_button', function() {
+            //         window.open(rc_gp_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
+            //         return false;
+            //     }, rc_gp_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
+            //     break;
+            // case 4: // Tumblr
+            //     this.insertButton('Share on Tumblr', 'rc_tumblrshareaddon_button', function() {
+            //         window.open(rc_tumblr_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
+            //         return false;
+            //     }, rc_tumblr_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
+            //     break;
+            // default:
+            //     // do nothing
+            //     break;
+            // }
+
+
         openSlide: function (slide) {
             currentSlideId = slide.id;
 
@@ -273,6 +369,10 @@ var RCShadowbox = function () {
             this.openSlide(this.getPrevSlide());
         },
 
+        getCurrentSlide: function () {
+            return slides[currentSlideId];
+        },
+
         getNextSlide: function () {
             var id = currentSlideId >= slides.length - 1
                 ? 0
@@ -317,15 +417,23 @@ var RCShadowbox = function () {
 
         insertButton: function (title, classes, callback, href) {
             var newButton = document.createElement("div");
-            newButton.title = title;
-            newButton.classList.add(classes);
+            var newButtonAnchor = document.createElement("a");
+
+            newButtonAnchor.title = title;
+            newButtonAnchor.href = href;
+
+            classes.forEach(function (buttonClass) {
+                newButton.classList.add(buttonClass);
+            });
 
             if (href) {
                 newButton.href = href;
             }
 
-            toolbar.addChild(newButton);
-            newButton.addEventListener("click", callback);
+            newButtonAnchor.appendChild(newButton);
+
+            toolbar.appendChild(newButtonAnchor);
+            newButton.addEventListener("click", callback(event));
         },
 
         getAnchorLinkForCurrentSlide: function () {

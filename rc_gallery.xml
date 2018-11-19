@@ -152,11 +152,6 @@
 						<option value="1">Use another shadowbox</option>
 						<option value="2">No shadowbox</option>
 				</field>
-				<field name="shadowboxsize" type="range" min="0" max="100" step="5" size="3"
-					default="100"
-					description="Size of image when opened, as a percentage of screen size. Note that this setting only aplies with the built-in shadowbox."
-					label="Image size in shadowbox (0 - 100%)"
-				/>
 			</fieldset>
 			<fieldset name="appearance" label="Appearance">
 				<field type="note" label="Gallery Thumbnails"

@@ -199,7 +199,6 @@ Class GalleryView
 	{
 		$shadowboxParams = [
 			'image_folder' => JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/',
-			'expand_size' => $this->getRCParams()->shadowboxsize / 100,
 			'title_option' => $this->getRCParams()->shadowboxtitle
 		];
 
