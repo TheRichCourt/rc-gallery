@@ -16,6 +16,7 @@
 #rc_sb_overlay.rc_hidden {
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition:
         opacity 0.28s ease,
         visibility 0s ease 0.28s

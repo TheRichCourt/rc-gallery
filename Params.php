@@ -53,6 +53,7 @@ class Params
             'shadowboxtitle' => 'shadowbox-title-option',
             'ajaximages' => 'ajaximages',
             'layout' => 'layout',
+            'hidescrollbar' => 'hidescrollbar',
         ]);
 
         $this->setDefaultValues([
@@ -79,6 +80,7 @@ class Params
             'shadowboxtitle' => 0,
             'ajaximages' => 0,
             'layout' => null,
+            'hidescrollbar' => 0,
         ]);
 
         if ($galleryTagString !== '') {

@@ -1,21 +1,11 @@
 var rcShadowbox;
 
-jQuery(document).ready(function () {
+window.addEventListener("load", function () {
     "use strict";
 
     rcShadowbox = new RCShadowbox();
     rcShadowbox.setup();
 });
-
-//maintain compatibility with old versions of the social addon:
-// function rc_sb_insertButton(buttonTitle, buttonClass, buttonFunction, buttonLinkURL) {
-//     console.log("Social!");
-//     rcShadowbox.insertButton(buttonTitle, buttonClass, buttonFunction, buttonLinkURL);
-// }
-
-// function rc_sb_getAnchorLinkForCurrentSlide() {
-//     return jQuery("#" + rcShadowbox.getCurrentSlide().id);
-// }
 
 var RCShadowbox = function () {
     "use strict";
@@ -35,6 +25,7 @@ var RCShadowbox = function () {
         open = false,
         preventKeyboard = false,
         showTitle = rc_sb_params["title_option"] == 0 || rc_sb_params["title_option"] == 2,
+        hideScrollbar = rc_sb_params["hide_scroll_bar"],
         socialAddon;
 
     return {
@@ -42,7 +33,6 @@ var RCShadowbox = function () {
             this.createShadowbox();
             this.setupControls();
             this.setupSlides();
-            this.setupSocialAddon();
 
             var hashLink = window.location.hash;
 
@@ -52,7 +42,7 @@ var RCShadowbox = function () {
             }
         },
 
-        setupSocialAddon: function () {
+        setupSocialAddonButtons: function () {
             // Confirm the existence of the social addon
             if (typeof insertButton === "function") {
                 this.insertSocialButton(rc_gallery_social_addon_button1);
@@ -60,6 +50,17 @@ var RCShadowbox = function () {
                 this.insertSocialButton(rc_gallery_social_addon_button3);
                 this.insertSocialButton(rc_gallery_social_addon_button4);
             }
+        },
+
+        /**
+         * Remove all buttons, except the close button
+         */
+        removeButtons: function () {
+            var buttonElems = toolbar.querySelectorAll("a");
+
+            [].forEach.call(buttonElems, function (buttonElem) {
+                buttonElem.parentNode.removeChild(buttonElem);
+            });
         },
 
         createShadowbox: function () {
@@ -181,10 +182,11 @@ var RCShadowbox = function () {
             // swiping
             // @todo: touch controls - remove jQuery mobile dependency
             // https://stackoverflow.com/questions/2264072/detect-a-finger-swipe-through-javascript-on-the-iphone-and-android
-            jQuery('#rc_sb_container').on('swipeleft', function(e) {
+            jQuery('#rc_sb_container').on('swipeleft', function() {
                 rcShadowbox.nextSlide();
             });
-            jQuery('#rc_sb_container').on('swiperight', function(e) {
+
+            jQuery('#rc_sb_container').on('swiperight', function() {
                 rcShadowbox.prevSlide();
             });
 
@@ -213,6 +215,10 @@ var RCShadowbox = function () {
         },
 
         insertSocialButton: function (number) {
+            if (!number) {
+                return;
+            }
+
             var rcShadowbox = this,
                 socialNetworkName,
                 baseShareLink,
@@ -241,62 +247,27 @@ var RCShadowbox = function () {
                 break;
             }
 
-            this.insertButton(
+            var newButton = this.insertButton(
                 "Share on " + socialNetworkName,
                 [buttonClass, "rc_sb_button", "rc_sb_addonbutton"],
-                function (event) {
-                    event.preventDefault();
-                    var top = (window.innerHeight - 600) / 2;
-                    var left = (window.innerWidth - 600) / 2;
-                    var newWindowSettings = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=" + top + ",left=" + left;
-                    var hashLinkToCurrentSlide = "#" + rcShadowbox.getCurrentSlide().shadowboxAnchor.id;
-                    var fullUrl = baseShareLink + rc_gallery_social_addon_pageURL + "%23" + hashLinkToCurrentSlide;
-
-                    window.open(
-                        fullUrl,
-                        "",
-                        newWindowSettings
-                    );
-                },
-                "" // baseShareLink + rc_gallery_social_addon_pageURL + "%23" + "#" + rcShadowbox.getCurrentSlide().shadowboxAnchor.id
+                "#"
             );
+
+            newButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                var top = (window.innerHeight - 600) / 2;
+                var left = (window.innerWidth - 600) / 2;
+                var newWindowSettings = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=" + top + ",left=" + left;
+                var hashLinkToCurrentSlide = rcShadowbox.getCurrentSlide().shadowboxAnchor.childNodes[0].id;
+                var fullUrl = baseShareLink + rc_gallery_social_addon_pageURL + "%23" + hashLinkToCurrentSlide;
+
+                window.open(
+                    fullUrl,
+                    "",
+                    newWindowSettings
+                );
+            });
         },
-
-
-            // switch (number) {
-            // case 1: // facebook
-            //     this.insertButton('Share on Facebook', 'rc_fbshareaddon_button', function() {
-            //         window.open(
-            //             rc_fb_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href,
-            //             '',
-            //             'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
-
-            //         return false;
-            //     }, rc_fb_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
-            //     break;
-            // case 2: // Twitter
-            //     this.insertButton('Share on Twitter', 'rc_twittershareaddon_button', function() {
-            //         window.open(rc_twitter_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
-            //         return false;
-            //     }, rc_twitter_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
-            //     break;
-            // case 3: // Google+
-            //     this.insertButton('Share on Google+', 'rc_gpshareaddon_button', function() {
-            //         window.open(rc_gp_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
-            //         return false;
-            //     }, rc_gp_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
-            //     break;
-            // case 4: // Tumblr
-            //     this.insertButton('Share on Tumblr', 'rc_tumblrshareaddon_button', function() {
-            //         window.open(rc_tumblr_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=' + (window.innerHeight - 600) / 2 + ',left=' + (window.innerWidth - 600) / 2);
-            //         return false;
-            //     }, rc_tumblr_shareURL + rc_gallery_social_addon_pageURL + '%23' + rcShadowbox.getCurrentSlide().shadowboxAnchor.href);
-            //     break;
-            // default:
-            //     // do nothing
-            //     break;
-            // }
-
 
         openSlide: function (slide) {
             currentSlideId = slide.id;
@@ -304,6 +275,9 @@ var RCShadowbox = function () {
             if (!open) {
                 this.open();
             }
+
+            this.removeButtons();
+            this.setupSocialAddonButtons();
 
             if (showTitle) {
                 titleElem.innerHTML = slide.title;
@@ -320,16 +294,20 @@ var RCShadowbox = function () {
                 var image = new Image();
 
                 image.onload = function () {
-                   slide.slideElem.alt = slide.alt;
-                   slide.slideElem.src = slide.src;
-                   slide.slideElem.classList.remove("rc_sb_hidden_centre");
-                   loadingIcon.classList.add("rc_hidden");
+                    slide.slideElem.alt = slide.alt;
+                    slide.slideElem.src = slide.src;
+                    // force computing style, to ensure transitions always run on class change
+                    void window.getComputedStyle(slide.slideElem).getPropertyValue("transition");
+                    slide.slideElem.classList.remove("rc_sb_hidden_centre");
+                    loadingIcon.classList.add("rc_hidden");
                 };
 
                 image.src = slide.src;
             } else {
-                loadingIcon.classList.add("rc_hidden");
+                // force computing style, to ensure transitions always run on class change
+                void window.getComputedStyle(slide.slideElem).getPropertyValue("transition");
                 slide.slideElem.classList.remove("rc_sb_hidden_centre");
+                loadingIcon.classList.add("rc_hidden");
             }
 
             // deal with previous and next slides
@@ -395,9 +373,11 @@ var RCShadowbox = function () {
             overlay.classList.add("rc_hidden");
             slides[currentSlideId].slideElem.classList.add("rc_sb_hidden_centre");
 
-            setTimeout(function () {
-                body.style.overflow = initialBodyOverflow;
-            }, 280);
+            if (hideScrollbar === "1") {
+                setTimeout(function () {
+                    body.style.overflow = initialBodyOverflow;
+                }, 280);
+            }
         },
 
         open: function () {
@@ -411,11 +391,13 @@ var RCShadowbox = function () {
                 slide.slideElem.classList.remove("rc_sb_hidden_right");
             });
 
-            initialBodyOverflow = body.style.overflow;
-            body.style.overflow = "hidden";
+            if (hideScrollbar === "1") {
+                initialBodyOverflow = body.style.overflow;
+                body.style.overflow = "hidden";
+            }
         },
 
-        insertButton: function (title, classes, callback, href) {
+        insertButton: function (title, classes, href) {
             var newButton = document.createElement("div");
             var newButtonAnchor = document.createElement("a");
 
@@ -433,7 +415,8 @@ var RCShadowbox = function () {
             newButtonAnchor.appendChild(newButton);
 
             toolbar.appendChild(newButtonAnchor);
-            newButton.addEventListener("click", callback(event));
+
+            return newButton;
         },
 
         getAnchorLinkForCurrentSlide: function () {

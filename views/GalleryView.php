@@ -98,14 +98,14 @@ Class GalleryView
 	{
 		JHtml::_('jquery.framework');
 
-		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.js');
+		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.min.js');
 
 		// @todo: should check whether the files exist, in case the setting's changed and then layouts is uninstalled
 		if ($this->getRCParams()->layout === null) {
 			$jsLayoutPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery_layout.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery_layout.js');
 			$cssPath = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery_layout.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery_layout.css');
 		} else {
-			$jsLayoutPath = JURI::root().'media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.js?'.filemtime(JPATH_ROOT.'/media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.js');
+			$jsLayoutPath = JURI::root().'media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.min.js?'.filemtime(JPATH_ROOT.'/media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.min.js');
 			$cssPath = JURI::root().'media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.css?'.filemtime(JPATH_ROOT.'/media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.css');
 		}
 
@@ -199,7 +199,8 @@ Class GalleryView
 	{
 		$shadowboxParams = [
 			'image_folder' => JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/',
-			'title_option' => $this->getRCParams()->shadowboxtitle
+			'title_option' => $this->getRCParams()->shadowboxtitle,
+			'hide_scroll_bar' => $this->getRCParams()->hidescrollbar,
 		];
 
 		$this->getDoc()->addScriptDeclaration(
@@ -207,7 +208,7 @@ Class GalleryView
 		);
 
 		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js'));
-		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js'));
+		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.min.js'));
 		$this->getDoc()->addStyleSheet(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css'));
 	}
 

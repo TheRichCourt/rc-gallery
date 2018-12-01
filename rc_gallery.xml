@@ -152,6 +152,13 @@
 						<option value="1">Use another shadowbox</option>
 						<option value="2">No shadowbox</option>
 				</field>
+				<field name="hidescrollbar" type="radio"
+					default="0"
+					description="You may want to prevent scrolling of the page while the shadowbox is open. This hides the scrollbar, which in some browsers results in content becoming slightly wider, and appearing to shift left and right."
+					label="Prevent scrolling">
+						<option value="0">Allow scrolling</option>
+						<option value="1">Prevent scrolling (hides the scrollbar, which may cause content to shift)</option>
+				</field>
 			</fieldset>
 			<fieldset name="appearance" label="Appearance">
 				<field type="note" label="Gallery Thumbnails"
