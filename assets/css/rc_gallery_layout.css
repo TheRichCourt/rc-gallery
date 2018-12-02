@@ -9,7 +9,7 @@
 }
 .rc_gallery * {
 	/* mitigate interference from templates */
-	margin:0; padding:0; border:0; width:auto; height:auto; display:initial; position:initial; box-shadow:none; border-radius:0;
+	margin:0; padding:0; border:0; width:auto; height:auto; display:initial; position:initial; box-shadow:none;
 }
 .rc_gallery a {
 	margin: 0;
@@ -41,7 +41,6 @@
 	left:0;
 	bottom:0;
 	background:transparent;
-	opacity:0;
 	text-shadow:0 0 10px #000;
 	transition:opacity 0.3s ease;
 	box-sizing:border-box;

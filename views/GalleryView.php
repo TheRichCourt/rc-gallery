@@ -9,9 +9,6 @@ Class GalleryView
 	/** @var string */
 	private $html;
 
-	/** @var array */
-	private $galleryParams;
-
 	/** @var stdClass */
 	private $rcParams;
 
@@ -35,10 +32,15 @@ Class GalleryView
 	function __construct($galleryNo, stdClass $rcParams, $doc)
 	{
 		$this->setRcParams($rcParams);
+
 		$this->setDoc($doc);
 		$this->galleryNumber = $galleryNo;
-		$this->galleryParams = ' data-rooturl="' . JURI::root() . '" data-startheight="' . $this->getRCParams()->minrowheight . '" data-marginsize="' . $this->getRCParams()->imagemargin . '"';
-		$this->html = '<div class="rc_gallery" '. $this->galleryParams .'>';
+		$galleryParams = ' data-rooturl="' . JURI::root() . '" data-startheight="' . $this->getRCParams()->minrowheight . '" data-marginsize="' . $this->getRCParams()->imagemargin . '"';
+		$galleryClass = strtolower($this->getRcParams()->layout);
+
+		$this->html = '<div id="rc_gallery_' . $this->getGalleryNumber() . '" class="rc_gallery rc_' . $galleryClass . '" '. $galleryParams .'>';
+
+		echo "";
 	}
 
 	/**
@@ -128,12 +130,12 @@ Class GalleryView
 		}
 
 		$css = '
-			.rc_gallery .rc_galleryimg {
+			#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg {
 				background-color: '. $this->getRcParams()->thumbbgcolour .';
 				border-radius: ' . $this->getRcParams()->thumbnailradius . 'px;
 			}
 
-			.rc_gallery div.rc_galleryimg_container span {
+			#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container span {
 				color: ' . $this->getRcParams()->titletextcolour . ';
 				font-size: ' . $this->getRcParams()->titletextsize . 'px;
 				line-height: ' . ($this->getRcParams()->titletextsize + 6) . 'px;
@@ -151,13 +153,13 @@ Class GalleryView
 
 		if ($filterOption == 1) { // sepia
 			$css .= '
-				.rc_gallery .rc_galleryimg {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg {
 					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
 					filter: sepia(80%);
 					-webkit-filter: sepia(80%);
 				}
 
-				.rc_gallery div.rc_galleryimg_container:hover .rc_galleryimg {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container:hover .rc_galleryimg {
 					filter: sepia(0%);
 				}
 			';
@@ -165,15 +167,27 @@ Class GalleryView
 
 		if ($filterOption == 2) { // black and white
 			$css .= '
-				.rc_gallery .rc_galleryimg {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg {
 					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
 					filter: grayscale(100%);
 					-webkit-filter: grayscale(100%);
 				}
 
-				.rc_gallery .rc_galleryimg:hover {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg:hover {
 					filter: grayscale(0%);
 					-webkit-filter: grayscale(0%);
+				}
+			';
+		}
+
+		if ($this->getRcParams()->imageTitle == 1) {
+			$css .= '
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container span {
+					opacity: 0;
+				}
+
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container:hover span {
+					opacity: 1;
 				}
 			';
 		}

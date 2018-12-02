@@ -178,7 +178,7 @@ class ThumbnailView
      */
     private function buildTitle()
     {
-        $elem = $this->getDom()->createElement('span', $this->getTitle());
+        $elem = $this->getDom()->createElement('span', htmlspecialchars($this->getTitle()));
 
         $opacity = $this->getRcParams()->imageTitle === 2
             ? 'opacity:1 !important;'
