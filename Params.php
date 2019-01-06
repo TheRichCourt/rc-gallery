@@ -36,7 +36,6 @@ class Params
             'imageTitle' => 'image-title-option',
             'uselabelsfile' => 'use-labels-file',
             'shadowboxoption' => 'use-shadowbox',
-            'shadowboxsize' => 'shadowbox-size',
             'usetitleasalt' => 'use-title-as-alt',
             'sorttype' => 'sort-type',
             'sortdesc' => 'sort-desc',
@@ -53,6 +52,8 @@ class Params
             'overlayopacity' => 'overlay-opacity',
             'shadowboxtitle' => 'shadowbox-title-option',
             'ajaximages' => 'ajaximages',
+            'layout' => 'layout',
+            'hidescrollbar' => 'hidescrollbar',
         ]);
 
         $this->setDefaultValues([
@@ -62,7 +63,6 @@ class Params
             'imageTitle' => 0,
             'uselabelsfile' => 0,
             'shadowboxoption' => 0,
-            'shadowboxsize' => 100,
             'usetitleasalt' => 1,
             'sorttype' => 0,
             'sortdesc' => false,
@@ -79,6 +79,8 @@ class Params
             'overlayopacity' => '0.85',
             'shadowboxtitle' => 0,
             'ajaximages' => 0,
+            'layout' => null,
+            'hidescrollbar' => 0,
         ]);
 
         if ($galleryTagString !== '') {

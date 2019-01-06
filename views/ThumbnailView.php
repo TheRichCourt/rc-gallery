@@ -67,16 +67,15 @@ class ThumbnailView
     public function build()
     {
         $linkElem = $this->buildLink();
-
         $divElem = $this->getDom()->createElement('div');
         $divElem->setAttribute('class', 'rc_galleryimg_container');
-        $divElem->setAttribute('data-thumbs-exist', $this->getThumbsExist() ? 'true' : 'false');
-        $divElem->setAttribute('id', sprintf(
+        $divElem->setAttribute('data-thumbsexist', $this->getThumbsExist() ? 'true' : 'false');
+        $divElem->setAttribute('id', str_replace(' ', '_', sprintf(
             'rc_%s_%d_%d',
             $this->getTitle(),
             $this->getGalleryNumber(),
             $this->getImageNumber()
-        ));
+        )));
 
         $pictureElem = $this->buildPicture();
 
@@ -104,7 +103,7 @@ class ThumbnailView
         $elem = $this->getDom()->createElement('a');
         $elem->setAttribute('href', $this->getTargetUrl());
         $elem->setAttribute('rel', 'shadowbox[rc_gallery]');
-        $elem->setAttribute('data-image-title', $this->getTitle());
+        $elem->setAttribute('data-imageTitle', $this->getTitle());
 
         return $elem;
     }
@@ -179,7 +178,7 @@ class ThumbnailView
      */
     private function buildTitle()
     {
-        $elem = $this->getDom()->createElement('span', $this->getTitle());
+        $elem = $this->getDom()->createElement('span', htmlspecialchars($this->getTitle()));
 
         $opacity = $this->getRcParams()->imageTitle === 2
             ? 'opacity:1 !important;'

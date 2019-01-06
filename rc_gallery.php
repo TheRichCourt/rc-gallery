@@ -140,7 +140,7 @@ class PlgContentRC_gallery extends JPlugin
 				$galleryContent = $this->buildGallery($tagContent, $doc);
 
 				//do the replace
-				$article->text = preg_replace("#{".self::GALLERY_TAG.".*?}".$tagContent."{/".self::GALLERY_TAG."}#s", $galleryContent, $article->text);
+				$article->text = str_replace($tag, $galleryContent, $article->text);
 			}
 		}
 	}
@@ -186,7 +186,7 @@ class PlgContentRC_gallery extends JPlugin
 	 *
 	 * @param string $tagContent
 	 * @param HtmlDocument $doc
-	 * @return void
+	 * @return string
 	 */
 	function buildGallery($tagContent, HtmlDocument $doc)
 	{
@@ -403,7 +403,7 @@ class PlgContentRC_gallery extends JPlugin
 			return 0;
 		}
 
-		switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
+		switch (strtolower(pathinfo($path, PATHINFO_EXTENSION))) {
 			case "jpeg":
 			case "jpg":
 				// Okay, I don't like suppressing warnings, but there are bugs in some PHP versions, and so I don't have much choice

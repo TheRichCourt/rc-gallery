@@ -1,1 +1,426 @@
-var rc_sb_currentSlideID,rc_sb_currentPosition,rc_sb_shadowboxHTML,rc_sb_slideURLs=new Array,rc_sb_slideIDs=new Array,rc_sb_slideRootElements=new Array,rc_sb_slideTitles=new Array,rc_sb_keyPressed=!1,rc_sb_buttonID=1,rc_sb_toolbarAddonButtonsHTML="",rc_sb_addonFunctions=new Array,rc_sb_runAfter=!0;function rc_sb_insertButton(e,r,_,s){var i="";void 0!==s&&(i+='<a href="'+s+'" title="'+e+'">'),i+='<div title="'+e+'" class="rc_sb_button rc_sb_addonbutton '+r+'" id="'+("rc_sb_addonbutton_"+rc_sb_buttonID)+'"></div>',void 0!==s&&(i+="</a>"),rc_sb_toolbarAddonButtonsHTML+=i,rc_sb_addonFunctions[rc_sb_buttonID]=function(){_()},rc_sb_buttonID++}function rc_sb_preload(e,r){rc_sb_runAfter=!0,jQuery("<img/>").load(function(){rc_sb_runAfter&&r()}).attr("src",e)}function rc_sb_setupSlides(){jQuery("a[rel^='shadowbox']").each(function(){rc_sb_slideURLs[rc_sb_slideURLs.length]=jQuery(this).attr("href"),rc_sb_slideIDs[rc_sb_slideIDs.length]="rc_sb_slide_"+rc_sb_slideIDs.length,rc_sb_slideRootElements[rc_sb_slideRootElements.length]=this,rc_sb_slideTitles[rc_sb_slideTitles.length]=this.getAttribute("data-image-title")}),jQuery("a[rel^='shadowbox']").on("click",function(e){e.preventDefault(),rc_sb_createShadowbox(),rc_sb_openSlide(rc_sb_slideURLs.indexOf(jQuery(this).attr("href")),!1,280)})}function rc_sb_openSlide(e,r,_){rc_sb_preload(rc_sb_slideURLs[e],function(){rc_sb_giveFocus(e,_),rc_sb_currentSlideID=e,rc_sb_updateNavigationButtons(e),jQuery("#"+rc_sb_slideIDs[e]).attr("src",rc_sb_slideURLs[e])});var s='<img class="rc_sb_image" id="'+rc_sb_slideIDs[e]+'" />';0==jQuery(".rc_sb_image").length?jQuery("#rc_sb_container").append(s):0==jQuery("#"+rc_sb_slideIDs[e]).length&&(r?jQuery(s).insertAfter("#"+rc_sb_slideIDs[rc_sb_currentSlideID]):jQuery(s).insertBefore("#"+rc_sb_slideIDs[rc_sb_currentSlideID])),0!=rc_sb_params.title_option&&2!=rc_sb_params.title_option||rc_sb_showTitle(e),rc_sb_putSlideInStartingPosition(e,_)}function rc_sb_showTitle(e){jQuery("#rc_sb_title").remove(),html='<div id="rc_sb_title">'+rc_sb_slideTitles[e]+"</div>",jQuery("#rc_sb_container").append(html)}function rc_sb_initialiseShadowboxMarkup(){rc_sb_shadowboxHTML='<div id="rc_sb_overlay"></div><div id="rc_sb_container"><div id="rc_sb_toolbar"><div id="rc_sb_close" class="rc_sb_button"></div></div>',rc_sb_shadowboxHTML+='<div id="rc_sb_prev" class="rc_sb_button"></div><div id="rc_sb_next" class="rc_sb_button"></div></div>'}function rc_sb_createShadowbox(){0==jQuery("#rc_sb_overlay").length&&(jQuery(rc_sb_shadowboxHTML).hide().prependTo("body").fadeIn(280),jQuery("#rc_sb_toolbar").append(rc_sb_toolbarAddonButtonsHTML),rc_sb_initialiseControls())}function rc_sb_updateNavigationButtons(e){0==e?jQuery("#rc_sb_prev").fadeOut(140):jQuery("#rc_sb_prev").fadeIn(140),e==rc_sb_slideIDs.length-1?jQuery("#rc_sb_next").fadeOut(140):jQuery("#rc_sb_next").fadeIn(140)}function rc_sb_closeShadowbox(){jQuery("#rc_sb_overlay").fadeOut(280,function(){jQuery(this).remove()}),rc_sb_placeSlideOverSourceElement(rc_sb_currentSlideID,280,0),jQuery(".rc_sb_button").remove(),setTimeout(function(){jQuery("#rc_sb_container").remove()},280),rc_sb_runAfter=!1}function rc_sb_putSlideInStartingPosition(e,r){1==jQuery(".rc_sb_image").length?rc_sb_placeSlideOverSourceElement(e,0,0):rc_sb_placeSlideInCenterAtBack(e,0,0)}function rc_sb_giveFocus(e,r){rc_sb_expandSlideToRequiredSize(e,280,r)}function rc_sb_loseFocus(e,r){switch(r){case"left":jQuery("#"+rc_sb_slideIDs[e]).animate({left:"-50%",zIndex:"99996"},280);break;case"right":default:jQuery("#"+rc_sb_slideIDs[e]).animate({left:"150%",zIndex:"99996"},280)}}function rc_sb_next(){rc_sb_currentSlideID<rc_sb_slideIDs.length-1&&(rc_sb_loseFocus(rc_sb_currentSlideID,"left"),rc_sb_openSlide(rc_sb_currentSlideID+1,!0))}function rc_sb_prev(){rc_sb_currentSlideID>0&&(rc_sb_loseFocus(rc_sb_currentSlideID,"right"),rc_sb_openSlide(rc_sb_currentSlideID-1,!1))}function rc_sb_expandSlideToRequiredSize(e,r,_){rc_sb_currentPosition="FULL_SCREEN";var s=rc_sb_getRatio(jQuery(rc_sb_slideRootElements[e]).children().first()),i=rc_sb_getRatio(jQuery("#rc_sb_container")),t=jQuery("#rc_sb_container").width()*rc_sb_params.expand_size,c=jQuery("#rc_sb_container").height()*rc_sb_params.expand_size;s>=i?c=t/s:t=c*s,jQuery("#"+rc_sb_slideIDs[e]).delay(_).animate({marginLeft:-t/2+"px",left:"50%",top:jQuery("#rc_sb_container").height()/2+"px",width:t+"px",height:c+"px",zIndex:"99997"},r,"linear")}function rc_sb_placeSlideOverSourceElement(e,r,_){rc_sb_currentPosition="OVERLAID";var s=jQuery(rc_sb_slideRootElements[e]).children().first(),i=jQuery(s).width(),t=jQuery(s).height(),c=jQuery(s).position().top+t/2-jQuery(window).scrollTop(),n=jQuery(s).position().left-jQuery(window).scrollLeft();jQuery("#"+rc_sb_slideIDs[e]).animate({marginLeft:"0",top:c+"px",left:n+"px",width:i+"px",height:t+"px",zIndex:"99996"},r)}function rc_sb_placeSlideInCenterAtBack(e,r){rc_sb_currentPosition="CENTER",jQuery("#"+rc_sb_slideIDs[e]).animate({marginLeft:"0",top:jQuery("#rc_sb_container").height()/2-35+"px",left:jQuery("#rc_sb_container").width()/2-35+"px",width:"70px",height:"70px",zIndex:"99996"},r)}function rc_sb_getRatio(e){return initWidth=jQuery(e).width(),initHeight=jQuery(e).height(),initWidth/initHeight}function rc_sb_initialiseControls(){jQuery(".rc_sb_addonbutton").on("click",function(){var e=jQuery(this).attr("id").replace("rc_sb_addonbutton_","");rc_sb_addonFunctions[e]()}),jQuery("#rc_sb_prev").on("click",function(){rc_sb_prev()}),jQuery("#rc_sb_next").on("click",function(){rc_sb_next()}),jQuery("#rc_sb_close").on("click",function(){rc_sb_closeShadowbox()}),jQuery("#rc_sb_container").on("click",function(e){if(e.target!=this)return!1;rc_sb_closeShadowbox()}),jQuery("#rc_sb_container").on("swipeleft",function(e){rc_sb_next()}),jQuery("#rc_sb_container").on("swiperight",function(e){rc_sb_prev()}),jQuery(document).on("keydown",function(e){if(!rc_sb_keyPressed)switch(e.which){case 37:rc_sb_prev();break;case 39:rc_sb_next();break;case 27:case 8:rc_sb_closeShadowbox()}rc_sb_keyPressed=!0}),jQuery(document).on("keyup",function(){rc_sb_keyPressed=!1})}function rc_sb_openAnchorLinkedSlide(){"#rc_"==window.location.hash.substring(0,4)&&jQuery(window.location.hash).parent().trigger("click")}function rc_sb_getAnchorLinkForCurrentSlide(){return jQuery(rc_sb_slideRootElements[rc_sb_currentSlideID]).children().first().attr("id")}jQuery(function(){rc_sb_initialiseShadowboxMarkup(),rc_sb_setupSlides(),rc_sb_preload(rc_sb_params.image_folder+"loading.gif",function(){}),rc_sb_preload(rc_sb_params.image_folder+"close.png",function(){}),rc_sb_preload(rc_sb_params.image_folder+"prev.png",function(){}),rc_sb_preload(rc_sb_params.image_folder+"next.png",function(){}),rc_sb_openAnchorLinkedSlide()}),jQuery(window).on("hashchange",function(){rc_sb_openAnchorLinkedSlide()}),jQuery(window).resize(function(){rc_sb_expandSlideToRequiredSize(rc_sb_currentSlideID,0,0)}),jQuery(window).scroll(function(){"OVERLAID"==rc_sb_currentPosition&&rc_sb_placeSlideOverSourceElement(rc_sb_currentSlideID,0,0)});var isSlideshow=!1,slideShowInterval=5e3;function beginSlideShow(){rc_sb_createShadowbox(),rc_sb_openSlide(rc_sb_slideURLs.indexOf(jQuery(this).attr("href")),!1,280),setTimeout(stepSlideShow,slideShowInterval)}function stepSlideShow(){setTimeout(stepSlideShow,slideShowInterval)}
+var rcShadowbox;
+
+window.addEventListener("load", function () {
+    "use strict";
+
+    rcShadowbox = new RCShadowbox();
+    rcShadowbox.setup();
+});
+
+var RCShadowbox = function () {
+    "use strict";
+
+    var container,
+        overlay,
+        toolbar,
+        closeButton,
+        prevButton,
+        nextButton,
+        titleElem,
+        slides = [],
+        currentSlideId,
+        loadingIcon,
+        body,
+        initialBodyOverflow,
+        open = false,
+        preventKeyboard = false,
+        showTitle = rc_sb_params["title_option"] == 0 || rc_sb_params["title_option"] == 2,
+        hideScrollbar = rc_sb_params["hide_scroll_bar"],
+        socialAddon;
+
+    return {
+        setup: function () {
+            this.createShadowbox();
+            this.setupControls();
+            this.setupSlides();
+
+            var hashLink = window.location.hash;
+
+            if (hashLink.substring(0, 4) === "#rc_") {
+                var hashLinkedAnchor = document.getElementById(hashLink.substr(1));
+                hashLinkedAnchor.click();
+            }
+        },
+
+        setupSocialAddonButtons: function () {
+            // Confirm the existence of the social addon
+            if (typeof insertButton === "function") {
+                this.insertSocialButton(rc_gallery_social_addon_button1);
+                this.insertSocialButton(rc_gallery_social_addon_button2);
+                this.insertSocialButton(rc_gallery_social_addon_button3);
+                this.insertSocialButton(rc_gallery_social_addon_button4);
+            }
+        },
+
+        /**
+         * Remove all buttons, except the close button
+         */
+        removeButtons: function () {
+            var buttonElems = toolbar.querySelectorAll("a");
+
+            [].forEach.call(buttonElems, function (buttonElem) {
+                buttonElem.parentNode.removeChild(buttonElem);
+            });
+        },
+
+        createShadowbox: function () {
+            body = document.querySelector("body");
+
+            overlay = document.createElement("div");
+            overlay.id = "rc_sb_overlay";
+            overlay.classList.add("rc_hidden");
+
+            container = document.createElement("div");
+            container.id = "rc_sb_container";
+            container.classList.add("rc_hidden");
+
+            toolbar = document.createElement("div");
+            toolbar.id = "rc_sb_toolbar";
+
+            closeButton = document.createElement("div");
+            closeButton.id = "rc_sb_close";
+            closeButton.classList.add("rc_sb_button");
+
+            prevButton = document.createElement("div");
+            prevButton.id = "rc_sb_prev";
+            prevButton.classList.add("rc_sb_button");
+
+            nextButton = document.createElement("div");
+            nextButton.id = "rc_sb_next";
+            nextButton.classList.add("rc_sb_button");
+
+            loadingIcon = document.createElement("div");
+            loadingIcon.classList.add("rc_sb_loading");
+            loadingIcon.classList.add("rc_hidden");
+
+            toolbar.appendChild(closeButton);
+            container.appendChild(toolbar);
+            container.appendChild(prevButton);
+            container.appendChild(nextButton);
+            container.appendChild(loadingIcon);
+            body.appendChild(overlay);
+            body.appendChild(container);
+
+            if (showTitle) {
+                titleElem = document.createElement("div");
+                titleElem.id = "rc_sb_title";
+                container.appendChild(titleElem);
+            }
+        },
+
+        setupSlides: function () {
+            var shadowboxAnchors = document.querySelectorAll("a[rel^='shadowbox']");
+            var i = 0;
+
+            [].forEach.call(shadowboxAnchors, function (shadowboxAnchor) {
+                var slideElem = document.createElement("img");
+                slideElem.id = "rc_sb_slide_" + i;
+                slideElem.classList.add("rc_sb_image");
+
+                var shadowboxAnchorImage = shadowboxAnchor.querySelector("img");
+                var ratio = shadowboxAnchorImage.dataset.width / shadowboxAnchorImage.dataset.height;
+
+                slides[i] = {
+                    id: i,
+                    shadowboxAnchor: shadowboxAnchor,
+                    src: shadowboxAnchor.href,
+                    alt: shadowboxAnchorImage.alt,
+                    title: shadowboxAnchor.dataset.imagetitle,
+                    slideElem: slideElem,
+                    startingSize: {
+                        width: shadowboxAnchorImage.dataset.width,
+                        height: shadowboxAnchorImage.dataset.height
+                    },
+                    ratio: ratio,
+                    orientation: ratio >= 1 ? "landscape" : "portrait"
+                };
+
+                container.appendChild(slideElem);
+                i += 1;
+            });
+        },
+
+        setupControls: function () {
+            var rcShadowbox = this;
+            var shadowboxAnchors = document.querySelectorAll("a[rel^='shadowbox']");
+
+            // clicking a thumbnail
+            [].forEach.call(shadowboxAnchors, function (shadowboxAnchor) {
+                shadowboxAnchor.addEventListener("click", function (event) {
+                    event.preventDefault();
+
+                    var currentSlide = slides.filter(function (slideObj) {
+                        return slideObj.src == shadowboxAnchor.href;
+                    })[0];
+
+                    rcShadowbox.openSlide(currentSlide);
+                });
+            });
+
+            // navigation buttons
+            prevButton.addEventListener("click", function () {
+                rcShadowbox.prevSlide();
+            });
+
+            nextButton.addEventListener("click", function () {
+                rcShadowbox.nextSlide();
+            });
+
+            closeButton.addEventListener("click", function () {
+                rcShadowbox.close();
+            });
+
+            container.addEventListener("click", function (event) {
+                // ignore clicks on child elements
+                if (event.target !== container) {
+                    return;
+                }
+
+                rcShadowbox.close();
+            });
+
+            // swiping
+            // @todo: touch controls - remove jQuery mobile dependency
+            // https://stackoverflow.com/questions/2264072/detect-a-finger-swipe-through-javascript-on-the-iphone-and-android
+            jQuery('#rc_sb_container').on('swipeleft', function() {
+                rcShadowbox.nextSlide();
+            });
+
+            jQuery('#rc_sb_container').on('swiperight', function() {
+                rcShadowbox.prevSlide();
+            });
+
+            // keyboard controls
+            window.addEventListener("keydown", function (event) {
+                if (open && !preventKeyboard) {
+                    preventKeyboard = true;
+                    switch (event.key) {
+                    case "ArrowRight":
+                        rcShadowbox.nextSlide();
+                        break;
+                    case "ArrowLeft":
+                        rcShadowbox.prevSlide();
+                        break;
+                    case "Backspace":
+                    case "Escape":
+                        rcShadowbox.close();
+                        break;
+                    }
+                }
+            });
+
+            window.addEventListener("keyup", function () {
+                preventKeyboard = false;
+            });
+        },
+
+        insertSocialButton: function (number) {
+            if (!number) {
+                return;
+            }
+
+            var rcShadowbox = this,
+                socialNetworkName,
+                baseShareLink,
+                buttonClass;
+
+            switch (number) {
+            case 1:
+                socialNetworkName = "Facebook";
+                baseShareLink = rc_fb_shareURL;
+                buttonClass = "rc_fbshareaddon_button";
+                break;
+            case 2:
+                socialNetworkName = "Twitter";
+                baseShareLink = rc_twitter_shareURL;
+                buttonClass = "rc_twittershareaddon_button";
+                break;
+            case 3:
+                socialNetworkName = "Google+";
+                baseShareLink = rc_gp_shareURL;
+                buttonClass = "rc_gpshareaddon_button";
+                break;
+            case 4:
+                socialNetworkName = "Tumblr";
+                baseShareLink = rc_tumblr_shareURL;
+                buttonClass = "rc_tumblrshareaddon_button";
+                break;
+            }
+
+            var newButton = this.insertButton(
+                "Share on " + socialNetworkName,
+                [buttonClass, "rc_sb_button", "rc_sb_addonbutton"],
+                "#"
+            );
+
+            newButton.addEventListener("click", function (event) {
+                event.preventDefault();
+                var top = (window.innerHeight - 600) / 2;
+                var left = (window.innerWidth - 600) / 2;
+                var newWindowSettings = "menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600,top=" + top + ",left=" + left;
+                var hashLinkToCurrentSlide = rcShadowbox.getCurrentSlide().shadowboxAnchor.childNodes[0].id;
+                var fullUrl = baseShareLink + rc_gallery_social_addon_pageURL + "%23" + hashLinkToCurrentSlide;
+
+                window.open(
+                    fullUrl,
+                    "",
+                    newWindowSettings
+                );
+            });
+        },
+
+        openSlide: function (slide) {
+            currentSlideId = slide.id;
+
+            if (!open) {
+                this.open();
+            }
+
+            this.removeButtons();
+            this.setupSocialAddonButtons();
+
+            if (showTitle) {
+                titleElem.innerHTML = slide.title;
+            }
+
+            // just in case we're still part way through a previous transition
+            slide.slideElem.classList.remove("rc_sb_hidden_left");
+            slide.slideElem.classList.remove("rc_sb_hidden_right");
+
+            // if image hasn't already been loaded...
+            if (!slide.slideElem.src) {
+                slide.slideElem.alt = ""; // This prevents the browser's no-image icon from showing
+                loadingIcon.classList.remove("rc_hidden");
+                var image = new Image();
+
+                image.onload = function () {
+                    slide.slideElem.alt = slide.alt;
+                    slide.slideElem.src = slide.src;
+                    // force computing style, to ensure transitions always run on class change
+                    void window.getComputedStyle(slide.slideElem).getPropertyValue("transition");
+                    slide.slideElem.classList.remove("rc_sb_hidden_centre");
+                    loadingIcon.classList.add("rc_hidden");
+                };
+
+                image.src = slide.src;
+            } else {
+                // force computing style, to ensure transitions always run on class change
+                void window.getComputedStyle(slide.slideElem).getPropertyValue("transition");
+                slide.slideElem.classList.remove("rc_sb_hidden_centre");
+                loadingIcon.classList.add("rc_hidden");
+            }
+
+            // deal with previous and next slides
+            var prevSlide = this.getPrevSlide();
+
+            if (!prevSlide.slideElem.classList.contains("rc_sb_hidden_centre")) {
+                prevSlide.slideElem.classList.add("rc_sb_hidden_left");
+
+                setTimeout(function () {
+                    // as we're doing this after a delay, check that the user hasn't already come back to this slide
+                    if (prevSlide.id !== currentSlideId) {
+                        prevSlide.slideElem.classList.remove("rc_sb_hidden_left");
+                        prevSlide.slideElem.classList.add("rc_sb_hidden_centre");
+                    }
+                }, 560);
+            }
+
+            var nextSlide = this.getNextSlide();
+
+            if (!nextSlide.slideElem.classList.contains("rc_sb_hidden_centre")) {
+                nextSlide.slideElem.classList.add("rc_sb_hidden_right");
+
+                setTimeout(function () {
+                    if (nextSlide.id !== currentSlideId) {
+                        nextSlide.slideElem.classList.remove("rc_sb_hidden_right");
+                        nextSlide.slideElem.classList.add("rc_sb_hidden_centre");
+                    }
+                }, 560);
+            }
+        },
+
+        nextSlide: function () {
+            this.openSlide(this.getNextSlide());
+        },
+
+        prevSlide: function () {
+            this.openSlide(this.getPrevSlide());
+        },
+
+        getCurrentSlide: function () {
+            return slides[currentSlideId];
+        },
+
+        getNextSlide: function () {
+            var id = currentSlideId >= slides.length - 1
+                ? 0
+                : currentSlideId + 1;
+
+            return slides[id];
+        },
+
+        getPrevSlide: function () {
+            var id = currentSlideId == 0
+                ? slides.length - 1
+                : currentSlideId - 1;
+
+            return slides[id];
+        },
+
+        close: function () {
+            open = false;
+            container.classList.add("rc_hidden");
+            overlay.classList.add("rc_hidden");
+            slides[currentSlideId].slideElem.classList.add("rc_sb_hidden_centre");
+
+            if (hideScrollbar === "1") {
+                setTimeout(function () {
+                    body.style.overflow = initialBodyOverflow;
+                }, 280);
+            }
+        },
+
+        open: function () {
+            open = true;
+            container.classList.remove("rc_hidden");
+            overlay.classList.remove("rc_hidden");
+
+            slides.forEach(function (slide) {
+                slide.slideElem.classList.add("rc_sb_hidden_centre");
+                slide.slideElem.classList.remove("rc_sb_hidden_left");
+                slide.slideElem.classList.remove("rc_sb_hidden_right");
+            });
+
+            if (hideScrollbar === "1") {
+                initialBodyOverflow = body.style.overflow;
+                body.style.overflow = "hidden";
+            }
+        },
+
+        insertButton: function (title, classes, href) {
+            var newButton = document.createElement("div");
+            var newButtonAnchor = document.createElement("a");
+
+            newButtonAnchor.title = title;
+            newButtonAnchor.href = href;
+
+            classes.forEach(function (buttonClass) {
+                newButton.classList.add(buttonClass);
+            });
+
+            if (href) {
+                newButton.href = href;
+            }
+
+            newButtonAnchor.appendChild(newButton);
+
+            toolbar.appendChild(newButtonAnchor);
+
+            return newButton;
+        },
+
+        getAnchorLinkForCurrentSlide: function () {
+            // @todo: this needs to work in order to maintain compatibility with the social add-on
+        }
+    };
+};

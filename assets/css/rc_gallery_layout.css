@@ -1,0 +1,91 @@
+.rc_gallery {
+	width:100%;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	display:inline-block;
+	line-height:1px;
+	font-size:1px;
+}
+.rc_gallery * {
+	/* mitigate interference from templates */
+	margin:0; padding:0; border:0; width:auto; height:auto; display:initial; position:initial; box-shadow:none;
+}
+.rc_gallery a {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	display:inline-block;
+	line-height:1px;
+	font-size:1px;
+}
+.rc_gallery a:hover, .rc_gallery a:active {
+	background:transparent;
+	line-height:1px;
+	font-size:1px;
+}
+.rc_gallery div.rc_galleryimg_container {
+	width:auto;
+	height:auto;
+	padding:0;
+	margin:0;
+	position:relative;
+	display:inline-block;
+}
+.rc_gallery div.rc_galleryimg_container span {
+	height:auto;
+	padding:2px 5px;
+	margin:0 auto;
+	width: 100%;
+	position:absolute;
+	left:0;
+	bottom:0;
+	background:transparent;
+	text-shadow:0 0 10px #000;
+	transition:opacity 0.3s ease;
+	box-sizing:border-box;
+}
+.rc_gallery div.rc_galleryimg_container:hover span {
+	opacity:1;
+}
+.rc_gallery img.rc_galleryimg {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	display:inline-block;
+	line-height:1px;
+	font-size:1px;
+	background-image: url("../img/image_icon.png");
+	background-position: center;
+	background-repeat: no-repeat;
+}
+div.rc_gallery_error {
+	width:auto;
+	max-width:100%;
+	text-align:center;
+	background:#FFCDD2;
+	border:1px solid #F44336;
+	color:#212121;
+	border-radius:2px;
+	padding:10px;
+}
+div.rc_gallery_error h3 {
+	color:#F44336;
+}
+div.rc_gallery_error p {
+	margin:0;
+	padding:0;
+}
+div.rc_gallery_debug_info {
+	width:auto;
+	max-width:100%;
+	text-align:center;
+	background:#f2f2f2;
+	border:1px solid #e2e2e2;
+	color:#212121;
+	border-radius:2px;
+	padding:10px;
+	margin:10px;
+	display:inline-block;
+}
+

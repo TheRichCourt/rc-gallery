@@ -9,9 +9,6 @@ Class GalleryView
 	/** @var string */
 	private $html;
 
-	/** @var array */
-	private $galleryParams;
-
 	/** @var stdClass */
 	private $rcParams;
 
@@ -35,10 +32,15 @@ Class GalleryView
 	function __construct($galleryNo, stdClass $rcParams, $doc)
 	{
 		$this->setRcParams($rcParams);
+
 		$this->setDoc($doc);
 		$this->galleryNumber = $galleryNo;
-		$this->galleryParams = ' data-root-url="' . JURI::root() . '" data-start-height="' . $this->getRCParams()->minrowheight . '" data-margin-size="' . $this->getRCParams()->imagemargin . '"';
-		$this->html = '<div class="rc_gallery" '. $this->galleryParams .'>';
+		$galleryParams = ' data-rooturl="' . JURI::root() . '" data-startheight="' . $this->getRCParams()->minrowheight . '" data-marginsize="' . $this->getRCParams()->imagemargin . '"';
+		$galleryClass = strtolower($this->getRcParams()->layout);
+
+		$this->html = '<div id="rc_gallery_' . $this->getGalleryNumber() . '" class="rc_gallery rc_' . $galleryClass . '" '. $galleryParams .'>';
+
+		echo "";
 	}
 
 	/**
@@ -50,7 +52,6 @@ Class GalleryView
 	 * @param string $imgTitle
 	 * @param array $thumbnailTypes
 	 * @param bool $thumbsExist
-	 * @return void
 	 */
 	public function addImage($fullFileURL, $directory, $fileName, $height, $width, $withLink, $imgTitle, array $thumbnailTypes, $thumbsExist)
 	{
@@ -94,30 +95,29 @@ Class GalleryView
 	 * Add CSS and JS links to the document
 	 *
 	 * @param int $imageBorderRadius
-	 * @return void
 	 */
 	public function includeCSSandJS($imageBorderRadius)
 	{
 		JHtml::_('jquery.framework');
-		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.js');
-		$this->getDoc()->addScript($jsPath);
-		$cssPath = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery.css');
-		$this->getDoc()->addStyleSheet($cssPath);
 
-		if ($imageBorderRadius > 0) {
-			$style =
-				'.rc_galleryimg {
-					border-radius:' . $imageBorderRadius . 'px;
-				}'
-			;
-			$this->getDoc()->addStyleDeclaration( $style );
+		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.min.js');
+
+		// @todo: should check whether the files exist, in case the setting's changed and then layouts is uninstalled
+		if ($this->getRCParams()->layout === null) {
+			$jsLayoutPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery_layout.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery_layout.min.js');
+			$cssPath = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery_layout.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery_layout.css');
+		} else {
+			$jsLayoutPath = JURI::root().'media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.min.js?'.filemtime(JPATH_ROOT.'/media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.min.js');
+			$cssPath = JURI::root().'media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.css?'.filemtime(JPATH_ROOT.'/media/plg_rc_gallery_layouts/'.$this->getRcParams()->layout.'/rc_gallery_layout.css');
 		}
+
+		$this->getDoc()->addScript($jsPath);
+		$this->getDoc()->addScript($jsLayoutPath);
+		$this->getDoc()->addStyleSheet($cssPath);
 	}
 
 	/**
 	 * Add an additional style tag to the document head, with cusotm parameters
-	 *
-	 * @return void
 	 */
 	public function includeCustomStyling()
 	{
@@ -130,12 +130,12 @@ Class GalleryView
 		}
 
 		$css = '
-			.rc_gallery .rc_galleryimg {
+			#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg {
 				background-color: '. $this->getRcParams()->thumbbgcolour .';
 				border-radius: ' . $this->getRcParams()->thumbnailradius . 'px;
 			}
 
-			.rc_gallery div.rc_galleryimg_container span {
+			#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container span {
 				color: ' . $this->getRcParams()->titletextcolour . ';
 				font-size: ' . $this->getRcParams()->titletextsize . 'px;
 				line-height: ' . ($this->getRcParams()->titletextsize + 6) . 'px;
@@ -153,13 +153,13 @@ Class GalleryView
 
 		if ($filterOption == 1) { // sepia
 			$css .= '
-				.rc_gallery .rc_galleryimg {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg {
 					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
 					filter: sepia(80%);
 					-webkit-filter: sepia(80%);
 				}
 
-				.rc_gallery div.rc_galleryimg_container:hover .rc_galleryimg {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container:hover .rc_galleryimg {
 					filter: sepia(0%);
 				}
 			';
@@ -167,15 +167,27 @@ Class GalleryView
 
 		if ($filterOption == 2) { // black and white
 			$css .= '
-				.rc_gallery .rc_galleryimg {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg {
 					transition: -webkit-filter 0.28s ease, filter 0.28s ease;
 					filter: grayscale(100%);
 					-webkit-filter: grayscale(100%);
 				}
 
-				.rc_gallery .rc_galleryimg:hover {
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg:hover {
 					filter: grayscale(0%);
 					-webkit-filter: grayscale(0%);
+				}
+			';
+		}
+
+		if ($this->getRcParams()->imageTitle == 1) {
+			$css .= '
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container span {
+					opacity: 0;
+				}
+
+				#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery div.rc_galleryimg_container:hover span {
+					opacity: 1;
 				}
 			';
 		}
@@ -185,8 +197,6 @@ Class GalleryView
 
 	/**
 	 * Add JS and CSS files for the legacy shadowbox
-	 *
-	 * @return void
 	 */
 	public function includeShadowbox()
 	{
@@ -203,8 +213,8 @@ Class GalleryView
 	{
 		$shadowboxParams = [
 			'image_folder' => JURI::root().'plugins/content/rc_gallery/rc_shadowbox/img/',
-			'expand_size' => $this->getRCParams()->shadowboxsize / 100,
-			'title_option' => $this->getRCParams()->shadowboxtitle
+			'title_option' => $this->getRCParams()->shadowboxtitle,
+			'hide_scroll_bar' => $this->getRCParams()->hidescrollbar,
 		];
 
 		$this->getDoc()->addScriptDeclaration(
@@ -212,7 +222,7 @@ Class GalleryView
 		);
 
 		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js'));
-		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.js'));
+		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.min.js'));
 		$this->getDoc()->addStyleSheet(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css'));
 	}
 
