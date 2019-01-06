@@ -41,7 +41,9 @@ Class ThumbnailFactory
 		switch (strtolower(pathinfo($fileName, PATHINFO_EXTENSION))) {
 			case "jpeg":
 			case "jpg":
-				$exif = exif_read_data($fileName);
+				// Okay, I don't like suppressing warnings, but there are bugs in some PHP versions, and so I don't have much choice
+				// see https://stackoverflow.com/questions/37352371/php-exif-read-data-illegal-ifd-size
+				$exif = @exif_read_data($fileName);
 
 				if (!$exif) {
 					return;

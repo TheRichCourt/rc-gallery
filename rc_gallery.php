@@ -272,7 +272,9 @@ class PlgContentRC_gallery extends JPlugin
 				switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
 					case "jpeg":
 					case "jpg":
-						$exif = exif_read_data($fullFilePath);
+						// Okay, I don't like suppressing warnings, but there are bugs in some PHP versions, and so I don't have much choice
+						// see https://stackoverflow.com/questions/37352371/php-exif-read-data-illegal-ifd-size
+						$exif = @exif_read_data($fullFilePath);
 						if ($exif !== false) {
 							if (isset($exif['Orientation'])) {
 								switch ($exif['Orientation']) {
@@ -404,7 +406,9 @@ class PlgContentRC_gallery extends JPlugin
 		switch (strtolower(pathinfo($fullFilePath, PATHINFO_EXTENSION))) {
 			case "jpeg":
 			case "jpg":
-				$exif = exif_read_data($path);
+				// Okay, I don't like suppressing warnings, but there are bugs in some PHP versions, and so I don't have much choice
+				// see https://stackoverflow.com/questions/37352371/php-exif-read-data-illegal-ifd-size
+				$exif = @exif_read_data($path);
 
 				if (array_key_exists('DateTimeOriginal', $exif)) {
 					$createDate = $exif['DateTimeOriginal'];
