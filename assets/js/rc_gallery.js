@@ -59,7 +59,7 @@ var RCGallery = function () {
 
                 [].forEach.call(imgs, function (img) {
                     img.src = img.dataset.src;
-                    img.attributes.alt = img.dataset.alt;
+                    img.alt = img.dataset.alt;
                 });
             });
         }

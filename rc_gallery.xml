@@ -2,12 +2,12 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>RC Gallery</name>
 	<author>Rich Court</author>
-	<creationDate>17/11/2018</creationDate>
+	<creationDate>02/12/2018</creationDate>
 	<copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>therichcourt@gmail.com</authorEmail>
 	<authorUrl>www.therichcourt.com</authorUrl>
-	<version>4.1.0</version>
+	<version>4.2.1</version>
 	<description>Thanks for installing RC Justified Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
 	<files>
 		<filename plugin="rc_gallery">rc_gallery.php</filename>
@@ -18,9 +18,11 @@
 		<filename plugin="rc_gallery">views/index.html</filename>
 		<filename plugin="rc_gallery">models/rc_labels_model.php</filename>
 		<filename plugin="rc_gallery">models/index.html</filename>
-		<filename plugin="rc_gallery">assets/css/rc_gallery.css</filename>
+		<filename plugin="rc_gallery">assets/css/rc_gallery_layout.css</filename>
+		<filename plugin="rc_gallery">assets/js/rc_gallery_layout.min.js</filename>
+		<filename plugin="rc_gallery">assets/js/rc_gallery.min.js</filename>
+		<filename plugin="rc_gallery">assets/js/rc_gallery_layout.js</filename>
 		<filename plugin="rc_gallery">assets/js/rc_gallery.js</filename>
-		<filename plugin="rc_gallery">assets/js/rc_gallery_UNCOMPRESSED.js</filename>
 		<filename plugin="rc_gallery">assets/img/image_icon.png</filename>
 		<filename plugin="rc_gallery">assets/index.html</filename>
 		<filename plugin="rc_gallery">assets/js/index.html</filename>
@@ -31,8 +33,8 @@
 		<filename plugin="rc_gallery">shadowbox/loading.gif</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox-icons.png</filename>
 		<filename plugin="rc_gallery">shadowbox/index.html</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.min.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.js</filename>
-		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox_UNCOMPRESSED.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/jquery.mobile.custom.min.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.css</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/loading.gif</filename>
