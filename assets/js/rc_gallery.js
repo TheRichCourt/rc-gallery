@@ -1,1 +1,67 @@
-function lazyLoadImages(){var t=0;jQuery(".rc_galleryimg_container").each(function(){var e=this;"true"!=jQuery(e).attr("data-thumbs-exist")?(setTimeout(function(){var t=jQuery(e).parent().attr("href"),r=new XMLHttpRequest,a=jQuery(e).parent().parent().attr("data-start-height"),i=jQuery(e).parent().parent().attr("data-root-url")+"?option=com_ajax",u="group=content&plugin=MakeThumbs&format=json&tmpl=component&img="+t+"&start_height="+a;r.onreadystatechange=function(){4==this.readyState&&200==this.status&&populateThumbnail(e)},r.open("POST",i,!0),r.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),r.setRequestHeader("X-Requested-With","XMLHttpRequest"),r.send(u)},t),t+=5e3):populateThumbnail(e)})}function populateThumbnail(t){jQuery(t).find("picture").children().each(function(){"IMG"==jQuery(this).prop("tagName")?(jQuery(this).attr("src",jQuery(this).attr("data-src")),jQuery(this).attr("alt",jQuery(this).attr("data-alt"))):"SOURCE"==jQuery(this).prop("tagName")&&jQuery(this).attr("srcset",jQuery(this).attr("data-srcset"))})}function resizeGallery(){jQuery(".rc_gallery").each(function(){var t=jQuery(this).attr("data-start-height"),e=jQuery(this).attr("data-margin-size"),r=jQuery(this).width()-1,a=0,i=new Array,u=new Array,n=new Array,h=new Array,s=0,y=0,o=jQuery(this).find(".rc_galleryimg").length;jQuery(this).find(".rc_galleryimg").each(function(){var c=jQuery(this).attr("data-width"),d=jQuery(this).attr("data-height");u[s]=c/d,jQuery(this).height(t),jQuery(this).width(t/d*c),a+(jQuery(this).width()+2*e)/2>=r?(h[y]=a,y++,a=jQuery(this).width()+2*e):(a=a+jQuery(this).width()+2*e,h[y]=s==o-1&&a<r?r:a),i[s]=jQuery(this).width()+2*e,n[s]=y,s++});o=i.length;for(var c=new Array,d=new Array,j=-1,l=0;l<=o;l++){var Q=i[l],p=n[l],g=h[p];g||(g=r-2*e),c[l]=Q/g*r-2*e,c[l]+2*e>r-2*e&&(c[l]=r-2*e),j!=p&&(d[p]=(c[l]-2*e)/u[l],j=p)}s=0,jQuery(this).find(".rc_galleryimg").each(function(){jQuery(this).width(c[s]),jQuery(this).height(d[n[s]]),s++})})}jQuery(document).ready(function(){resizeGallery(),lazyLoadImages()}),jQuery(window).resize(function(){resizeGallery()});
+jQuery(document).ready(function () {
+    var rcGallery = new RCGallery();
+    rcGallery.lazyLoadImages();
+});
+
+var RCGallery = function () {
+    "use strict";
+
+    return {
+        lazyLoadImages: function () {
+            var interval = 5000,
+                currentDelay = 0,
+                imageContainers = document.querySelectorAll(".rc_galleryimg_container"),
+                rcGallery = this;
+
+            [].forEach.call(imageContainers, function (imageContainer) {
+                if (imageContainer.dataset.thumbsexist === "true") {
+                    rcGallery.populateThumbnail(imageContainer);
+                    return;
+                }
+
+                setTimeout(function () {
+                    var imgUrl = imageContainer.parentElement.href,
+                        xhr = new XMLHttpRequest(),
+                        startHeight = imageContainer.parentElement.parentElement.dataset.startHeight,
+                        rootUrl = imageContainer.parentElement.parentElement.dataset.rootUrl,
+                        requestUrl = rootUrl + "?option=com_ajax",
+                        postData = "group=content&plugin=MakeThumbs&format=json&tmpl=component&img=" + imgUrl + "&start_height=" + startHeight;
+
+                    xhr.onreadystatechange = function () {
+                        if (this.readyState === 4 && this.status === 200) {
+                            rcGallery.populateThumbnail(imageContainer);
+                        }
+                    };
+
+                    xhr.open("POST", requestUrl, true);
+                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                    xhr.send(postData);
+
+                }, currentDelay);
+
+                currentDelay += interval;
+            });
+        },
+
+        populateThumbnail: function (imageContainer) {
+            var pictures = imageContainer.querySelectorAll("picture");
+
+            [].forEach.call(pictures, function (picture) {
+                var sources = picture.querySelectorAll("source");
+
+                [].forEach.call(sources, function (source) {
+                    source.srcset = source.dataset.srcset;
+
+                });
+
+                var imgs = picture.querySelectorAll("img");
+
+                [].forEach.call(imgs, function (img) {
+                    img.src = img.dataset.src;
+                    img.alt = img.dataset.alt;
+                });
+            });
+        }
+    };
+};

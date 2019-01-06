@@ -2,12 +2,12 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
 	<name>RC Gallery</name>
 	<author>Rich Court</author>
-	<creationDate>17/11/2018</creationDate>
+	<creationDate>02/12/2018</creationDate>
 	<copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>therichcourt@gmail.com</authorEmail>
 	<authorUrl>www.therichcourt.com</authorUrl>
-	<version>4.1.0</version>
+	<version>4.2.1</version>
 	<description>Thanks for installing RC Justified Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
 	<files>
 		<filename plugin="rc_gallery">rc_gallery.php</filename>
@@ -18,9 +18,11 @@
 		<filename plugin="rc_gallery">views/index.html</filename>
 		<filename plugin="rc_gallery">models/rc_labels_model.php</filename>
 		<filename plugin="rc_gallery">models/index.html</filename>
-		<filename plugin="rc_gallery">assets/css/rc_gallery.css</filename>
+		<filename plugin="rc_gallery">assets/css/rc_gallery_layout.css</filename>
+		<filename plugin="rc_gallery">assets/js/rc_gallery_layout.min.js</filename>
+		<filename plugin="rc_gallery">assets/js/rc_gallery.min.js</filename>
+		<filename plugin="rc_gallery">assets/js/rc_gallery_layout.js</filename>
 		<filename plugin="rc_gallery">assets/js/rc_gallery.js</filename>
-		<filename plugin="rc_gallery">assets/js/rc_gallery_UNCOMPRESSED.js</filename>
 		<filename plugin="rc_gallery">assets/img/image_icon.png</filename>
 		<filename plugin="rc_gallery">assets/index.html</filename>
 		<filename plugin="rc_gallery">assets/js/index.html</filename>
@@ -31,8 +33,8 @@
 		<filename plugin="rc_gallery">shadowbox/loading.gif</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox-icons.png</filename>
 		<filename plugin="rc_gallery">shadowbox/index.html</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.min.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.js</filename>
-		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox_UNCOMPRESSED.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/jquery.mobile.custom.min.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.css</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/loading.gif</filename>
@@ -82,6 +84,9 @@
 					default="images"
 					label="Root image folder"
 					description="Choose the parent folder that contains the folders you'd like to use for your galleries."
+				/>
+				<field name="layout" type="folderlist" default="" label="Layout" directory="media/plg_rc_gallery_layouts" filter="" exclude="" stripext="" hide_none ="true"
+					description="You can get more layouts by downloading the layouts add-on"
 				/>
 				<field name="sorttype" type="radio"
 					   default="0"
@@ -149,11 +154,13 @@
 						<option value="1">Use another shadowbox</option>
 						<option value="2">No shadowbox</option>
 				</field>
-				<field name="shadowboxsize" type="range" min="0" max="100" step="5" size="3"
-					default="100"
-					description="Size of image when opened, as a percentage of screen size. Note that this setting only aplies with the built-in shadowbox."
-					label="Image size in shadowbox (0 - 100%)"
-				/>
+				<field name="hidescrollbar" type="radio"
+					default="0"
+					description="You may want to prevent scrolling of the page while the shadowbox is open. This hides the scrollbar, which in some browsers results in content becoming slightly wider, and appearing to shift left and right."
+					label="Prevent scrolling">
+						<option value="0">Allow scrolling</option>
+						<option value="1">Prevent scrolling (hides the scrollbar, which may cause content to shift)</option>
+				</field>
 			</fieldset>
 			<fieldset name="appearance" label="Appearance">
 				<field type="note" label="Gallery Thumbnails"
