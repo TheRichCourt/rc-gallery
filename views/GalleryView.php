@@ -103,7 +103,7 @@ Class GalleryView
 		$jsPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery.min.js');
 
 		// @todo: should check whether the files exist, in case the setting's changed and then layouts is uninstalled
-		if ($this->getRCParams()->layout === null) {
+		if (!$this->getRCParams()->layout) {
 			$jsLayoutPath = JURI::root().'plugins/content/rc_gallery/assets/js/rc_gallery_layout.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/js/rc_gallery_layout.min.js');
 			$cssPath = JURI::root().'plugins/content/rc_gallery/assets/css/rc_gallery_layout.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/assets/css/rc_gallery_layout.css');
 		} else {
