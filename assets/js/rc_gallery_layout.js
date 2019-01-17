@@ -66,7 +66,8 @@ function resizeGallery() {
             var lineWidth = lineWidthArray[lineNo];
 
             if (!lineWidth) {
-                lineWidth = targetLineWidth - (2 * marginSize);
+                // -1 so we don't go over because of rounding
+                lineWidth = targetLineWidth - (2 * marginSize) -1;
             }
 
             targetImgWidthArray[i] = ((imgWidth / lineWidth) * targetLineWidth) - (2 * marginSize);
