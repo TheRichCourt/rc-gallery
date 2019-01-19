@@ -20,7 +20,7 @@
 	line-height: 1px;
 	font-size: 1px;
 }
-.rc_gallery a: hover, .rc_gallery a: active {
+.rc_gallery a:hover, .rc_gallery a:active {
 	background: transparent;
 	line-height: 1px;
 	font-size: 1px;
@@ -46,7 +46,7 @@
 	transition: opacity 0.3s ease;
 	box-sizing: border-box;
 }
-.rc_gallery div.rc_galleryimg_container: hover span {
+.rc_gallery div.rc_galleryimg_container:hover span {
 	opacity: 1;
 }
 .rc_gallery img.rc_galleryimg {
@@ -89,4 +89,3 @@ div.rc_gallery_debug_info {
 	margin: 10px;
 	display: inline-block;
 }
-
