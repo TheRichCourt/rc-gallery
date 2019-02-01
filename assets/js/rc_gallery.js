@@ -8,9 +8,7 @@ var RCGallery = function () {
 
     return {
         lazyLoadImages: function () {
-            var interval = 5000,
-                currentDelay = 0,
-                imageContainers = document.querySelectorAll(".rc_galleryimg_container"),
+            var imageContainers = document.querySelectorAll(".rc_galleryimg_container"),
                 rcGallery = this;
 
             [].forEach.call(imageContainers, function (imageContainer) {
@@ -19,28 +17,23 @@ var RCGallery = function () {
                     return;
                 }
 
-                setTimeout(function () {
-                    var imgUrl = imageContainer.parentElement.href,
-                        xhr = new XMLHttpRequest(),
-                        startHeight = imageContainer.parentElement.parentElement.dataset.startHeight,
-                        rootUrl = imageContainer.parentElement.parentElement.dataset.rootUrl,
-                        requestUrl = rootUrl + "?option=com_ajax",
-                        postData = "group=content&plugin=MakeThumbs&format=json&tmpl=component&img=" + imgUrl + "&start_height=" + startHeight;
+                var imgUrl = imageContainer.parentElement.href,
+                    xhr = new XMLHttpRequest(),
+                    startHeight = imageContainer.parentElement.parentElement.dataset.startHeight,
+                    rootUrl = imageContainer.parentElement.parentElement.dataset.rootUrl,
+                    requestUrl = rootUrl + "?option=com_ajax",
+                    postData = "group=content&plugin=MakeThumbs&format=json&tmpl=component&img=" + imgUrl + "&start_height=" + startHeight;
 
-                    xhr.onreadystatechange = function () {
-                        if (this.readyState === 4 && this.status === 200) {
-                            rcGallery.populateThumbnail(imageContainer);
-                        }
-                    };
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        rcGallery.populateThumbnail(imageContainer);
+                    }
+                };
 
-                    xhr.open("POST", requestUrl, true);
-                    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-                    xhr.send(postData);
-
-                }, currentDelay);
-
-                currentDelay += interval;
+                xhr.open("POST", requestUrl, true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+                xhr.send(postData);
             });
         },
 
