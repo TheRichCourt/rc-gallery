@@ -30,16 +30,15 @@
 		<filename plugin="rc_gallery">assets/img/index.html</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox.js</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox.css</filename>
-		<filename plugin="rc_gallery">rc_shadowbox/css/default.css</filename>
-		<filename plugin="rc_gallery">rc_shadowbox/css/fade.css</filename>
-		<filename plugin="rc_gallery">rc_shadowbox/css/no-animation.css</filename>
 		<filename plugin="rc_gallery">shadowbox/loading.gif</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox-icons.png</filename>
 		<filename plugin="rc_gallery">shadowbox/index.html</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.min.js</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.js</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/css/default.css</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/css/fade.css</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/css/no-animation.css</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/jquery.mobile.custom.min.js</filename>
-		<filename plugin="rc_gallery">rc_shadowbox/rc_shadowbox.css</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/loading.gif</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/prev.png</filename>
 		<filename plugin="rc_gallery">rc_shadowbox/img/next.png</filename>
@@ -164,7 +163,7 @@
 						<option value="0">Allow scrolling</option>
 						<option value="1">Prevent scrolling (hides the scrollbar, which may cause content to shift)</option>
 				</field>
-				<field name="shadowboxanimations" type="filelist" default="default.css" label="Transition Animations" directory="plugins/content/rc_gallery/rc_shadowbox/css" filter="" exclude="default.css" stripext="true" hide_none ="true"
+				<field name="shadowboxanimations" type="filelist" default="default" label="Transition Animations" directory="plugins/content/rc_gallery/rc_shadowbox/css" filter="" exclude="default.css" stripext="true" hide_none ="true"
 					description="Choose the type of transition animation when moving between images in the shadowbox (doesn't apply to the legacy shadowbox)"
 				/>
 			</fieldset>
