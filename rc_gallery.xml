@@ -29,9 +29,10 @@
 		<filename plugin="rc_gallery">assets/css/index.html</filename>
 		<filename plugin="rc_gallery">assets/img/index.html</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox.js</filename>
-		<filename plugin="rc_gallery">shadowbox/css/default.css</filename>
-		<filename plugin="rc_gallery">shadowbox/css/fade.css</filename>
-		<filename plugin="rc_gallery">shadowbox/css/no-animation.css</filename>
+		<filename plugin="rc_gallery">shadowbox/shadowbox.css</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/css/default.css</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/css/fade.css</filename>
+		<filename plugin="rc_gallery">rc_shadowbox/css/no-animation.css</filename>
 		<filename plugin="rc_gallery">shadowbox/loading.gif</filename>
 		<filename plugin="rc_gallery">shadowbox/shadowbox-icons.png</filename>
 		<filename plugin="rc_gallery">shadowbox/index.html</filename>
