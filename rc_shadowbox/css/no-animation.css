@@ -1,0 +1,170 @@
+/* get rid of the body bit - not really needed */
+#rc_sb_overlay {
+    position:fixed;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    z-index:99994;
+    margin:0;
+    padding:0;
+}
+#rc_sb_overlay.rc_hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+#rc_sb_container {
+    position:fixed;
+    top:0;
+    left:0;
+    height: 100vh;
+    width: 100%;
+    z-index:99995;
+    background:transparent;
+    text-align:center;
+    margin:0;
+    padding:0;
+    text-align: center;
+}
+#rc_sb_container.rc_hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.rc_sb_image {
+    position: absolute;
+    max-width: 100%;
+    max-height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.rc_sb_image.rc_sb_hidden_left {
+    left: -200%;
+    z-index: 99996;
+}
+
+.rc_sb_image.rc_sb_hidden_right {
+    left: 100%;
+    z-index: 99996;
+}
+
+.rc_sb_image.rc_sb_hidden_centre {
+    left: 0;
+    transform: scale(0);
+}
+
+.rc_sb_loading {
+    position: absolute;
+    left: 50%;
+    margin-left: -25px;
+    top: 50%;
+    margin-top: -25px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    border: 3px solid #fff;
+    border-left: 3px solid #000;
+    animation: rc_loading_spin 1s infinite;
+    animation-timing-function: linear;
+}
+
+.rc_sb_loading.rc_hidden {
+    display: none;
+}
+
+@keyframes rc_loading_spin {
+    0% {transform: rotate(0deg);}
+    100% {transform: rotate(360deg);}
+}
+
+#rc_sb_title {
+    background-color:rgba(21, 21, 21, 0.4);
+    color:#fff;
+    position: absolute;
+    bottom:30px;
+    left:50%;
+    transform: translateX(-50%);
+    padding:15px;
+    border-radius:5px;
+    z-index:99998;
+    text-shadow: 0 0 10px #000;
+}
+/* controls */
+.rc_sb_button {
+    background-color:rgb(21,21,21,0.4);
+    background-repeat: no-repeat;
+    background-position:center;
+    z-index:99998;
+}
+.rc_sb_button:hover {
+    cursor:pointer;
+    background-color:rgb(21,21,21,1);
+}
+#rc_sb_close {
+    top:10px;
+    right:10px;
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    background-image:url("../img/close.png");
+}
+#rc_sb_download {
+    top:10px;
+    right:10px;
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    background-image:url("../img/close.png");
+}
+#rc_sb_prev, #rc_sb_next {
+    top:50%;
+    margin-top:-25px;
+    width:40px;
+    height:50px;
+    position:absolute;
+}
+#rc_sb_prev {
+    left:0;
+    background-image:url("../img/prev.png");
+    border-radius:0 5px 5px 0;
+}
+#rc_sb_next {
+    right:0;
+    background-image:url("../img/next.png");
+    border-radius:5px 0 0 5px;
+}
+#rc_sb_toolbar {
+    top:10px;
+    right:10px;
+    position:absolute;
+    z-index:99998;
+}
+
+#rc_sb_toolbar .rc_sb_button {
+    float:right;
+    display:inline-block;
+    margin-left:10px;
+}
+.rc_sb_addonbutton {
+    width:40px;
+    height:40px;
+    border-radius:5px;
+    background-image:url("../img/close.png");
+}
+.rc_sb_addonbutton.rc_tumblrshareaddon_button:hover {
+    background-color: rgba(55, 70, 93, 1);
+}
+.rc_sb_addonbutton.rc_gpshareaddon_button:hover {
+    background-color: rgba(220, 78, 65, 1);
+}
+.rc_sb_addonbutton.rc_twittershareaddon_button:hover {
+    background-color: rgba(29, 161, 242, 1);
+}
+.rc_sb_addonbutton.rc_fbshareaddon_button:hover {
+    background-color: rgba(59, 89, 152, 1);
+}

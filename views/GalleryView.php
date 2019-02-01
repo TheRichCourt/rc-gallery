@@ -221,9 +221,11 @@ Class GalleryView
 			'var rc_sb_params = ' . json_encode($shadowboxParams) . ';'
 		);
 
+		$shadowboxCssPath = JURI::root().'plugins/content/rc_gallery/rc_shadowbox/css/'.$this->getRcParams()->shadowboxanimations.'.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/css/'.$this->getRcParams()->shadowboxanimations.'.css');
+
 		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/jquery.mobile.custom.min.js'));
 		$this->getDoc()->addScript(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.min.js?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.min.js'));
-		$this->getDoc()->addStyleSheet(JURI::root().'plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css?'.filemtime(JPATH_ROOT.'/plugins/content/rc_gallery/rc_shadowbox/rc_shadowbox.css'));
+		$this->getDoc()->addStyleSheet($shadowboxCssPath);
 	}
 
 	/**

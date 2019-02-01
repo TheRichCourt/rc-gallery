@@ -53,6 +53,7 @@ class Params
             'shadowboxtitle' => 'shadowbox-title-option',
             'ajaximages' => 'ajaximages',
             'layout' => 'layout',
+            'shadowboxanimations' => 'shadowboxanimations',
             'hidescrollbar' => 'hidescrollbar',
         ]);
 
@@ -80,6 +81,7 @@ class Params
             'shadowboxtitle' => 0,
             'ajaximages' => 0,
             'layout' => null,
+            'shadowboxanimations' => 'default',
             'hidescrollbar' => 0,
         ]);
 
