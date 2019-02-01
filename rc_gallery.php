@@ -212,12 +212,12 @@ class PlgContentRC_gallery extends JPlugin
 		$directoryPath =  $this->getRCParams()->galleryfolder . '/' . $tagContent . '/';
 		$directoryPath = str_replace('//', '/', $directoryPath); //in case there were unnecessary leading or trailing slashes in the param
 
-		if (! file_exists($directoryPath)) {
-			$galleryView->errorReport('Image folder not found.', $tagContent, $rootFolder);
+		if (!file_exists($directoryPath)) {
+			$galleryView->errorReport('Image folder not found.', $tagContent, $this->getRCParams()->galleryfolder);
 			return $galleryView->getHTML();
 		}
 
-		if ($this->getRcParams()->ajaximages === 0) {
+		if ($this->getRcParams()->ajaximages == 0) {
 			$this->makeThumbnails($directoryPath);
 		}
 
@@ -522,7 +522,7 @@ class PlgContentRC_gallery extends JPlugin
 	 * @todo: Haven't implemented this yet. Might need to move this to another class.
 	 *
 	 * @param string $fullFilePath
-	 * @return void
+	 * @return bool
 	 */
 	private function thumbnailsExist($fullFilePath)
 	{
