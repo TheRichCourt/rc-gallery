@@ -20,7 +20,6 @@
 
 const BUILD_PATH_TEMPLATE = '%s%sreleases/test_plg_rc_gallery_v%s.zip';
 const XML_FILE_NAME = 'rc_gallery.xml';
-const PNG_QUALITY = 80;
 
 $newVersion = $argv[1];
 
