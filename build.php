@@ -18,7 +18,7 @@
  * - UglifyJS           (run `npm i -g uglify-js`)
  */
 
-const BUILD_PATH_TEMPLATE = '%s%sreleases/test_plg_rc_gallery_v%s.zip';
+const BUILD_PATH_TEMPLATE = '%s%sreleases/plg_rc_gallery_v%s.zip';
 const XML_FILE_NAME = 'rc_gallery.xml';
 
 $newVersion = $argv[1];
