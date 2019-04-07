@@ -34,6 +34,12 @@ class ThumbnailView
     /** @var bool */
     private $thumbsExist;
 
+    /** @var string */
+    private $fullFilePath;
+
+    /** @var Base64|null */
+    private $base64Encoder = null;
+
     /**
      * @param stdCLass $rcParams
      * @param string $title
@@ -44,8 +50,9 @@ class ThumbnailView
      * @param int $galleryNumber
      * @param int $imageNumber
      * @param bool $thumbsExist
+     * @param string $fullFilePath
      */
-    public function __construct(stdClass $rcParams, $title, $targetUrl, $width, $height, array $images, $galleryNumber, $imageNumber, $thumbsExist)
+    public function __construct(stdClass $rcParams, $title, $targetUrl, $width, $height, array $images, $galleryNumber, $imageNumber, $thumbsExist, $fullFilePath)
     {
         $this
             ->setRcParams($rcParams)
@@ -58,7 +65,16 @@ class ThumbnailView
             ->setImageNumber($imageNumber)
             ->setThumbsExist($thumbsExist)
             ->setDom(new DOMDocument())
+            ->setFullFilePath($fullFilePath)
         ;
+
+        // @todo: this class belongs in an external plugin, so point the path there
+        $base64ClassFilePath = JPATH_SITE . '/plugins/content/rc_gallery/Base64.php';
+
+        if (file_exists($base64ClassFilePath)) {
+            require_once $base64ClassFilePath;
+            $this->setBase64Encoder(new Base64());
+        }
     }
 
     /**
@@ -134,6 +150,10 @@ class ThumbnailView
                 continue;
             }
 
+            if ($attributeName == 'full_image_path') {
+                continue;
+            }
+
             if ($attributeName == 'srcset') {
                 $elem->setAttribute("data-{$attributeName}", $attributeValue);
                 continue;
@@ -166,6 +186,10 @@ class ThumbnailView
         }
 
         $elem->setAttribute('alt', '');
+
+        if ($this->getBase64Encoder()) {
+            $elem->setAttribute('src', $this->getBase64Encoder()->createBase64StringFromImagePath($this->getFullFilePath()));
+        }
 
         $elem->setAttribute('data-width', $this->getWidth());
         $elem->setAttribute('data-height', $this->getHeight());
@@ -382,6 +406,45 @@ class ThumbnailView
     public function setThumbsExist($thumbsExist)
     {
         $this->thumbsExist = $thumbsExist;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFullFilePath()
+    {
+        return $this->fullFilePath;
+    }
+
+    /**
+     * @param string $fullFilePath
+     * @return self
+     */
+    public function setFullFilePath($fullFilePath)
+    {
+        $this->fullFilePath = $fullFilePath;
+
+        return $this;
+    }
+
+    /**
+     * @return Base64|null
+     */
+    public function getBase64Encoder()
+    {
+        return $this->base64Encoder;
+    }
+
+    /**
+     * Set the value of base64Encoder
+     * @param Base64|null $base64Encoder
+     * @return self
+     */
+    public function setBase64Encoder($base64Encoder)
+    {
+        $this->base64Encoder = $base64Encoder;
 
         return $this;
     }

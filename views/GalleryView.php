@@ -4,6 +4,8 @@ defined( '_JEXEC' ) or die;
 
 use Joomla\CMS\Document\HtmlDocument;
 
+require JPATH_SITE . '/plugins/content/rc_gallery/views/ThumbnailView.php';
+
 Class GalleryView
 {
 	/** @var string */
@@ -52,11 +54,10 @@ Class GalleryView
 	 * @param string $imgTitle
 	 * @param array $thumbnailTypes
 	 * @param bool $thumbsExist
+	 * @param string $fullFilePath
 	 */
-	public function addImage($fullFileURL, $directory, $fileName, $height, $width, $withLink, $imgTitle, array $thumbnailTypes, $thumbsExist)
+	public function addImage($fullFileURL, $directory, $fileName, $height, $width, $withLink, $imgTitle, array $thumbnailTypes, $thumbsExist, $fullFilePath)
 	{
-		require_once JPATH_SITE . '/plugins/content/rc_gallery/views/ThumbnailView.php';
-
 		$images = [];
 
 		foreach ($thumbnailTypes as $thumbnailType => $thumbnailTypeAttrributes) {
@@ -83,7 +84,8 @@ Class GalleryView
 			$images,
 			$this->getGalleryNumber(),
 			$this->getImageNumber(),
-			$thumbsExist
+			$thumbsExist,
+			$fullFilePath
 		);
 
 		$this->html .= $thumbnailView->build();

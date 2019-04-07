@@ -323,7 +323,8 @@ class PlgContentRC_gallery extends JPlugin
 				$withLink,
 				$imgTitle,
 				$this->getThumbnailTypes(),
-				$this->thumbnailsExist($fullFilePath)
+				$this->thumbnailsExist($fullFilePath),
+				$fullFilePath
 			);
 		}
 
