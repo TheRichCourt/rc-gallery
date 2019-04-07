@@ -257,8 +257,8 @@ class PlgContentRC_gallery extends JPlugin
 			$thumbFilePath = JPATH_ROOT . '/' . $directoryPath . 'rc_thumbs/jpg/' . 'thumb_' . $file;
 
 			//Get full URLs
-			$fullFileURL = JURI::root() . '/' . $directoryURL . rawurlencode($file);
-			$thumbFileURL = JURI::root() . '/' .  $directoryURL . 'rc_thumbs/' . 'thumb_' .  rawurlencode($file);
+			$fullFileURL = JURI::root() . $directoryURL . rawurlencode($file);
+			$thumbFileURL = JURI::root() .  $directoryURL . 'rc_thumbs/' . 'thumb_' .  rawurlencode($file);
 
 			//get the width and height of the image file
 			list($x, $y, $type, $attr) = getimagesize($fullFilePath);
