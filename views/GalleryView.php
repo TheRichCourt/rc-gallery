@@ -39,8 +39,6 @@ Class GalleryView
 		$galleryClass = strtolower($this->getRcParams()->layout);
 
 		$this->html = '<div id="rc_gallery_' . $this->getGalleryNumber() . '" class="rc_gallery rc_' . $galleryClass . '" '. $galleryParams .'>';
-
-		echo "";
 	}
 
 	/**

@@ -171,7 +171,7 @@ class PlgContentRC_gallery extends JPlugin
 	 */
 	function fileFilter()
 	{
-		$allowedExtensions = array('jpg','png','gif', 'webp');
+		$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 		// Also allow filetypes in uppercase
 		$allowedExtensions = array_merge($allowedExtensions, array_map('strtoupper', $allowedExtensions));
 		// Build the filter. Will return something like: "jpg|png|JPG|PNG|gif|GIF"
@@ -185,10 +185,10 @@ class PlgContentRC_gallery extends JPlugin
 	 * Build a single gallery
 	 *
 	 * @param string $tagContent
-	 * @param HtmlDocument $doc
+	 * @param HtmlDocument $doc @todo sometimes this isn't the right class - is there an interface or something?
 	 * @return string
 	 */
-	function buildGallery($tagContent, HtmlDocument $doc)
+	function buildGallery($tagContent, $doc)
 	{
 		jimport('joomla.filesystem.folder');
 
@@ -358,14 +358,14 @@ class PlgContentRC_gallery extends JPlugin
 	private function resortImagesByDate(&$files, $folderPath, $desc = false)
 	{
 		// build a new array, adding in the create date from exif (where available)
-		$newFilesWithCreateDate = array();
+		$newFilesWithCreateDate = [];
 
 		foreach ($files as $file) {
 			$createDate = $this->getCreateDateFromExif($folderPath . $file);
-			$newFile = array(
+			$newFile = [
 				"path" => $file,
 				"createdate" => $createDate,
-			);
+			];
 			array_push($newFilesWithCreateDate, $newFile);
 		}
 
@@ -382,7 +382,7 @@ class PlgContentRC_gallery extends JPlugin
 		}
 
 		// now remove the create date again, and go back to a simple array of files
-		$newFiles = array();
+		$newFiles = [];
 
 		foreach ($newFilesWithCreateDate as $a) {
 			array_push($newFiles, $a['path']);

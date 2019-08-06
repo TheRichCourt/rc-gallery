@@ -44,9 +44,9 @@ Class RCLabels
             if (count($row_data) > 1) {
                 $fileName = $row_data[0];
                 $title = $row_data[1];
-                $label = array(
+                $label = [
                     'imageTitle' => $title,
-                );
+                ];
 
                 $this->labels[$fileName] = $label;
             }

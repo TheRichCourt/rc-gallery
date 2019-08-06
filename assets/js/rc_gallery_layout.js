@@ -13,10 +13,10 @@ function resizeGallery() {
         var marginSize = jQuery(this).attr("data-marginsize");
         var targetLineWidth = jQuery(this).width() - 1; //1px narrower to avoid rounding errors messing everything up
         var currentLineWidth = 0;
-        var imageWidthArray = new Array();
-        var imageRatioArray = new Array();
-        var imageLineNumberArray = new Array();
-        var lineWidthArray = new Array();
+        var imageWidthArray = [];
+        var imageRatioArray = [];
+        var imageLineNumberArray = [];
+        var lineWidthArray = [];
         var imageID = 0;
         var lineID = 0;
 
@@ -55,8 +55,8 @@ function resizeGallery() {
         });
 
         var imageCount = imageWidthArray.length;
-        var targetImgWidthArray = new Array();
-        var targetLineHeightArray = new Array();
+        var targetImgWidthArray = [];
+        var targetLineHeightArray = [];
         var currentLineNo = -1;
 
         // now calculate the target widths etc
