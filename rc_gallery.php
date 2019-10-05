@@ -65,6 +65,11 @@ class PlgContentRC_gallery extends JPlugin
 		$this->setThumbnailTypes($thumbnailTypes);
 	}
 
+	public function onContentPrepareForm($form, $data)
+	{
+		JForm::addFieldPath(__DIR__ . '/fields');
+	}
+
 	/**
 	 * Method to hook into Joomla to alter the article
 	 *
