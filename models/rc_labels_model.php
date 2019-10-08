@@ -1,14 +1,5 @@
 <?php
 
-/********************************************************************
-Product		: RC Justified Gallery
-Date		: 19/02/2016
-Copyright	: Rich Court 2016
-Contact		: http://www.therichcourt.com
-Licence		: GNU General Public License
-*********************************************************************/
-
-// no direct access
 defined( '_JEXEC' ) or die;
 
 Class RCLabels
