@@ -145,7 +145,8 @@ Class GalleryView
 
 			#rc_sb_overlay {
 				background-color: ' . $this->getRcParams()->overlaycolour . ';
-				opacity: ' . $this->getRcParams()->overlayopacity . ';
+				opacity: ' . $this->getRcParams()->overlayopacity . ';'
+				. ($this->getRcParams()->overlayblur ? 'backdrop-filter: blur(' . $this->getRcParams()->overlayblur . 'px);' : '') . '
 			}
 		';
 

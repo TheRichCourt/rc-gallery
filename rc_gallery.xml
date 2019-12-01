@@ -2,12 +2,12 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
     <name>RC Gallery</name>
     <author>Rich Court</author>
-    <creationDate>08/10/2019</creationDate>
+    <creationDate>01/12/2019</creationDate>
     <copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>therichcourt@gmail.com</authorEmail>
     <authorUrl>www.therichcourt.com</authorUrl>
-    <version>4.4.5</version>
+    <version>4.5.0</version>
     <description>Thanks for installing RC Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
     <files>
         <filename plugin="rc_gallery">rc_gallery.php</filename>
@@ -150,6 +150,7 @@
                 </field>
                 <field name="overlaycolour" label="Overlay colour" type="color" default="#000" description="The colour used to cover the rest of the site when the shadowbox is opened. Note that this colour will be affected by       the opacity setting."/>
                 <field name="overlayopacity" label="Overlay opacity" type="range" default="0.85" min="0" max="1" step="0.05" size="3" description="The opacity of the colour used to cover the rest of the site when the shadowbox is opened."/>
+                <field name="overlayblur" label="Overlay blur radius (px)" type="number" default="0" description="The backdrop-filter blur radius in pixels. Note that this feature is not supported in all browsers, so in some browsers you may not see a blur at all."/>
             </fieldset>
             <fieldset name="addons" label="Add-ons">
                 <field name="addonslink" type="note" label="Add-ons" description="Add-ons are a great way to extend the functionality of the main gallery plugin. Take a look at what's currently available... http://therichcourt.com/joomla/gallery#add-ons"/>
