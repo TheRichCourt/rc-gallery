@@ -121,11 +121,10 @@ class GalleryView
     {
         $filterOption = $this->getRcParams()->thumbnailfilter;
 
-        if ($this->getRcParams()->titletextoverflow == 'hidden') {
-            $whiteSpace = 'white-space: nowrap;';
-        } else {
-            $whitespace = '';
-        }
+        $whiteSpace = $this->getRcParams()->titletextoverflow == 'hidden'
+            ? 'white-space: nowrap;'
+            : ''
+        ;
 
         $css = '
 			#rc_gallery_' . $this->getGalleryNumber() . '.rc_gallery .rc_galleryimg {
