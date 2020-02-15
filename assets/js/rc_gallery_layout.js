@@ -1,13 +1,14 @@
-jQuery(document).ready(function() {
+jQuery(document).ready(function () {
     resizeGallery();
 });
 
-jQuery(window).resize(function() {
+jQuery(window).resize(function () {
     resizeGallery();
 });
 
-function resizeGallery() {
-    jQuery('.rc_gallery').each(function() {
+function resizeGallery()
+{
+    jQuery('.rc_gallery').each(function () {
         //get the params for this gallery
         var startHeight = jQuery(this).attr("data-startheight");
         var marginSize = jQuery(this).attr("data-marginsize");
@@ -23,7 +24,7 @@ function resizeGallery() {
         var imageCount = jQuery(this).find('.rc_galleryimg').length;
 
         // get the data we need about each image
-        jQuery(this).find('.rc_galleryimg').each(function() {
+        jQuery(this).find('.rc_galleryimg').each(function () {
             var w = jQuery(this).attr("data-width");
             var h = jQuery(this).attr("data-height");
 
@@ -67,7 +68,7 @@ function resizeGallery() {
 
             if (!lineWidth) {
                 // -1 so we don't go over because of rounding
-                lineWidth = targetLineWidth - (2 * marginSize) -1;
+                lineWidth = targetLineWidth - (2 * marginSize) - 1;
             }
 
             targetImgWidthArray[i] = ((imgWidth / lineWidth) * targetLineWidth) - (2 * marginSize);
@@ -84,7 +85,7 @@ function resizeGallery() {
         imageID = 0;
 
         // do the resizing
-        jQuery(this).find('.rc_galleryimg').each(function() {
+        jQuery(this).find('.rc_galleryimg').each(function () {
             jQuery(this).width(targetImgWidthArray[imageID]);
             jQuery(this).height(targetLineHeightArray[imageLineNumberArray[imageID]]);
             imageID++;

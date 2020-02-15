@@ -1,6 +1,6 @@
 <?php
 
-defined( '_JEXEC' ) or die;
+defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
@@ -124,7 +124,7 @@ class Params
     {
         // get inline params from the opening gallery tag
         $tagContent = preg_replace("/{.+?}/", "", $galleryTag);
-		$inlineParamsString = str_replace('{gallery ', '', $galleryTag);
+        $inlineParamsString = str_replace('{gallery ', '', $galleryTag);
         $inlineParamsString = str_replace('{/gallery}', '', $inlineParamsString);
         $inlineParamsString = str_replace('}' . $tagContent, '', $inlineParamsString); // will end up as '{gallery' if there were no inline params
 

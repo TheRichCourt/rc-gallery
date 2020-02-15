@@ -182,11 +182,11 @@ var RCShadowbox = function () {
             // swiping
             // @todo: touch controls - remove jQuery mobile dependency
             // https://stackoverflow.com/questions/2264072/detect-a-finger-swipe-through-javascript-on-the-iphone-and-android
-            jQuery('#rc_sb_container').on('swipeleft', function() {
+            jQuery('#rc_sb_container').on('swipeleft', function () {
                 rcShadowbox.nextSlide();
             });
 
-            jQuery('#rc_sb_container').on('swiperight', function() {
+            jQuery('#rc_sb_container').on('swiperight', function () {
                 rcShadowbox.prevSlide();
             });
 
@@ -195,15 +195,15 @@ var RCShadowbox = function () {
                 if (open && !preventKeyboard) {
                     preventKeyboard = true;
                     switch (event.key) {
-                    case "ArrowRight":
-                        rcShadowbox.nextSlide();
+                        case "ArrowRight":
+                            rcShadowbox.nextSlide();
                         break;
-                    case "ArrowLeft":
-                        rcShadowbox.prevSlide();
+                        case "ArrowLeft":
+                            rcShadowbox.prevSlide();
                         break;
-                    case "Backspace":
-                    case "Escape":
-                        rcShadowbox.close();
+                        case "Backspace":
+                        case "Escape":
+                            rcShadowbox.close();
                         break;
                     }
                 }
@@ -225,25 +225,25 @@ var RCShadowbox = function () {
                 buttonClass;
 
             switch (number) {
-            case 1:
-                socialNetworkName = "Facebook";
-                baseShareLink = rc_fb_shareURL;
-                buttonClass = "rc_fbshareaddon_button";
+                case 1:
+                    socialNetworkName = "Facebook";
+                    baseShareLink = rc_fb_shareURL;
+                    buttonClass = "rc_fbshareaddon_button";
                 break;
-            case 2:
-                socialNetworkName = "Twitter";
-                baseShareLink = rc_twitter_shareURL;
-                buttonClass = "rc_twittershareaddon_button";
+                case 2:
+                    socialNetworkName = "Twitter";
+                    baseShareLink = rc_twitter_shareURL;
+                    buttonClass = "rc_twittershareaddon_button";
                 break;
-            case 3:
-                socialNetworkName = "Google+";
-                baseShareLink = rc_gp_shareURL;
-                buttonClass = "rc_gpshareaddon_button";
+                case 3:
+                    socialNetworkName = "Google+";
+                    baseShareLink = rc_gp_shareURL;
+                    buttonClass = "rc_gpshareaddon_button";
                 break;
-            case 4:
-                socialNetworkName = "Tumblr";
-                baseShareLink = rc_tumblr_shareURL;
-                buttonClass = "rc_tumblrshareaddon_button";
+                case 4:
+                    socialNetworkName = "Tumblr";
+                    baseShareLink = rc_tumblr_shareURL;
+                    buttonClass = "rc_tumblrshareaddon_button";
                 break;
             }
 

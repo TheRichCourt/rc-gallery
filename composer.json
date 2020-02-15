@@ -1,0 +1,20 @@
+{
+    "name": "therichcourt/rc_gallery",
+    "description": "An extremely easy to use gallery plugin for Joomla, built around a beautiful and modern responsive design.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "TheRichCourt",
+            "email": "xcmeathead@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5"
+    },
+    "scripts": {
+        "dev:test": [
+            "phpcs  --standard=phpcs.xml -s"
+        ]
+    }
+}

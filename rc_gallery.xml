@@ -148,8 +148,8 @@
                         <option value="0">Show</option>
                         <option value="1">Hide</option>
                 </field>
-                <field name="overlaycolour" label="Overlay colour" type="color" default="#000" format="rgba" description="The colour used to cover the rest of the site when the shadowbox is opened. Note that this colour will be affected by the opacity setting."/>
-                <field name="overlayopacity" label="Overlay opacity" type="range" default="0.85" min="0" max="1" step="0.05" size="3" description="The opacity of the colour used to cover the rest of the site when the shadowbox is opened."/>
+                <field name="overlaycolour" label="Overlay colour" type="color" default="rgba(0, 0, 0, .85)" format="rgba" description="The colour used to cover the rest of the site when the shadowbox is opened. Note that this colour will be affected by the opacity setting."/>
+                <field name="overlayopacity" label="Overlay opacity" type="range" default="1" min="0" max="1" step="0.05" size="3" description="The opacity of the colour used to cover the rest of the site when the shadowbox is opened."/>
                 <field name="overlayblur" label="Overlay blur radius (px)" type="number" default="0" description="The backdrop-filter blur radius in pixels. Note that this feature is not supported in all browsers, so in some browsers you may not see a blur at all."/>
             </fieldset>
             <fieldset name="addons" label="Add-ons">

@@ -1,8 +1,8 @@
 <?php
 
-defined( '_JEXEC' ) or die;
+defined('_JEXEC') or die;
 
-Class RCLabels
+class RCLabels
 {
     /** @var array */
     private $labels = [];
@@ -29,7 +29,7 @@ Class RCLabels
         $labelsFileContent = file_get_contents($labelsFile);
         $rows = explode("\n", $labelsFileContent);
 
-        foreach($rows as $row => $data) {
+        foreach ($rows as $row => $data) {
             $row_data = explode('|', $data);
 
             if (count($row_data) > 1) {
@@ -62,5 +62,4 @@ Class RCLabels
             }
         }
     }
-
 }
