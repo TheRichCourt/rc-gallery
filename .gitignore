@@ -1,4 +1,6 @@
 releases/*
 !releases/.gitkeep
 
-/vendor/
+vendor/*
+
+.phpunit.result.cache

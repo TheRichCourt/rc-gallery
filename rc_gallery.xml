@@ -11,14 +11,15 @@
     <description>Thanks for installing RC Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
     <files>
         <filename plugin="rc_gallery">rc_gallery.php</filename>
-        <filename plugin="rc_gallery">ThumbnailFactory.php</filename>
-        <filename plugin="rc_gallery">Params.php</filename>
-        <filename plugin="rc_gallery">fields/rcwarninglessfolderlist.php</filename>
-        <filename plugin="rc_gallery">views/GalleryView.php</filename>
-        <filename plugin="rc_gallery">views/ThumbnailView.php</filename>
-        <filename plugin="rc_gallery">views/index.html</filename>
-        <filename plugin="rc_gallery">models/rc_labels_model.php</filename>
-        <filename plugin="rc_gallery">models/index.html</filename>
+        <filename plugin="rc_gallery">src/ThumbnailFactory.php</filename>
+        <filename plugin="rc_gallery">src/Params.php</filename>
+        <filename plugin="rc_gallery">src/fields/JFormFieldRCWarninglessFolderList.php</filename>
+        <filename plugin="rc_gallery">src/views/GalleryView.php</filename>
+        <filename plugin="rc_gallery">src/views/ThumbnailView.php</filename>
+        <filename plugin="rc_gallery">src/views/index.html</filename>
+        <filename plugin="rc_gallery">src/models/rc_labels_model.php</filename>
+        <filename plugin="rc_gallery">src/models/index.html</filename>
+        <filename plugin="rc_gallery">src/utils/RCGalleryTagUtils.php</filename>
         <filename plugin="rc_gallery">assets/css/rc_gallery_layout.css</filename>
         <filename plugin="rc_gallery">assets/js/rc_gallery_layout.min.js</filename>
         <filename plugin="rc_gallery">assets/js/rc_gallery.min.js</filename>

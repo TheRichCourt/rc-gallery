@@ -20,5 +20,6 @@
     <rule ref="PSR12">
         <!-- No namespaces yet in Joomla -->
         <exclude name="PSR1.Classes.ClassDeclaration.MissingNamespace"/>
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
     </rule>
 </ruleset>

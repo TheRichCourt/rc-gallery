@@ -28,6 +28,9 @@ class PlgContentRC_gallery extends JPlugin
      */
     public function __construct(&$subject, $params)
     {
+        // Autoloading etc
+        require_once __DIR__ . '/bootstrap.php';
+
         parent::__construct($subject, $params);
 
         $lowDpiQuery =
@@ -126,29 +129,33 @@ class PlgContentRC_gallery extends JPlugin
      */
     public function showGalleries(&$article)
     {
-        // expression to search for
-        $regex = "#{" . self::GALLERY_TAG . ".*?}(.*?){/" . self::GALLERY_TAG . "}#is";
+        require_once __DIR__ . '/src/utils/RCGalleryTagUtils.php';
 
-        // Find all instances of the plugin and put them in $matches
-        if (preg_match_all($regex, $article->text, $tagMatches, PREG_PATTERN_ORDER) > 0) {
-            $doc = JFactory::getDocument();
-            $plugin = JPluginHelper::getPlugin('content', 'rc_gallery');
-            $pluginParams = new JRegistry($plugin->params);
+        $galleryTagMatches = RCGalleryTagUtils::findMatches($article->text);
 
-            // start the replace loop
-            foreach ($tagMatches[0] as $tagKey => $tag) {
-                // get our folder
-                $tagContent = $tagMatches[1][$tagKey];
+        if ($galleryTagMatches === null) {
+            return;
+        }
 
-                // These params include inline options from the gallery tag, so create for each gallery on the page
-                $this->gatherParams($tag, $pluginParams);
+        list($tagsAndContentsArray, $contentsArray) = $galleryTagMatches;
 
-                // put the gallery together
-                $galleryContent = $this->buildGallery($tagContent, $doc);
+        $doc = JFactory::getDocument();
+        $plugin = JPluginHelper::getPlugin('content', 'rc_gallery');
+        $pluginParams = new JRegistry($plugin->params);
 
-                //do the replace
-                $article->text = str_replace($tag, $galleryContent, $article->text);
-            }
+        // start the replace loop
+        foreach ($tagsAndContentsArray as $index => $tagAndContents) {
+            // Get the given foldername
+            $tagContent = $contentsArray[$index];
+
+            // These params include inline options from the gallery tag, so create for each gallery on the page
+            $this->gatherParams($tagAndContents, $pluginParams);
+
+            // put the gallery together
+            $galleryContent = $this->buildGallery($tagContent, $doc);
+
+            //do the replace
+            $article->text = str_replace($tagAndContents, $galleryContent, $article->text);
         }
     }
 
@@ -166,7 +173,7 @@ class PlgContentRC_gallery extends JPlugin
             $pluginParams = new JRegistry($plugin->params);
         }
 
-        require_once JPATH_SITE . '/plugins/content/rc_gallery/Params.php';
+        require_once JPATH_SITE . '/plugins/content/rc_gallery/src/Params.php';
         $paramsObj = new Params($pluginParams, $tag);
         $this->setRCParams($paramsObj->getParams());
     }
@@ -200,7 +207,7 @@ class PlgContentRC_gallery extends JPlugin
         jimport('joomla.filesystem.folder');
 
         // Get the view class
-        require_once JPATH_SITE . '/plugins/content/rc_gallery/views/GalleryView.php';
+        require_once JPATH_SITE . '/plugins/content/rc_gallery/src/views/GalleryView.php';
         $galleryView = new GalleryView($this->galleryNumber, $this->getRCParams(), $doc);
 
         //css and js files
@@ -253,7 +260,7 @@ class PlgContentRC_gallery extends JPlugin
 
         if ($this->getRCParams()->uselabelsfile) {
             //get the custom image titles & descriptions ready for this folder from labels.txt
-            require_once JPATH_SITE . '/plugins/content/rc_gallery/models/rc_labels_model.php';
+            require_once JPATH_SITE . '/plugins/content/rc_gallery/src/models/rc_labels_model.php';
             $labelsModel = new RCLabels();
             $labelsModel->getLabelsFromFile($directoryPath);
         }

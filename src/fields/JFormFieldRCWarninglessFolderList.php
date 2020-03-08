@@ -37,7 +37,7 @@ class JFormFieldRCWarninglessFolderList extends JFormFieldFolderList
             $options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
         }
 
-        // ******* Only bit that differs from parent - parent doesn't check if the fdirectory exists, and therefore throws a warning if it doesn't
+        // ******* Only bit that differs from parent - parent doesn't check if the directory exists, and therefore throws a warning if it doesn't
         // Get a list of folders in the search path with the given filter.
         $folders = file_exists($path)
             ? JFolder::folders($path, $this->filter, $this->recursive, true)

@@ -53,7 +53,7 @@ class GalleryView
      */
     public function addImage($fullFileURL, $directory, $fileName, $height, $width, $withLink, $imgTitle, array $thumbnailTypes, $thumbsExist)
     {
-        require_once JPATH_SITE . '/plugins/content/rc_gallery/views/ThumbnailView.php';
+        require_once JPATH_SITE . '/plugins/content/rc_gallery/src/views/ThumbnailView.php';
 
         $images = [];
 
