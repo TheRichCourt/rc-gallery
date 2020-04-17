@@ -24,7 +24,7 @@ class ThumbnailFactory
         $this->setImage($this->openImage($fileName));
 
         if ($this->getImage() === false) {
-            return false;
+            return;
         }
 
         $this->correctRotation($fileName);
@@ -32,6 +32,12 @@ class ThumbnailFactory
         $this->setHeight(imagesy($this->getImage()));
     }
 
+    /**
+     * Some images are only rotated by their EXIF. This corrects that, so that their pixels are actually rotated.
+     *
+     * @param string $fileName
+     * @return void
+     */
     private function correctRotation($fileName)
     {
         if (!function_exists('exif_read_data')) {
@@ -151,14 +157,24 @@ class ThumbnailFactory
         $extension = strtolower($extension);
 
         if (strpos($type, 'webp') !== false) {
-            $webpSavePath = str_replace($extension, '.webp', $savePath);
-            $success = imagewebp($this->getImageResized(), $webpSavePath, $imageQuality);
+            $finalSavePath = str_replace($extension, '.webp', $savePath);
+            $success = imagewebp($this->getImageResized(), $finalSavePath, $imageQuality);
         } else {
-            $jpgSavePath = str_replace($extension, '.jpg', $savePath);
-            $success = imagejpeg($this->getImageResized(), $jpgSavePath, $imageQuality);
+            $finalSavePath = str_replace($extension, '.jpg', $savePath);
+            $success = imagejpeg($this->getImageResized(), $finalSavePath, $imageQuality);
         }
 
         imagedestroy($this->getImageResized());
+
+        if (!$success) {
+            throw new Exception("Thumbnail image {$finalSavePath} couldn't be created. Check the original image file for problems.");
+        }
+
+        clearstatcache();
+
+        if (!file_exists($finalSavePath)) {
+            throw new Exception("Image {$finalSavePath} couldn't be saved. Check permissions on that directory.");
+        }
     }
 
     /**

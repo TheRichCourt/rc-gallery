@@ -2,18 +2,19 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
     <name>RC Gallery</name>
     <author>Rich Court</author>
-    <creationDate>15/02/2020</creationDate>
+    <creationDate>17/04/2020</creationDate>
     <copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>therichcourt@gmail.com</authorEmail>
     <authorUrl>www.therichcourt.com</authorUrl>
-    <version>4.5.2</version>
+    <version>4.5.3</version>
     <description>Thanks for installing RC Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
     <files>
         <filename plugin="rc_gallery">rc_gallery.php</filename>
+        <filename plugin="rc_gallery">bootstrap.php</filename>
         <filename plugin="rc_gallery">src/ThumbnailFactory.php</filename>
         <filename plugin="rc_gallery">src/Params.php</filename>
-        <filename plugin="rc_gallery">src/fields/JFormFieldRCWarninglessFolderList.php</filename>
+        <filename plugin="rc_gallery">fields/rcwarninglessfolderlist.php</filename>
         <filename plugin="rc_gallery">src/views/GalleryView.php</filename>
         <filename plugin="rc_gallery">src/views/ThumbnailView.php</filename>
         <filename plugin="rc_gallery">src/views/index.html</filename>

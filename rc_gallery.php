@@ -28,9 +28,6 @@ class PlgContentRC_gallery extends JPlugin
      */
     public function __construct(&$subject, $params)
     {
-        // Autoloading etc
-        require_once __DIR__ . '/bootstrap.php';
-
         parent::__construct($subject, $params);
 
         $lowDpiQuery =
@@ -53,18 +50,16 @@ class PlgContentRC_gallery extends JPlugin
         ];
 
         // Only do WebP if the server supports it (please contact your hosting provider if it doesn't)
-        if (isset(gd_info()['WebP Support'])) {
-            if (gd_info()['WebP Support']) {
-                $thumbnailTypes['webp'] = [
-                    'type' => 'image/webp',
-                    'media' => $lowDpiQuery,
-                ];
+        if (isset(gd_info()['WebP Support']) && gd_info()['WebP Support']) {
+            $thumbnailTypes['webp'] = [
+                'type' => 'image/webp',
+                'media' => $lowDpiQuery,
+            ];
 
-                $thumbnailTypes['webp-hdpi'] = [
-                    'type' => 'image/webp',
-                    'media' => $highDpiQuery,
-                ];
-            }
+            $thumbnailTypes['webp-hdpi'] = [
+                'type' => 'image/webp',
+                'media' => $highDpiQuery,
+            ];
         }
 
         $this->setThumbnailTypes($thumbnailTypes);
@@ -78,10 +73,10 @@ class PlgContentRC_gallery extends JPlugin
     /**
      * Method to hook into Joomla to alter the article
      *
-     * @param array $context
-     * @param array $article
-     * @param array $params
-     * @param integer $page
+     * @param object $context
+     * @param object $article
+     * @param object $params
+     * @param int $page
      * @return void
      */
     public function onContentPrepare($context, &$article, &$params, $page = 0)
@@ -124,7 +119,7 @@ class PlgContentRC_gallery extends JPlugin
     /**
      * Identify gallery tags, and replace them with an actual gallery
      *
-     * @param $article
+     * @param object $article
      * @return void
      */
     public function showGalleries(&$article)
@@ -199,7 +194,7 @@ class PlgContentRC_gallery extends JPlugin
      * Build a single gallery
      *
      * @param string $tagContent
-     * @param HtmlDocument $doc @todo sometimes this isn't the right class - is there an interface or something?
+     * @param HtmlDocument $doc
      * @return string
      */
     public function buildGallery($tagContent, $doc)
@@ -470,14 +465,11 @@ class PlgContentRC_gallery extends JPlugin
         $files = JFolder::files($directoryPath, $filter);
 
         foreach ($files as $file) {
-            $fullFilePath = JPATH_ROOT . '/' . $directoryPath . $file;
-            $thumbFolder = $directoryPath . 'rc_thumbs';
-
-            // if (!file_exists($thumbFolder)) {
-            //  mkdir($thumbFolder);
-            // }
-
-            $this->makeThumbnailsForSingleImage($fullFilePath, $this->getRCParams()->minrowheight, $this->getRCParams()->thumbquality);
+            $this->makeThumbnailsForSingleImage(
+                JPATH_ROOT . '/' . $directoryPath . $file,
+                $this->getRCParams()->minrowheight,
+                $this->getRCParams()->thumbquality
+            );
         }
     }
 
@@ -515,7 +507,7 @@ class PlgContentRC_gallery extends JPlugin
 
             if (!file_exists($thumbPath)) {
                 if ($resizeObj === null) {
-                    require_once JPATH_SITE . '/plugins/content/rc_gallery/ThumbnailFactory.php';
+                    require_once JPATH_SITE . '/plugins/content/rc_gallery/src/ThumbnailFactory.php';
                     $resizeObj = new ThumbnailFactory($fullFilePath);
 
                     if ($resizeObj == false) {
