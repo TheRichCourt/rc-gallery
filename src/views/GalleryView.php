@@ -2,7 +2,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Document\Document;
 
 class GalleryView
 {
@@ -18,7 +18,7 @@ class GalleryView
     /** @var int */
     private $galleryNumber = 0;
 
-    /** @var HtmlDocument */
+    /** @var Document */
     private $doc;
 
     /**
@@ -26,7 +26,7 @@ class GalleryView
      *
      * @param int $galleryNo
      * @param array $rcParams
-     * @param HtmlDocument $doc
+     * @param Document $doc
      * @param stdClass $rcParams
      */
     public function __construct($galleryNo, stdClass $rcParams, $doc)
@@ -313,7 +313,7 @@ class GalleryView
     }
 
     /**
-     * @return HtmlDocument
+     * @return Document
      */
     public function getDoc()
     {
@@ -321,10 +321,10 @@ class GalleryView
     }
 
     /**
-     * @param HtmlDocument $doc
+     * @param Document $doc
      * @return self
      */
-    public function setDoc(HtmlDocument $doc)
+    public function setDoc(Document $doc)
     {
         $this->doc = $doc;
 

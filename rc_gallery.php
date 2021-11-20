@@ -4,7 +4,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Document\Document;
 use Joomla\Registry\Registry;
 
 // @codingStandardsIgnoreStart
@@ -194,7 +194,7 @@ class PlgContentRC_gallery extends JPlugin
      * Build a single gallery
      *
      * @param string $tagContent
-     * @param HtmlDocument $doc
+     * @param Document $doc
      * @return string
      */
     public function buildGallery($tagContent, $doc)
