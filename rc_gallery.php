@@ -13,6 +13,8 @@ class PlgContentRC_gallery extends JPlugin
 {
     const GALLERY_TAG = "gallery"; //the bit to look for in curly braces, e.g. {gallery}photos{gallery}
 
+    protected $autoloadLanguage = true;
+
     /** @var int */
     private $galleryNumber = 1;
 
@@ -222,7 +224,7 @@ class PlgContentRC_gallery extends JPlugin
         $directoryPath = str_replace('//', '/', $directoryPath); //in case there were unnecessary leading or trailing slashes in the param
 
         if (!file_exists($directoryPath)) {
-            $galleryView->errorReport('Image folder not found.', $tagContent, $this->getRCParams()->galleryfolder);
+            $galleryView->errorReport(JText::_('PLG_CONTENT_RCGALLERY_ERROR_FOLDER_NOT_FOUND'), $tagContent, $this->getRCParams()->galleryfolder);
             return $galleryView->getHTML();
         }
 
@@ -249,7 +251,7 @@ class PlgContentRC_gallery extends JPlugin
         }
 
         if (!$files) {
-            $galleryView->errorReport('No images found in specified folder.', $tagContent, $this->getRCParams()->galleryfolder);
+            $galleryView->errorReport(JText::_('PLG_CONTENT_RCGALLERY_ERROR_NO_IMAGES_FOUND'), $tagContent, $this->getRCParams()->galleryfolder);
             return $galleryView->getHTML();
         }
 
