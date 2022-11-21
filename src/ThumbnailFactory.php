@@ -167,13 +167,13 @@ class ThumbnailFactory
         imagedestroy($this->getImageResized());
 
         if (!$success) {
-            throw new Exception("Thumbnail image {$finalSavePath} couldn't be created. Check the original image file for problems.");
+            throw new Exception(JText::sprintf('PLG_CONTENT_RCGALLERY_ERROR_THUMBNAIL_NOT_CREATED', $finalSavePath));
         }
 
         clearstatcache();
 
         if (!file_exists($finalSavePath)) {
-            throw new Exception("Image {$finalSavePath} couldn't be saved. Check permissions on that directory.");
+            throw new Exception(JText::sprintf('PLG_CONTENT_RCGALLERY_ERROR_FILE_NOT_SAVED', $finalSavePath));
         }
     }
 
