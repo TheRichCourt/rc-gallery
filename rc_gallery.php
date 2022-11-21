@@ -13,6 +13,7 @@ class PlgContentRC_gallery extends JPlugin
 {
     const GALLERY_TAG = "gallery"; //the bit to look for in curly braces, e.g. {gallery}photos{gallery}
 
+    /** for localization */
     protected $autoloadLanguage = true;
 
     /** @var int */
