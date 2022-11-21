@@ -60,8 +60,8 @@
         <server type="extension" priority="1" name="RC Gallery">http://therichcourt.com/downloads/updates/rc_gallery_updates.xml</server>
     </updateservers>
     <languages>
-        <language tag="en-GB">en-GB.plg_rc_gallery.ini</language>
-        <language tag="en-GB">en-GB.plg_rc_gallery.sys.ini</language>
+        <language tag="en-GB">en-GB.plg_content_rc_gallery.ini</language>
+        <language tag="en-GB">en-GB.plg_content_rc_gallery.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
