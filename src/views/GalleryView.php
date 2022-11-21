@@ -239,7 +239,7 @@ class GalleryView
         //Forget everything else, and replace it with the error message
         $this->html = '<div class="rc_gallery_error">';
         $this->html .= '<h3>' . $errorReason . '</h3>';
-        $this->html .= '<p>Looked for images in: "' .  $tagcontent .  '"</p> <p>Under your root image folder: "' . $rootFolder . '"</p>';
+        $this->html .= '<p>' . JText::sprintf('PLG_CONTENT_RCGALLERY_ERROR_MESSAGE', $tagcontent, $rootFolder) . '</p>';
         $this->html .= '</div>';
     }
 
