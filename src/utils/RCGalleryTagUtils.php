@@ -22,7 +22,7 @@ class RCGalleryTagUtils
         );
 
         if ($result === false) {
-            throw new RuntimeException('Error while finidng gallery tags');
+            throw new RuntimeException(JText::_('PLG_CONTENT_RCGALLERY_ERROR_NO_TAG_FOUND'));
         }
 
         if ($result === 0) {
