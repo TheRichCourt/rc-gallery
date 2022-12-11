@@ -36,7 +36,13 @@ class GalleryView
         $this->setDoc($doc);
         $this->galleryNumber = $galleryNo;
         $galleryParams = ' data-rooturl="' . JURI::root() . '" data-startheight="' . $this->getRCParams()->minrowheight . '" data-marginsize="' . $this->getRCParams()->imagemargin . '"';
-        $galleryClass = strtolower($this->getRcParams()->layout);
+
+        $layout = $this->getRcParams()->layout === null
+            ? ''
+            : $this->getRcParams()->layout
+        ;
+
+        $galleryClass = strtolower($layout);
 
         $this->html = '<div id="rc_gallery_' . $this->getGalleryNumber() . '" class="rc_gallery rc_' . $galleryClass . '" ' . $galleryParams . '>';
     }
