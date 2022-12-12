@@ -25,7 +25,7 @@ class GalleryView
      * Pass in params, and open the main containing div for the gallery
      *
      * @param int $galleryNo
-     * @param array $rcParams
+     * @param stdClass $rcParams
      * @param Document $doc
      * @param stdClass $rcParams
      */
