@@ -2,12 +2,12 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
     <name>RC Gallery</name>
     <author>Rich Court</author>
-    <creationDate>11/12/2022</creationDate>
+    <creationDate>12/12/2022</creationDate>
     <copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>therichcourt@gmail.com</authorEmail>
     <authorUrl>www.therichcourt.com</authorUrl>
-    <version>4.5.6</version>
+    <version>4.5.7</version>
     <description>PLG_CONTENT_RCGALLERY_DESCRIPTION</description>
     <files>
         <filename plugin="rc_gallery">rc_gallery.php</filename>
@@ -60,273 +60,109 @@
         <server type="extension" priority="1" name="RC Gallery">http://therichcourt.com/downloads/updates/rc_gallery_updates.xml</server>
     </updateservers>
     <languages>
-        <language tag="en-GB">en-GB.plg_content_rc_gallery.ini</language>
-        <language tag="en-GB">en-GB.plg_content_rc_gallery.sys.ini</language>
-        <language tag="fr-FR">fr-FR.plg_content_rc_gallery.ini</language>
-        <language tag="fr-FR">fr-FR.plg_content_rc_gallery.sys.ini</language>
+        <language tag="en-GB">languages/en-GB.plg_content_rc_gallery.ini</language>
+        <language tag="en-GB">languages/en-GB.plg_content_rc_gallery.sys.ini</language>
+        <language tag="fr-FR">languages/fr-FR.plg_content_rc_gallery.ini</language>
+        <language tag="fr-FR">languages/fr-FR.plg_content_rc_gallery.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="quickstart"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_QUICKSTART_LABEL"/>
-                <field name="witheditorbutton"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_QUICKSTART_WITH_EDITOR_BUTTON_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_QUICKSTART_WITH_EDITOR_BUTTON_DESC"/>
-                <field name="withouteditorbutton"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_QUICKSTART_WITHOUT_EDITOR_BUTTON_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_QUICKSTART_WITHOUT_EDITOR_BUTTON_DESC"/>
-                <field name="moreinstructions"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_QUICKSTART_MORE_INSTRUCTIONS_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_QUICKSTART_MORE_INSTRUCTIONS_DESC"/>
+                <field name="quickstart" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_LABEL"/>
+                <field name="witheditorbutton" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_WITH_EDITOR_BUTTON_LABEL" description="PLG_CONTENT_RCGALLERY_QUICKSTART_WITH_EDITOR_BUTTON_DESC"/>
+                <field name="withouteditorbutton" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_WITHOUT_EDITOR_BUTTON_LABEL" description="PLG_CONTENT_RCGALLERY_QUICKSTART_WITHOUT_EDITOR_BUTTON_DESC"/>
+                <field name="moreinstructions" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_MORE_INSTRUCTIONS_LABEL" description="PLG_CONTENT_RCGALLERY_QUICKSTART_MORE_INSTRUCTIONS_DESC"/>
             </fieldset>
-            <fieldset name="gallery"
-                      label="PLG_CONTENT_RCGALLERY_FIELDSET_GALLERY_LABEL">
-                <field name="gallerynote"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_FIELDSET_GALLERY_LABEL"/>
-                <field name="galleryfolder"
-                       type="text"
-                       default="images"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_FOLDER_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_FOLDER_DESC"/>
-                <field name="layout"
-                       type="rcwarninglessfolderlist"
-                       default=""
-                       directory="media/plg_rc_gallery_layouts"
-                       filter=""
-                       exclude=""
-                       stripext=""
-                       hide_none="true"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_LAYOUT_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_LAYOUT_DESC"/>
-                <field name="sorttype"
-                       type="radio"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_DESC">
+            <fieldset name="gallery" label="PLG_CONTENT_RCGALLERY_FIELDSET_GALLERY_LABEL">
+                <field name="gallerynote" type="note" label="PLG_CONTENT_RCGALLERY_FIELDSET_GALLERY_LABEL"/>
+                <field name="galleryfolder" type="text" default="images" label="PLG_CONTENT_RCGALLERY_GALLERY_FOLDER_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_FOLDER_DESC"/>
+                <field name="layout" type="rcwarninglessfolderlist" default="" directory="media/plg_rc_gallery_layouts" filter="" exclude="" stripext="" hide_none="true" label="PLG_CONTENT_RCGALLERY_GALLERY_LAYOUT_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_LAYOUT_DESC"/>
+                <field name="sorttype" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_DESC">
                     <option value="0">PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_FILENAME_LABEL</option>
                     <option value="1">PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_DATE_LABEL</option>
                     <option value="2">PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_RANDOM_LABEL</option>
                 </field>
-                <field name="sortdesc"
-                       type="radio"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_SORT_DESC_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_SORT_DESC_DESC">
+                <field name="sortdesc" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_SORT_DESC_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_SORT_DESC_DESC">
                     <option value="0">JGLOBAL_ORDER_ASCENDING</option>
                     <option value="1">JGLOBAL_ORDER_DESCENDING</option>
                 </field>
-                <field name="minrowheight"
-                       type="text"
-                       default="100"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_MIN_ROW_HEIGHT_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_MIN_ROW_HEIGHT_DESC"/>
-                <field name="thumbquality"
-                       type="range"
-                       min="0"
-                       max="100"
-                       step="10"
-                       size="3"
-                       default="80"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_THUMB_QUALITY_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_THUMB_QUALITY_DESC"/>
+                <field name="minrowheight" type="text" default="100" label="PLG_CONTENT_RCGALLERY_GALLERY_MIN_ROW_HEIGHT_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_MIN_ROW_HEIGHT_DESC"/>
+                <field name="thumbquality" type="range" min="0" max="100" step="10" size="3" default="80" label="PLG_CONTENT_RCGALLERY_GALLERY_THUMB_QUALITY_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_THUMB_QUALITY_DESC"/>
                 <field name="imagemargin" type="number" default="2" label="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_MARGIN_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_MARGIN_DESC"/>
                 <field name="imageTitle" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_DESC">
                     <option value="0">PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_NEVER_LABEL</option>
                     <option value="1">PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_HOVER_LABEL</option>
                     <option value="2">PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_ALWAYS_LABEL</option>
                 </field>
-                <field name="usetitleasalt"
-                       type="radio"
-                       default="1"
-                       class="btn-group btn-group-yesno"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_USE_TITLE_ALT_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_USE_TITLE_ALT_DESC">
+                <field name="usetitleasalt" type="radio" default="1" class="btn-group btn-group-yesno" label="PLG_CONTENT_RCGALLERY_GALLERY_USE_TITLE_ALT_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_USE_TITLE_ALT_DESC">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
-                <field name="uselabelsfile"
-                       type="radio"
-                       class="btn-group btn-group-yesno"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_GALLERY_USE_LABELS_FILE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_GALLERY_USE_LABELS_FILE_DESC">
+                <field name="uselabelsfile" type="radio" class="btn-group btn-group-yesno" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_USE_LABELS_FILE_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_USE_LABELS_FILE_DESC">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
             </fieldset>
-            <fieldset name="shadowbox"
-                      label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL">
-                <field name="shadowboxdescription"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_SHADOWBOX_DESCRIPTION_DESC"/>
-                <field name="shadowboxoption"
-                       type="radio"
-                       default="3"
-                       label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL">
+            <fieldset name="shadowbox" label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL">
+                <field name="shadowboxdescription" type="note" label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL" description="PLG_CONTENT_RCGALLERY_SHADOWBOX_DESCRIPTION_DESC"/>
+                <field name="shadowboxoption" type="radio" default="3" label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL">
                     <option value="3">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_BUILTIN_SHADOWBOX_LABEL</option>
                     <option value="0">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_LEGACY_SHADOWBOX_LABEL</option>
                     <option value="1">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_ANOTHER_SHADOWBOX_LABEL</option>
                     <option value="2">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_NO_SHADOWBOX_LABEL</option>
                 </field>
-                <field name="hidescrollbar"
-                       type="radio"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_DESC">
+                <field name="hidescrollbar" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_LABEL" description="PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_DESC">
                     <option value="0">PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_ALLOW_LABEL</option>
                     <option value="1">PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_PREVENT_LABEL</option>
                 </field>
-                <field name="shadowboxanimations"
-                       type="filelist"
-                       default="default"
-                       directory="plugins/content/rc_gallery/rc_shadowbox/css"
-                       filter=""
-                       exclude="default.css"
-                       stripext="true"
-                       hide_none="true"
-                       label="PLG_CONTENT_RCGALLERY_SHADOWBOX_ANIMATIONS_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_SHADOWBOX_ANIMATIONS_DESC"/>
+                <field name="shadowboxanimations" type="filelist" default="default" directory="plugins/content/rc_gallery/rc_shadowbox/css" filter="" exclude="default.css" stripext="true" hide_none="true" label="PLG_CONTENT_RCGALLERY_SHADOWBOX_ANIMATIONS_LABEL" description="PLG_CONTENT_RCGALLERY_SHADOWBOX_ANIMATIONS_DESC"/>
             </fieldset>
-            <fieldset name="appearance"
-                      label="PLG_CONTENT_RCGALLERY_FIELDSET_APPEARANCE_LABEL">
-                <field name="appearancenote"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_NOTE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_NOTE_DESC"/>
-                <field name="thumbbgcolour"
-                       type="color"
-                       default="#f2f2f2"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMB_BG_COLOUR_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMB_BG_COLOUR_DESC"/>
-                <field name="titletextcolour"
-                       type="color"
-                       default="#fff"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_COLOUR_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_COLOUR_DESC"/>
-                <field name="titletextsize"
-                       type="number"
-                       default="14"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_SIZE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_SIZE_DESC"/>
-                <field name="titletextweight"
-                       type="radio"
-                       default="bold"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_DESC">
+            <fieldset name="appearance" label="PLG_CONTENT_RCGALLERY_FIELDSET_APPEARANCE_LABEL">
+                <field name="appearancenote" type="note" label="PLG_CONTENT_RCGALLERY_APPEARANCE_NOTE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_NOTE_DESC"/>
+                <field name="thumbbgcolour" type="color" default="#f2f2f2" label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMB_BG_COLOUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMB_BG_COLOUR_DESC"/>
+                <field name="titletextcolour" type="color" default="#fff" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_COLOUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_COLOUR_DESC"/>
+                <field name="titletextsize" type="number" default="14" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_SIZE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_SIZE_DESC"/>
+                <field name="titletextweight" type="radio" default="bold" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_DESC">
                     <option value="bold">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_BOLD_LABEL</option>
                     <option value="normal">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_NORMAL_LABEL</option>
                 </field>
-                <field name="titletextalign"
-                       type="radio"
-                       default="left"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_ALIGN_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_ALIGN_DESC">
+                <field name="titletextalign" type="radio" default="left" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_ALIGN_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_ALIGN_DESC">
                     <option value="left">JGLOBAL_LEFT</option>
                     <option value="center">JGLOBAL_CENTER</option>
                     <option value="right">JGLOBAL_RIGHT</option>
                 </field>
-                <field name="titletextoverflow"
-                       type="radio"
-                       default="hidden"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_DESC">
+                <field name="titletextoverflow" type="radio" default="hidden" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_DESC">
                     <option value="hidden">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_HIDDEN_LABEL</option>
                     <option value="auto">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_AUTO_LABEL</option>
                 </field>
-                <field name="thumbnailradius"
-                       type="number"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_RADIUS_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_RADIUS_DESC"/>
-                <field name="thumbnailfilter"
-                       type="radio"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_DESC">
+                <field name="thumbnailradius" type="number" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_RADIUS_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_RADIUS_DESC"/>
+                <field name="thumbnailfilter" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_DESC">
                     <option value="0">PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_NO_FILTER_LABEL</option>
                     <option value="1">PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_SEPIA_LABEL</option>
                     <option value="2">PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_GREYSCALE_LABEL</option>
                 </field>
-                <field name="shadowboxnote"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_NOTE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_NOTE_DESC"/>
-                <field name="shadowboxtitle"
-                       type="radio"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_TITLE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_TITLE_DESC">
+                <field name="shadowboxnote" type="note" label="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_NOTE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_NOTE_DESC"/>
+                <field name="shadowboxtitle" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_TITLE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_TITLE_DESC">
                     <option value="0">JSHOW</option>
                     <option value="1">JHIDE</option>
                 </field>
-                <field name="overlaycolour"
-                       type="color"
-                       default="rgba(0, 0, 0, .85)"
-                       format="rgba"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_COLOUR_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_COLOUR_DESC"/>
-                <field name="overlayopacity"
-                       type="range"
-                       default="1"
-                       min="0"
-                       max="1"
-                       step="0.05"
-                       size="3"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_OPACITY_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_OPACITY_DESC"/>
-                <field name="overlayblur"
-                       type="number"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_BLUR_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_BLUR_DESC"/>
+                <field name="overlaycolour" type="color" default="rgba(0, 0, 0, .85)" format="rgba" label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_COLOUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_COLOUR_DESC"/>
+                <field name="overlayopacity" type="range" default="1" min="0" max="1" step="0.05" size="3" label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_OPACITY_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_OPACITY_DESC"/>
+                <field name="overlayblur" type="number" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_BLUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_BLUR_DESC"/>
             </fieldset>
-            <fieldset name="addons"
-                      label="PLG_CONTENT_RCGALLERY_FIELDSET_ADDONS_LABEL">
-                <field name="addonslink"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_FIELDSET_ADDONS_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_ADDONS_NOTE_LABEL"/>
+            <fieldset name="addons" label="PLG_CONTENT_RCGALLERY_FIELDSET_ADDONS_LABEL">
+                <field name="addonslink" type="note" label="PLG_CONTENT_RCGALLERY_FIELDSET_ADDONS_LABEL" description="PLG_CONTENT_RCGALLERY_ADDONS_NOTE_LABEL"/>
             </fieldset>
-            <fieldset name="about"
-                      label="PLG_CONTENT_RCGALLERY_FIELDSET_ABOUT_LABEL">
-                <field name="aboutnote1"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_ABOUT_RCGALLERY_LABEL"/>
-                <field name="aboutnote2"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_ABOUT_USER_GUIDE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_ABOUT_USER_GUIDE_DESC"/>
-                <field name="aboutnote3"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_ABOUT_SUPPORT_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_ABOUT_SUPPORT_DESC"/>
+            <fieldset name="about" label="PLG_CONTENT_RCGALLERY_FIELDSET_ABOUT_LABEL">
+                <field name="aboutnote1" type="note" label="PLG_CONTENT_RCGALLERY_ABOUT_RCGALLERY_LABEL"/>
+                <field name="aboutnote2" type="note" label="PLG_CONTENT_RCGALLERY_ABOUT_USER_GUIDE_LABEL" description="PLG_CONTENT_RCGALLERY_ABOUT_USER_GUIDE_DESC"/>
+                <field name="aboutnote3" type="note" label="PLG_CONTENT_RCGALLERY_ABOUT_SUPPORT_LABEL" description="PLG_CONTENT_RCGALLERY_ABOUT_SUPPORT_DESC"/>
             </fieldset>
-            <fieldset name="advanced"
-                      label="PLG_CONTENT_RCGALLERY_FIELDSET_ADVANCED_LABEL">
-                <field name="advancednote"
-                       type="note"
-                       label="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE_DESC"/>
-                <field name="advancednote1"
-                       type="note"
-                       label="1"
-                       description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE1_DESC"/>
-                <field name="advancednote2"
-                       type="note"
-                       label="2"
-                       description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE2_DESC"/>
-                <field name="ajaximages"
-                       type="radio"
-                       default="0"
-                       label="PLG_CONTENT_RCGALLERY_ADVANCED_AJAX_LABEL"
-                       description="PLG_CONTENT_RCGALLERY_ADVANCED_AJAX_DESC">
+            <fieldset name="advanced" label="PLG_CONTENT_RCGALLERY_FIELDSET_ADVANCED_LABEL">
+                <field name="advancednote" type="note" label="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE_LABEL" description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE_DESC"/>
+                <field name="advancednote1" type="note" label="1" description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE1_DESC"/>
+                <field name="advancednote2" type="note" label="2" description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE2_DESC"/>
+                <field name="ajaximages" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_ADVANCED_AJAX_LABEL" description="PLG_CONTENT_RCGALLERY_ADVANCED_AJAX_DESC">
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
