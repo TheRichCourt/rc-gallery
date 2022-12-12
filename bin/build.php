@@ -82,7 +82,8 @@ $zipArchive->addFile(
 
 $zipArchive->close();
 
-function addFileToArchive(string $filename, ZipArchive $zipArchive): void {
+function addFileToArchive(string $filename, ZipArchive $zipArchive): void
+{
     $filePath = getcwd() . '/' . $filename;
 
     // minify the *.min.js files
