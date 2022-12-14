@@ -2,7 +2,7 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
     <name>RC Gallery</name>
     <author>Rich Court</author>
-    <creationDate>12/12/2022</creationDate>
+    <creationDate>13/12/2022</creationDate>
     <copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>therichcourt@gmail.com</authorEmail>

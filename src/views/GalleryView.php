@@ -238,21 +238,22 @@ class GalleryView
      * @param string $errorReason
      * @param string $tagcontent
      * @param string $rootFolder
-     * @return void
+     * @return string
      */
-    public function errorReport($errorReason, $tagcontent, $rootFolder)
+    public function createErrorReport($errorReason, $tagcontent, $rootFolder)
     {
-        //Forget everything else, and replace it with the error message
-        $this->html = '<div class="rc_gallery_error">';
-        $this->html .= '<h3>' . $errorReason . '</h3>';
-        $this->html .= '<p>' . JText::sprintf('PLG_CONTENT_RCGALLERY_ERROR_MESSAGE', $tagcontent, $rootFolder) . '</p>';
-        $this->html .= '</div>';
+        $errorReport = '<div class="rc_gallery_error">';
+        $errorReport .= '<h3>' . $errorReason . '</h3>';
+        $errorReport .= '<p>' . JText::sprintf('PLG_CONTENT_RCGALLERY_ERROR_MESSAGE', $tagcontent, $rootFolder) . '</p>';
+        $errorReport .= '</div>';
+
+        return $errorReport;
     }
 
     /**
      * Closes and returns the HTML built in his object
      *
-     * @return void
+     * @return string
      */
     public function getHTML()
     {
