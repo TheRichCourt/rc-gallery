@@ -1,3 +1,9 @@
+---
+id: add-ons/module-add-on
+title: Module add-on
+sidebar_label: Module add-on
+---
+
 # Module add-on
 
 ## Introduction

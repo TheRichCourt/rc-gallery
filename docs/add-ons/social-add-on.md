@@ -1,3 +1,9 @@
+---
+id: add-ons/social-add-on
+title: Social add-on
+sidebar_label: Social add-on
+---
+
 # Social add-on
 
 The social add-on puts social share icons in the corner of the shadowbox, enabling your visitors to quickly share your page to social networks.

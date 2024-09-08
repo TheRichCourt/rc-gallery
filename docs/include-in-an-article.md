@@ -1,3 +1,9 @@
+---
+id: include-in-an-article
+title: Include in an article
+sidebar_label: Include in an article
+---
+
 # Include in an article
 
 > [!NOTE]

@@ -1,3 +1,9 @@
+---
+id: supported-file-types
+title: Supported files
+sidebar_label: Supported files
+---
+
 # Supported files
 
 The plugin works with image files with the following image formats and file extensions only:

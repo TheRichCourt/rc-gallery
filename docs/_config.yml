@@ -1,1 +1,21 @@
 theme: jekyll-theme-minimal
+sidebar:
+  - include-a-gallery-in-a-module
+  - installation
+  - settings
+  - supported-file-types
+  - thumbnails
+  - shadowbox
+  - include-in-an-article
+  - label: Advanced features
+    children:
+      - image-titles
+      - inline-settings-manual-method-advanced
+      - index
+      - per-gallery-settings
+  - label: Add-ons
+    children:
+      - editor-button-add-on.md
+      - layouts-add-on.md
+      - module-add-on.md
+      - social-add-on.md

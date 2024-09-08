@@ -1,3 +1,9 @@
+---
+id: advanced-features/inline-settings-manual-method-advanced
+title: Per-gallery settings - manual method
+sidebar_label: Per-gallery settings - manual method
+---
+
 # Per-gallery settings - manual method
 
 > [!NOTE] **This is an advanced topic** -

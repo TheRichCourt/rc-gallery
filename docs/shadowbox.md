@@ -1,3 +1,9 @@
+---
+id: shadowbox
+title: Shadowbox
+sidebar_label: Shadowbox
+---
+
 # Shadowbox
 
 ## Use the included shadowbox

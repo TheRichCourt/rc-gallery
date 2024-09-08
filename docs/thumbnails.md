@@ -1,3 +1,9 @@
+---
+id: thumbnails
+title: Thumbnails
+sidebar_label: Thumbnails
+---
+
 # Thumbnails
 
 ## Producing thumbnails

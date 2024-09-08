@@ -1,3 +1,9 @@
+---
+id: advanced-features/image-titles
+title: Image titles
+sidebar_label: Image titles
+---
+
 # Image titles
 
 > [!NOTE]

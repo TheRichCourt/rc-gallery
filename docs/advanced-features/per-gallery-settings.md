@@ -1,3 +1,9 @@
+---
+id: advanced-features/per-gallery-settings
+title: Per-gallery settings
+sidebar_label: Per-gallery settings
+---
+
 # Per-gallery settings
 
 You may prefer some of your galleries to have different settings to others. In this case, some settings can be overridden when you add the gallery to an article.

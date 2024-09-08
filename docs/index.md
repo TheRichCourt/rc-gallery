@@ -1,3 +1,9 @@
+---
+id: index
+title: RC Gallery
+sidebar_label: RC Gallery
+---
+
 # RC Gallery
 
 RC Gallery is an easy to use, fixed-width gallery plugin for Joomla.

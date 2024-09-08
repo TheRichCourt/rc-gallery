@@ -1,5 +1,10 @@
-# Settings
+---
+id: settings
+title: Settings
+sidebar_label: Settings
+---
 
+# Settings
 
 RC Gallery is pre-configured to give you beautiful responsive galleries straight out of the box. However, if there’s anything you do want to change, the following settings are available from the plugin’s admin page.
 

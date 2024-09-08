@@ -1,3 +1,9 @@
+---
+id: include-a-gallery-in-a-module
+title: Include in a module
+sidebar_label: Include in a module
+---
+
 # Include in a module
 
 > [!NOTE]
