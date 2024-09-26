@@ -2,13 +2,13 @@
 <extension version="3.1" type="plugin" group="content" method="upgrade">
     <name>RC Gallery</name>
     <author>Rich Court</author>
-    <creationDate>11/12/2022</creationDate>
+    <creationDate>13/12/2022</creationDate>
     <copyright>Copyright (C) 2018 Rich Court. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
     <authorEmail>therichcourt@gmail.com</authorEmail>
     <authorUrl>www.therichcourt.com</authorUrl>
-    <version>4.5.6</version>
-    <description>Thanks for installing RC Gallery, an easy to use, fixed-width gallery plugin for Joomla. Make sure you check out the add-ons that are available.</description>
+    <version>4.5.7</version>
+    <description>PLG_CONTENT_RCGALLERY_DESCRIPTION</description>
     <files>
         <filename plugin="rc_gallery">rc_gallery.php</filename>
         <filename plugin="rc_gallery">bootstrap.php</filename>
@@ -51,124 +51,120 @@
         <filename>sql/install.sql</filename>
         <filename>index.html</filename>
     </files>
-
     <install>
         <sql>
             <file driver="mysqli" charset="utf8">sql/install.sql</file>
         </sql>
     </install>
-
     <updateservers>
         <server type="extension" priority="1" name="RC Gallery">http://therichcourt.com/downloads/updates/rc_gallery_updates.xml</server>
-     </updateservers>
-
-    <!-- One day! So far nobody has asked for a translated version -->
-    <!--<languages>
-        <language tag="en-GB">en-GB.plg_rc_gallery.ini</language>
-        <language tag="en-GB">en-GB.plg_rc_gallery.sys.ini</language>
-    </languages>-->
-
+    </updateservers>
+    <languages>
+        <language tag="en-GB">languages/en-GB.plg_content_rc_gallery.ini</language>
+        <language tag="en-GB">languages/en-GB.plg_content_rc_gallery.sys.ini</language>
+        <language tag="fr-FR">languages/fr-FR.plg_content_rc_gallery.ini</language>
+        <language tag="fr-FR">languages/fr-FR.plg_content_rc_gallery.sys.ini</language>
+    </languages>
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="quickstart" type="note" label="Quick Start Instructions"/>
-                <field name="witheditorbutton" type="note" label="With editor button add-on:" description="1. Click the “RC Gallery” button in the article editor.   2. Select your options.   3. Click “insert”. That’s it!"/>
-                <field name="withouteditorbutton" type="note" label="Manual method:" description="If you prefer not to use the editor button, you can add galleries to your articles by just including the text “{gallery}myfolder{/gallery}”, without the quotes, anywhere in your article. By default this would include images from the folder “yourjoomlasite.com/images/myfolder”."/>
-                <field name="moreinstructions" type="note" label="More Information" description="Of course you have far more control over the plugin if you want it. The full manual is available at http://www.therichcourt.com/joomla/gallery/download"/>
+                <field name="quickstart" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_LABEL"/>
+                <field name="witheditorbutton" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_WITH_EDITOR_BUTTON_LABEL" description="PLG_CONTENT_RCGALLERY_QUICKSTART_WITH_EDITOR_BUTTON_DESC"/>
+                <field name="withouteditorbutton" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_WITHOUT_EDITOR_BUTTON_LABEL" description="PLG_CONTENT_RCGALLERY_QUICKSTART_WITHOUT_EDITOR_BUTTON_DESC"/>
+                <field name="moreinstructions" type="note" label="PLG_CONTENT_RCGALLERY_QUICKSTART_MORE_INSTRUCTIONS_LABEL" description="PLG_CONTENT_RCGALLERY_QUICKSTART_MORE_INSTRUCTIONS_DESC"/>
             </fieldset>
-            <fieldset name="gallery" label="Gallery">
-                <field name="gallerydescription" type="note" label="Gallery" description=""/>
-                <field name="galleryfolder" type="text" default="images" label="Root image folder" description="Choose the parent folder that contains the folders you'd like to use for your galleries."/>
-                <field name="layout" type="rcwarninglessfolderlist" default="" label="Layout" directory="media/plg_rc_gallery_layouts" filter="" exclude="" stripext="" hide_none="true" description="You can get more layouts by downloading the layouts add-on"/>
-                <field name="sorttype" type="radio" default="0" description="Sort images by file name or date. Note that date requires that the image has a date in the file's EXIF data." label="Sort images by">
-                    <option value="0">File Name</option>
-                    <option value="1">Date</option>
-                    <option value="2">Random (different every time the page is loaded)</option>
+            <fieldset name="gallery" label="PLG_CONTENT_RCGALLERY_FIELDSET_GALLERY_LABEL">
+                <field name="gallerynote" type="note" label="PLG_CONTENT_RCGALLERY_FIELDSET_GALLERY_LABEL"/>
+                <field name="galleryfolder" type="text" default="images" label="PLG_CONTENT_RCGALLERY_GALLERY_FOLDER_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_FOLDER_DESC"/>
+                <field name="layout" type="rcwarninglessfolderlist" default="" directory="media/plg_rc_gallery_layouts" filter="" exclude="" stripext="" hide_none="true" label="PLG_CONTENT_RCGALLERY_GALLERY_LAYOUT_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_LAYOUT_DESC"/>
+                <field name="sorttype" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_DESC">
+                    <option value="0">PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_FILENAME_LABEL</option>
+                    <option value="1">PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_DATE_LABEL</option>
+                    <option value="2">PLG_CONTENT_RCGALLERY_GALLERY_SORT_TYPE_RANDOM_LABEL</option>
                 </field>
-                <field name="sortdesc" type="radio" default="0" description="Sort images in ascending, or descending order." label="Sort direction">
-                    <option value="0">Ascending</option>
-                    <option value="1">Descending</option>
+                <field name="sortdesc" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_SORT_DESC_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_SORT_DESC_DESC">
+                    <option value="0">JGLOBAL_ORDER_ASCENDING</option>
+                    <option value="1">JGLOBAL_ORDER_DESCENDING</option>
                 </field>
-                <field name="minrowheight" type="text" default="100" description="Row height varies depending on the shape of the images included, but will aim to be close to the number entered here." label="Target row height"/>
-                <field name="thumbquality" type="range" min="0" max="100" step="10" size="3" default="80" description="Image quality for thumbnails. 100 gives the maximum possible quality, but a higher file size. Lower this value to reduce thumbnail file sizes. Note that you can have thumbnails recreated, by deleting them using your FTP client, or the Joomla Media Manager. See the RC Gallery user guide, available from therichcourt.com for more information." label="Thumbnail Quality (0 - 100)"/>
-                <field name="imagemargin" type="number" default="2" description="Size of image margins, in px." label="Image margin size"/>
-                <field name="imageTitle" type="radio" default="0" description="Shows the image's filename over the image. Note that the file extension is not shown, any underscores are replaced with spaces, and the first letter is forced to uppercase." label="Image title">
-                    <option value="0">Don't show image titles</option>
-                    <option value="1">Show image titles only when cursor hovers over the image</option>
-                    <option value="2">Show image titles all the time</option>
+                <field name="minrowheight" type="text" default="100" label="PLG_CONTENT_RCGALLERY_GALLERY_MIN_ROW_HEIGHT_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_MIN_ROW_HEIGHT_DESC"/>
+                <field name="thumbquality" type="range" min="0" max="100" step="10" size="3" default="80" label="PLG_CONTENT_RCGALLERY_GALLERY_THUMB_QUALITY_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_THUMB_QUALITY_DESC"/>
+                <field name="imagemargin" type="number" default="2" label="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_MARGIN_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_MARGIN_DESC"/>
+                <field name="imageTitle" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_DESC">
+                    <option value="0">PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_NEVER_LABEL</option>
+                    <option value="1">PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_HOVER_LABEL</option>
+                    <option value="2">PLG_CONTENT_RCGALLERY_GALLERY_IMAGE_TITLE_ALWAYS_LABEL</option>
                 </field>
-                <field name="usetitleasalt" type="radio" class="btn-group btn-group-yesno" default="1" description="Use the image title as the 'alt' tag for the image thumbnail. Note that this is useful if you have descriptive titles for your images, but if they're just something like 'DSC00023.JPG', then it's less useful and you may want to turn this off. You can override your image titles if your filenames aren't descriptive. See the guide for details. Overall this feature is good for SEO and accessibility, but only if you have good image titles." label="Use image title as 'alt' tag">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                <field name="usetitleasalt" type="radio" default="1" class="btn-group btn-group-yesno" label="PLG_CONTENT_RCGALLERY_GALLERY_USE_TITLE_ALT_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_USE_TITLE_ALT_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
-                <field name="uselabelsfile" type="radio" class="btn-group btn-group-yesno" default="0" description="Advanced feature - see user guide at www.TheRichCourt.com" label="Get titles from labels file">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+                <field name="uselabelsfile" type="radio" class="btn-group btn-group-yesno" default="0" label="PLG_CONTENT_RCGALLERY_GALLERY_USE_LABELS_FILE_LABEL" description="PLG_CONTENT_RCGALLERY_GALLERY_USE_LABELS_FILE_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
             </fieldset>
-            <fieldset name="shadowbox" label="Shadowbox">
-                <field name="shadowboxdescription" type="note" label="Shadowbox" description="Choose which type of shadowbox to use. If you have your own that you already like, then you can just use that by selecting 'Use another shadowbox'. This will add rel='shadowbox[rc_gallery]' links to the images, but won't include the shadowbox part of this plugin, meaning your own shadowbox should take over. This option is useful for avoiding conflict with your existing shadowbox plugin."/>
-                <field name="shadowboxoption" type="radio" default="3" description="'" label="Shadowbox">
-                        <option value="3">Use the built-in shadowbox (Recommended)</option>
-                        <option value="0">Use the legacy shadowbox</option>
-                        <option value="1">Use another shadowbox</option>
-                        <option value="2">No shadowbox</option>
+            <fieldset name="shadowbox" label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL">
+                <field name="shadowboxdescription" type="note" label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL" description="PLG_CONTENT_RCGALLERY_SHADOWBOX_DESCRIPTION_DESC"/>
+                <field name="shadowboxoption" type="radio" default="3" label="PLG_CONTENT_RCGALLERY_FIELDSET_SHADOWBOX_LABEL">
+                    <option value="3">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_BUILTIN_SHADOWBOX_LABEL</option>
+                    <option value="0">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_LEGACY_SHADOWBOX_LABEL</option>
+                    <option value="1">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_ANOTHER_SHADOWBOX_LABEL</option>
+                    <option value="2">PLG_CONTENT_RCGALLERY_SHADOWBOX_OPTION_NO_SHADOWBOX_LABEL</option>
                 </field>
-                <field name="hidescrollbar" type="radio" default="0" description="You may want to prevent scrolling of the page while the shadowbox is open. This hides the scrollbar, which in some browsers results in content becoming slightly wider, and appearing to shift left and right." label="Prevent scrolling">
-                        <option value="0">Allow scrolling</option>
-                        <option value="1">Prevent scrolling (hides the scrollbar, which may cause content to shift)</option>
+                <field name="hidescrollbar" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_LABEL" description="PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_DESC">
+                    <option value="0">PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_ALLOW_LABEL</option>
+                    <option value="1">PLG_CONTENT_RCGALLERY_SHADOWBOX_HIDE_SCROLLBAR_PREVENT_LABEL</option>
                 </field>
-                <field name="shadowboxanimations" type="filelist" default="default" label="Transition Animations" directory="plugins/content/rc_gallery/rc_shadowbox/css" filter="" exclude="default.css" stripext="true" hide_none="true" description="Choose the type of transition animation when moving between images in the shadowbox (doesn't apply to the legacy shadowbox)"/>
+                <field name="shadowboxanimations" type="filelist" default="default" directory="plugins/content/rc_gallery/rc_shadowbox/css" filter="" exclude="default.css" stripext="true" hide_none="true" label="PLG_CONTENT_RCGALLERY_SHADOWBOX_ANIMATIONS_LABEL" description="PLG_CONTENT_RCGALLERY_SHADOWBOX_ANIMATIONS_DESC"/>
             </fieldset>
-            <fieldset name="appearance" label="Appearance">
-                <field type="note" label="Gallery Thumbnails" description="Change some things to suit your site."/>
-                <field name="thumbbgcolour" label="Thumbnail background colour" type="color" default="#f2f2f2" description="The colour of the image thumbnails, while the images are being loaded."/>
-                <field name="titletextcolour" label="Image title colour" type="color" default="#fff" description="The colour of the image titles (note that image titles need to be turned on in the gallery settings for this to apply)."/>
-                <field name="titletextsize" label="Title text size (px)" type="number" default="14" description="Set the size of the title text over the thumbnails. 14px by default."/>
-                <field name="titletextweight" type="radio" default="bold" description="Weight of the title text inside the thumbnails." label="Title text weight">
-                        <option value="bold">Bold</option>
-                        <option value="normal">Normal</option>
+            <fieldset name="appearance" label="PLG_CONTENT_RCGALLERY_FIELDSET_APPEARANCE_LABEL">
+                <field name="appearancenote" type="note" label="PLG_CONTENT_RCGALLERY_APPEARANCE_NOTE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_NOTE_DESC"/>
+                <field name="thumbbgcolour" type="color" default="#f2f2f2" label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMB_BG_COLOUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMB_BG_COLOUR_DESC"/>
+                <field name="titletextcolour" type="color" default="#fff" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_COLOUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_COLOUR_DESC"/>
+                <field name="titletextsize" type="number" default="14" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_SIZE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_SIZE_DESC"/>
+                <field name="titletextweight" type="radio" default="bold" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_DESC">
+                    <option value="bold">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_BOLD_LABEL</option>
+                    <option value="normal">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_WEIGHT_NORMAL_LABEL</option>
                 </field>
-                <field name="titletextalign" type="radio" default="left" description="Align the title text within the image thumbnail. Note that if you have overflow set to hidden and this setting set to centre,       the text will appear to be left-aligned if it's wider than the thumbnail." label="Align title text">
-                        <option value="left">Left</option>
-                        <option value="center">Centre</option>
-                        <option value="right">Right</option>
+                <field name="titletextalign" type="radio" default="left" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_ALIGN_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_ALIGN_DESC">
+                    <option value="left">JGLOBAL_LEFT</option>
+                    <option value="center">JGLOBAL_CENTER</option>
+                    <option value="right">JGLOBAL_RIGHT</option>
                 </field>
-                <field name="titletextoverflow" type="radio" default="hidden" description="What to do if the title text is wider than the thumbnail." label="Title text overlow">
-                        <option value="hidden">Hidden</option>
-                        <option value="auto">Auto</option>
+                <field name="titletextoverflow" type="radio" default="hidden" label="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_DESC">
+                    <option value="hidden">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_HIDDEN_LABEL</option>
+                    <option value="auto">PLG_CONTENT_RCGALLERY_APPEARANCE_TITLE_TEXT_OVERFLOW_AUTO_LABEL</option>
                 </field>
-
-                <field name="thumbnailradius" label="Thumbnail corner radius (px)" type="number" default="0" description="Round off the corners of the thumbnails. 3px works really well for a clean, modern look.       Or go nuts with a massive radius, for bubble-like thumbnails. Enter 0 for normal square corners."/>
-                <field name="thumbnailfilter" type="radio" default="0" description="Apply a filter to the thumbnails in your gallery. This filter is removed with a smooth transition when the mouse is hovered       over the thumbnail, revealing the true colours. Note that the Thumbnail filter will only work for users of modern browsers       (So not Internet Explorer). IE users will see the images in full colour." label="Thumbnail filter">
-                        <option value="0">No filter</option>
-                        <option value="1">Sepia</option>
-                        <option value="2">Greyscale (Black and White)</option>
+                <field name="thumbnailradius" type="number" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_RADIUS_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_RADIUS_DESC"/>
+                <field name="thumbnailfilter" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_DESC">
+                    <option value="0">PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_NO_FILTER_LABEL</option>
+                    <option value="1">PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_SEPIA_LABEL</option>
+                    <option value="2">PLG_CONTENT_RCGALLERY_APPEARANCE_THUMBNAIL_FILTER_GREYSCALE_LABEL</option>
                 </field>
-                <field type="note" label="Shadowbox" description="The below settings only apply if you use the built in shadowbox (which is enabled by default)."/>
-                <field name="shadowboxtitle" type="radio" default="0" description="Show or hide image titles in the shadowbox. 'Autohide' makes the title appear when the mouse is moved, and the fade away if there's no activity." label="Image titles">
-                        <option value="0">Show</option>
-                        <option value="1">Hide</option>
+                <field name="shadowboxnote" type="note" label="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_NOTE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_NOTE_DESC"/>
+                <field name="shadowboxtitle" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_TITLE_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_SHADOWBOX_TITLE_DESC">
+                    <option value="0">JSHOW</option>
+                    <option value="1">JHIDE</option>
                 </field>
-                <field name="overlaycolour" label="Overlay colour" type="color" default="rgba(0, 0, 0, .85)" format="rgba" description="The colour used to cover the rest of the site when the shadowbox is opened. Note that this colour will be affected by the opacity setting."/>
-                <field name="overlayopacity" label="Overlay opacity" type="range" default="1" min="0" max="1" step="0.05" size="3" description="The opacity of the colour used to cover the rest of the site when the shadowbox is opened."/>
-                <field name="overlayblur" label="Overlay blur radius (px)" type="number" default="0" description="The backdrop-filter blur radius in pixels. Note that this feature is not supported in all browsers, so in some browsers you may not see a blur at all."/>
+                <field name="overlaycolour" type="color" default="rgba(0, 0, 0, .85)" format="rgba" label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_COLOUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_COLOUR_DESC"/>
+                <field name="overlayopacity" type="range" default="1" min="0" max="1" step="0.05" size="3" label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_OPACITY_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_OPACITY_DESC"/>
+                <field name="overlayblur" type="number" default="0" label="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_BLUR_LABEL" description="PLG_CONTENT_RCGALLERY_APPEARANCE_OVERLAY_BLUR_DESC"/>
             </fieldset>
-            <fieldset name="addons" label="Add-ons">
-                <field name="addonslink" type="note" label="Add-ons" description="Add-ons are a great way to extend the functionality of the main gallery plugin. Take a look at what's currently available... http://therichcourt.com/joomla/gallery#add-ons"/>
+            <fieldset name="addons" label="PLG_CONTENT_RCGALLERY_FIELDSET_ADDONS_LABEL">
+                <field name="addonslink" type="note" label="PLG_CONTENT_RCGALLERY_FIELDSET_ADDONS_LABEL" description="PLG_CONTENT_RCGALLERY_ADDONS_NOTE_LABEL"/>
             </fieldset>
-            <fieldset name="about" label="About">
-                <field type="note" label="RC Gallery"/>
-                <field type="note" label="User Guide" description="A free and extensive user guide is available for this plugin, at http://www.therichcourt.com/joomla/gallery/download"/>
-                <field type="note" label="Support" description="If you can't find what you need there, please contact me for support, at http://www.therichcourt.com/support"/>
+            <fieldset name="about" label="PLG_CONTENT_RCGALLERY_FIELDSET_ABOUT_LABEL">
+                <field name="aboutnote1" type="note" label="PLG_CONTENT_RCGALLERY_ABOUT_RCGALLERY_LABEL"/>
+                <field name="aboutnote2" type="note" label="PLG_CONTENT_RCGALLERY_ABOUT_USER_GUIDE_LABEL" description="PLG_CONTENT_RCGALLERY_ABOUT_USER_GUIDE_DESC"/>
+                <field name="aboutnote3" type="note" label="PLG_CONTENT_RCGALLERY_ABOUT_SUPPORT_LABEL" description="PLG_CONTENT_RCGALLERY_ABOUT_SUPPORT_DESC"/>
             </fieldset>
-            <fieldset name="advanced" label="Advanced">
-                <field type="note" label="Advanced feature" description="If you're using large galleries, it can take a very long time to produce all of the thumbnails. This only happens the first time a page is visited, however       it's still not ideal. In fact if you have enough images, then the http request will time out while your server's still making the thumbnails. The result is the visitor will see an error.       You can bypass this in two different ways."/>
-                <field type="note" label="1" description="1. Reload the page a few times - each time you do that it makes a little more progress, and after a few tries the page will always be fine."/>
-                <field type="note" label="2" description="2. Enable  this setting. However, there isa  potential isue here too. This setting will send an AJAX request for each image, to produce the thumbnails asynchronously. However, some servers       will view this large number of similar requests as a possible attack, and block them. So, enable this option at your own risk! If it works on your server, it's definitely the better option"/>
-                <field name="ajaximages" label="Enable AJAX images" description="See note above" type="radio" default="0">
-                    <option value="0">No</option>
-                    <option value="1">Yes</option>
+            <fieldset name="advanced" label="PLG_CONTENT_RCGALLERY_FIELDSET_ADVANCED_LABEL">
+                <field name="advancednote" type="note" label="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE_LABEL" description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE_DESC"/>
+                <field name="advancednote1" type="note" label="1" description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE1_DESC"/>
+                <field name="advancednote2" type="note" label="2" description="PLG_CONTENT_RCGALLERY_ADVANCED_NOTE2_DESC"/>
+                <field name="ajaximages" type="radio" default="0" label="PLG_CONTENT_RCGALLERY_ADVANCED_AJAX_LABEL" description="PLG_CONTENT_RCGALLERY_ADVANCED_AJAX_DESC">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
                 </field>
             </fieldset>
         </fields>

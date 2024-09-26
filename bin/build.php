@@ -67,6 +67,23 @@ $zipArchive->open($outputPath, ZipArchive::CREATE);
 
 // add all the files specified in the manifest
 foreach ($xml->files->filename as $filename) {
+    addFileToArchive($filename, $zipArchive);
+}
+
+foreach ($xml->languages->language as $languageFileName) {
+    addFileToArchive($languageFileName, $zipArchive);
+}
+
+// add the xml file too
+$zipArchive->addFile(
+    getcwd() . '/' . XML_FILE_NAME,
+    XML_FILE_NAME
+);
+
+$zipArchive->close();
+
+function addFileToArchive(string $filename, ZipArchive $zipArchive): void
+{
     $filePath = getcwd() . '/' . $filename;
 
     // minify the *.min.js files
@@ -96,11 +113,3 @@ foreach ($xml->files->filename as $filename) {
         $filename
     );
 }
-
-// add the xml file too
-$zipArchive->addFile(
-    getcwd() . '/' . XML_FILE_NAME,
-    XML_FILE_NAME
-);
-
-$zipArchive->close();
