@@ -6,9 +6,14 @@ sidebar_label: Installation
 
 # Installation
 
+## Requirements
+
+- Joomla 5.x or 6.x
+- PHP 8.1+
+
 ## Install
 
-Install the plugin in the usual way. It can then be found under **Extensions > Plugins > RC Gallery**. To make the plugin really easy to use, you can then install the Editor Button Add-on. Both plugins will automatically enable themselves once installed.
+Download the latest ZIP from the [Releases page](https://github.com/dious38/rc-gallery/releases), then install it via **System > Install > Upload Package File** in your Joomla admin. The plugin can then be found under **System > Plugins > RC Gallery**.
 
 ## Uninstall
 

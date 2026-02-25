@@ -4,9 +4,11 @@ title: RC Gallery
 sidebar_label: RC Gallery
 ---
 
-# RC Gallery
+# RC Gallery for Joomla 5/6
 
-RC Gallery is an easy to use, fixed-width gallery plugin for Joomla.
+RC Gallery is an easy to use, fixed-width gallery plugin for Joomla 5 and Joomla 6. It requires PHP 8.1 or higher.
+
+This is an actively maintained fork of [TheRichCourt/rc-gallery](https://github.com/TheRichCourt/rc-gallery). Download the latest version from the [Releases page](https://github.com/dious38/rc-gallery/releases).
 
 ![alt text](rc-gallery.png)
 
@@ -25,3 +27,7 @@ It's easy to add RC Gallery anywhere on your site, with just a tiny bit of text.
 ## Optional Built-in Shadowbox
 
 RC Gallery can optionally present images in a simple shadowbox, with minimal styling, or if you prefer, you can use it with whichever other shadowbox plugin you normally use.
+
+## Multilingual
+
+The plugin interface and error messages are available in 5 languages: English, French, German, Spanish and Italian.

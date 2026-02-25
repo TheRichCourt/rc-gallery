@@ -1,27 +1,75 @@
-# RC Gallery
+# RC Gallery for Joomla 5/6
 
-An extremely easy to use gallery plugin for Joomla, built around a beautiful and modern responsive design. Full documentation and latest release available from http://therichcourt.com/joomla/gallery
+[![Version](https://img.shields.io/badge/version-5.0.2-blue.svg)](https://github.com/dious38/rc-gallery/releases/tag/v5.0.2)
+[![Joomla](https://img.shields.io/badge/Joomla-5%20%2F%206-orange.svg)](https://www.joomla.org/)
+[![PHP](https://img.shields.io/badge/PHP-8.1%2B-purple.svg)](https://www.php.net/)
+[![License](https://img.shields.io/badge/license-GPL--2.0-green.svg)](LICENSE)
 
-## Justified Fixed-Width Layout...
+A responsive gallery plugin for Joomla that displays beautiful edge-to-edge image galleries in your articles via simple `{gallery}folder{/gallery}` tags.
 
-Add beautiful edge-to-edge image galleries to your site with clean, crisp edges, without cropping or changing the aspect ratios of your images. The effect is just like what you see on Flickr, Google Photos and the Windows 10 Photos app - why should the big companies be the only ones with such great photo layouts?
+This is an actively maintained fork of [TheRichCourt/rc-gallery](https://github.com/TheRichCourt/rc-gallery), fully rewritten for **Joomla 5/6** compatibility with modern PHP 8.1+ support.
 
-## Easy to Use...
+## Features
 
-It's easy to add RC Gallery to any article on your site, with just three clicks from the article editor. That, plus automatic thumbnail creation, make this an incredibly easy plugin to use - You can get your first galleries up and running in under 2 minutes.
+- **Justified layout** — edge-to-edge image rows without cropping, like Flickr or Google Photos
+- **Responsive** — looks great on all screen sizes, dynamically resizes with the browser
+- **Automatic thumbnails** — JPEG + WebP, LDPI + HDPI, generated on first view or via AJAX
+- **Built-in shadowbox** — lightweight JavaScript lightbox with keyboard and swipe navigation
+- **Inline parameters** — override settings per gallery: `{gallery target-row-height="200" image-margin-size="5"}folder{/gallery}`
+- **Customisable** — row height, image spacing, sorting (name/date/random), title display, and more
+- **5 languages** — English, French, German, Spanish, Italian
 
-## Responsive...
+## Installation
 
-RC Gallery looks great on all screen sizes, from phones and tablets up to desktop monitors. It also dynamically resizes as the browser window changes size.
+1. Download the latest ZIP from the [Releases page](https://github.com/dious38/rc-gallery/releases)
+2. In Joomla admin: **System > Install > Upload Package File**
+3. Enable the plugin in **System > Plugins** if needed
+4. Configure the **Root image folder** in the plugin settings (Gallery tab)
 
-## Optional Built-in Shadowbox...
+## Requirements
 
-RC Gallery uses a JavaScript shadowbox with minimal styling to view your images, or if you prefer, you can use it with whichever other shadowbox plugin you normally use.
+- Joomla 5.x or 6.x
+- PHP 8.1+
 
-## Customisable...
+## Usage
 
-You can change the image spacing and the size of the rows in your galleries, and choose whether or not to show the image names, depending on your needs.
+Add a gallery to any article by inserting:
 
-## Detailed Documentation...
+```
+{gallery}my-image-folder{/gallery}
+```
 
-While the plugin is very easy to use, its functions are documented in detail in the extensive user guide.
+The folder path is relative to the root image folder configured in the plugin settings.
+
+### Inline parameters
+
+Override default settings for a specific gallery:
+
+```
+{gallery target-row-height="200" image-margin-size="5"}my-image-folder{/gallery}
+```
+
+## Changelog
+
+### v5.0.2
+- Fix RC Shadowbox with single-image galleries (image disappearing, prev/next arrows hidden)
+
+### v5.0.1
+- Fix AJAX thumbnail generation (missing path separator)
+- Fix language strings not loaded on frontend
+- Fix missing translation keys for title text alignment
+- Fix dataset property mismatch in rc_gallery.js
+- Add internationalization: 5 languages (EN, FR, DE, ES, IT)
+
+### v5.0.0
+- Full migration from Joomla 3/4 to Joomla 5/6
+- Modern architecture: `CMSPlugin` + `SubscriberInterface`, PSR-4 namespaces, dependency injection
+- All legacy APIs replaced (`JPlugin`, `JFactory`, `JFolder`, `jimport`, etc.)
+- Static assets moved to `media/` with WebAssetManager support
+- Fix PHP 8.2+ deprecation in ThumbnailFactory (float to int)
+- Fix `exif_read_data` crash
+- Handle Unicode curly quotes from Joomla 6 TinyMCE editor
+
+## Credits
+
+Originally created by [Rich Court](https://github.com/TheRichCourt). This fork is maintained by [dious38](https://github.com/dious38) under the same GPL-2.0 license.

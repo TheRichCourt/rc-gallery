@@ -47,7 +47,7 @@ The quality of thumbnail files created by the plugin. 0 is poor quality, but low
 > [!NOTE] **Thumbnails created with legacy versions** -
 > This option was new in version 1.2.X of the plugin. Thumbnails created by older versions were always created at 100% quality.
 
-See [Refresh thumbnails](refresh-thumbnails.html) if you want this setting to apply to thumbnails that have already been created before you changed this setting.
+See [Refresh thumbnails](thumbnails.md#refresh-thumbnails) if you want this setting to apply to thumbnails that have already been created before you changed this setting.
 
 ## Image margin size
 

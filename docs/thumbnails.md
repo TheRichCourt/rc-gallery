@@ -20,7 +20,7 @@ Basically, these thumbnails are all about delivering the best possible images, a
 
 The resolution of the thumbnails is decided by the “Target Row Height” setting. The thumbnails will be saved with double the height of this setting. This ensures the page loads fast, while keeping enough resolution to fill the thumbnails at varying heights without looking pixelated. Note that if you change the “Target Row height” the thumbnails won’t be automatically recreated. You’ll need to do this yourself, as described below.
 
-## Refresh thumnails
+## Refresh thumbnails
 
 There are some circumstances under which you may want to recreate thumbnails. For example, if you change the thumbnail quality setting (added in v1.2.X) or the target row height, or if you’ve edited some of your images.
 
